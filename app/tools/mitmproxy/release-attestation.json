@@ -1,0 +1,96 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "mitmproxy-12.2.3-installer.msix",
+      "digest": {
+        "sha256": "2fbeb510663626da11206b225d9f1ee049d894ef7945e4db27841e8672213e7f"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-linux-aarch64.tar.gz",
+      "digest": {
+        "sha256": "b358643a6c4f4b39e33d985350f660b724fece95687d7daa899ef0c4e211f681"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-linux-x86_64.tar.gz",
+      "digest": {
+        "sha256": "2e95286b618fa6fd33e5e62a78c2e5112571d85f42ec2bac29b97ee242bdb5c5"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-macos-arm64.tar.gz",
+      "digest": {
+        "sha256": "0a09ee3b82569e8985aff8186e4792618b8e5d0c766098db093d09a87d4b013a"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-macos-x86_64.tar.gz",
+      "digest": {
+        "sha256": "7998187f5a0d399ab796af4523d3ad830ebe690726a41bc3e1df47a8e477a641"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-py3-none-any.whl",
+      "digest": {
+        "sha256": "df75ccd15ccb39ab55ce9dd4130312270e8ba208eb927a7cbe50cb52678ec722"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-windows-x86_64-installer.exe",
+      "digest": {
+        "sha256": "844d0d40c4b9d7e68a8fcdb66354255c4480ea43c4ceb783d7e41c7a98fa8ce9"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3-windows-x86_64.zip",
+      "digest": {
+        "sha256": "04a01ea95ae96df75058a893e774957d294e69012dab1f4e256ce2b0c6725483"
+      }
+    },
+    {
+      "name": "mitmproxy-12.2.3.tar.gz",
+      "digest": {
+        "sha256": "2a4fca401f433d786f768036718d2bde6d8490a4963a5e5aa70e1e07c0f1695d"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://actions.github.io/buildtypes/workflow/v1",
+      "externalParameters": {
+        "workflow": {
+          "ref": "refs/tags/v12.2.3",
+          "repository": "https://github.com/mitmproxy/mitmproxy",
+          "path": ".github/workflows/main.yml"
+        }
+      },
+      "internalParameters": {
+        "github": {
+          "event_name": "workflow_dispatch",
+          "repository_id": "519832",
+          "repository_owner_id": "4652787",
+          "runner_environment": "github-hosted"
+        }
+      },
+      "resolvedDependencies": [
+        {
+          "uri": "git+https://github.com/mitmproxy/mitmproxy@refs/tags/v12.2.3",
+          "digest": {
+            "gitCommit": "6c09d56e4c29a92f5ad01b03199977584b8ea14f"
+          }
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://github.com/mitmproxy/mitmproxy/.github/workflows/main.yml@refs/tags/v12.2.3"
+      },
+      "metadata": {
+        "invocationId": "https://github.com/mitmproxy/mitmproxy/actions/runs/25736174260/attempts/1"
+      }
+    }
+  }
+}

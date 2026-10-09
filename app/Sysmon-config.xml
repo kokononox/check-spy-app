@@ -1,0 +1,8 @@
+<Sysmon schemaversion="4.82">
+  <EventFiltering>
+    <!-- Empty exclude filters capture all events of these types. -->
+    <ProcessCreate onmatch="exclude" />
+    <NetworkConnect onmatch="exclude" />
+    <DnsQuery onmatch="exclude" />
+  </EventFiltering>
+</Sysmon>
