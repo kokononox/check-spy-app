@@ -24,3 +24,8 @@
 
 ## هنوز نامعلوم
 محتوای تله‌متری رمزگذاری‌شده، معنی پیام‌های باینری بازی، اطلاعات سخت‌افزاری/شناسه‌ای که واقعاً به سرور رسیده، و موفقیت بازرسی TLS روی دستگاه Windows 11 هنوز تأیید نشده‌اند. نبود match در گزارش‌هایی که گزینه تطبیق خاموش بوده هیچ آزمون منفی محسوب نمی‌شود. metadata کارت شبکه و مدل سیستم در capture هم اثبات app-level transmission نیست.
+
+## نتیجه بعدی نسخه ۲٫۶
+گزارش کاربر: EndedBy=TLSFailure، ClientTLSFailures=1، ServerTLSFailures=0، AttributionFailures=0، Requests خالی و DecryptedHTTPRequestsObserved=0. گواهی وارد شده بود و CertificateAbsent، ProxyStopped و PrivateMaterialDeleted همگی true گزارش شدند. این شواهد از شکست handshake سمت برنامه خبر می‌دهند، نه تشخیص قطعی pinning. تطبیق شناسه‌های محلی خاموش بوده است؛ نتیجه منفی اطلاعات ارسالی نداریم. برای همین برنامه آزمون CA متوقف و روش‌های رسمی بررسی می‌شوند.
+
+مسیر جدید و منابع: [OFFICIAL-DIAGNOSTICS-fa.md](../research/OFFICIAL-DIAGNOSTICS-fa.md). LogGoblin برای لاگ لانچر است، نه decode payload WoW؛ درخواست داده حساب ممکن است اطلاعات نگهداری‌شده را روشن کند ولی capture همه شبکه نیست.

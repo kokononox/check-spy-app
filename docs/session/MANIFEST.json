@@ -16,8 +16,8 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 4339,
-      "sha256": "06850357c3b68ec63ca3c992dda257f338b645e0248085473c0bd7de4dff1fd3"
+      "size_bytes": 5077,
+      "sha256": "a8497a796b09a3b0b31ed94f63f80fb43f36499f4495cc0efd5e9a33b699c3b8"
     },
     {
       "path": "SECURITY.md",
@@ -1260,14 +1260,19 @@
       "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
     },
     {
+      "path": "docs/research/OFFICIAL-DIAGNOSTICS-fa.md",
+      "size_bytes": 6115,
+      "sha256": "3abb51bfbdc2dc4c8e8f954c1d724ef878b938232a5bee179f77b084c0f162a2"
+    },
+    {
       "path": "docs/session/FINDINGS-fa.md",
-      "size_bytes": 4646,
-      "sha256": "3769b54877d5f419e94075b49d044260860074e7ceac0a5c9e88ecbe473ac3c4"
+      "size_bytes": 5673,
+      "sha256": "abc5bea314856a1384b46c6d002bc25cdfb90e9e8daf34a88e3d0fc965306a3d"
     },
     {
       "path": "docs/session/HANDOFF-fa.md",
-      "size_bytes": 3873,
-      "sha256": "b8dd3fec4c1de505604db06b2f5cc00f5275a8b423062347dc77a166768298b0"
+      "size_bytes": 4575,
+      "sha256": "6577679b2b100cd77368acbad0ea56378c62162d33a01b0689f2f1d107e74d69"
     },
     {
       "path": "docs/session/HISTORY-fa.md",
