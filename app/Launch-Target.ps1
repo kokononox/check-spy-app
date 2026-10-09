@@ -1,4 +1,4 @@
-﻿#requires -Version 5.1
+#requires -Version 5.1
 $ErrorActionPreference='Stop'
 $config=$null;$diagFile=Join-Path $PSScriptRoot 'launcher-status.json';$process=$null
 function Save-LaunchDiagnostic($phase,$success,$keyStatus,$errorMessage='') {
@@ -17,7 +17,10 @@ try {
  $already=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {$_.ExecutablePath -and [string]::Equals($_.ExecutablePath,$config.Target,[StringComparison]::OrdinalIgnoreCase)})
  if($already.Count){throw 'برنامهٔ هدف از قبل باز است. خودتان آن را ببندید و دوباره بررسی را شروع کنید.'}
  $info=New-Object Diagnostics.ProcessStartInfo;$info.FileName=$config.Target;$info.Arguments=$config.Arguments;$info.WorkingDirectory=[IO.Path]::GetDirectoryName($config.Target);$info.UseShellExecute=$false
- $info.EnvironmentVariables['SSLKEYLOGFILE']=$config.KeyFile;$process=[Diagnostics.Process]::Start($info)
+ $requestKeys=if($config.PSObject.Properties['RequestTLSKeyLogging']){[bool]$config.RequestTLSKeyLogging}else{[bool]$config.KeyFile}
+ if($requestKeys -and $config.KeyFile){$info.EnvironmentVariables['SSLKEYLOGFILE']=$config.KeyFile}else{$info.EnvironmentVariables.Remove('SSLKEYLOGFILE');$info.EnvironmentVariables.Remove('MITMPROXY_SSLKEYLOGFILE')}
+ $process=[Diagnostics.Process]::Start($info)
+ if(!$requestKeys){Save-LaunchDiagnostic 'PassiveLaunched' $true $null;Write-Host 'هدف معمولی اجرا شد؛ ثبت کلید یا تغییر پروکسی درخواست نشد.';return}
  Save-LaunchDiagnostic 'Launched' $true $null
  Write-Host 'برنامه اجرا شد. تا ۳۰ ثانیه وضعیت ثبت کلید بررسی می‌شود.'
  $until=[datetime]::UtcNow.AddSeconds(30)

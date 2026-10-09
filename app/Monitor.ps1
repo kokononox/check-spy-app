@@ -1,4 +1,4 @@
-﻿#requires -Version 5.1
+#requires -Version 5.1
 param([string]$TargetPath = '',[switch]$Advanced)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Windows.Forms,System.Drawing
@@ -55,7 +55,7 @@ $collector = {
  [pscustomobject]@{Processes=$procs;TCP=$tcp;UDPCount=$udpCount;Events=@($events);Cursor=$cursor;Errors=@($errs)}
 }
 $form=New-Object Windows.Forms.Form
-$form.Text='Exe Route Monitor 2.3.1 | Windows 11'; $form.Size=New-Object Drawing.Size(1280,820)
+$form.Text='Exe Route Monitor 2.7 | Windows 11'; $form.Size=New-Object Drawing.Size(1280,820)
 $form.MinimumSize=New-Object Drawing.Size(1000,680); $form.StartPosition='CenterScreen'
 $form.BackColor=[Drawing.Color]::FromArgb(20,26,36); $form.ForeColor=[Drawing.Color]::White
 $form.Font=New-Object Drawing.Font('Segoe UI',10)
@@ -230,7 +230,7 @@ function Start-MonitorSession {
   $script:since=[datetime]::UtcNow
   $script:session=([datetime]::UtcNow.ToString('yyyyMMdd-HHmmss')+'-'+[guid]::NewGuid().ToString('N').Substring(0,6))
   $script:logFile=Join-Path $root ($script:session+'.jsonl')
-  [ordered]@{Session=$script:session;Target=$script:target;TargetSHA256=$script:targetHash;StartedUTC=$script:since.ToString('o');SysmonReadable=$script:sysmon;PollSeconds=2;Version='2.3.1'} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root ($script:session+'.metadata.json')) -Encoding UTF8
+  [ordered]@{Session=$script:session;Target=$script:target;TargetSHA256=$script:targetHash;StartedUTC=$script:since.ToString('o');SysmonReadable=$script:sysmon;PollSeconds=2;Version='2.7'} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root ($script:session+'.metadata.json')) -Encoding UTF8
   Write-Log 'session-start' $script:target
   $source.Text=if($script:sysmon){'Source: TCP snapshots + Sysmon readable (verify events 1 / 3 / 22 enabled)'}else{'Source: TCP snapshots only | DNS / UDP destinations require Sysmon'}
   $script:running=$true; $script:lastProbe=[datetime]::MinValue
@@ -255,7 +255,7 @@ function Export-Session($format) {
     # Spreadsheet-formula injection guard for untrusted DNS/path text.
     $safe=@($script:rows | ForEach-Object { $obj=[ordered]@{}; foreach($p in $_.PSObject.Properties) { $v=$p.Value; if($v -is [string] -and $v -match '^\s*[=+@-]'){$v="'"+$v}; $obj[$p.Name]=$v }; [pscustomobject]$obj })
     if($safe.Count){$safe | Export-Csv -LiteralPath $d.FileName -NoTypeInformation -Encoding UTF8}else{'FirstUTC,LastUTC,Process,PID,Protocol,RemoteIP,Port,Domain,Local,State,Source' | Set-Content -LiteralPath $d.FileName -Encoding UTF8}
-   } else { [ordered]@{Version='2.3.1';Target=$script:target;TargetSHA256=$script:targetHash;ExportedUTC=[datetime]::UtcNow.ToString('o');Connections=@($script:rows);DNS=@($script:dnsRows)} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $d.FileName -Encoding UTF8 }
+   } else { [ordered]@{Version='2.7';Target=$script:target;TargetSHA256=$script:targetHash;ExportedUTC=[datetime]::UtcNow.ToString('o');Connections=@($script:rows);DNS=@($script:dnsRows)} | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $d.FileName -Encoding UTF8 }
    $status.Text='Exported: '+$d.FileName
   } catch { [void][Windows.Forms.MessageBox]::Show($_.Exception.Message,'Export failed') }
  }; $d.Dispose()

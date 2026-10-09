@@ -6,8 +6,8 @@
   "files": [
     {
       "path": ".gitignore",
-      "size_bytes": 656,
-      "sha256": "0d00ef0cf7abcfa0bbd0b1c4d1d200394b9c09cd57953e3ed286b0c85eb08857"
+      "size_bytes": 681,
+      "sha256": "7a7bc3f051c3d15b3fbfb9ea46255df7232b599b0f1041553a5b2a36e2462fb2"
     },
     {
       "path": "LICENSE",
@@ -16,8 +16,8 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 5077,
-      "sha256": "a8497a796b09a3b0b31ed94f63f80fb43f36499f4495cc0efd5e9a33b699c3b8"
+      "size_bytes": 3891,
+      "sha256": "1c82523609a3494220d515c5bcf94084a1ab5fb207da2e94b236bd2a5158b8fe"
     },
     {
       "path": "SECURITY.md",
@@ -26,8 +26,8 @@
     },
     {
       "path": "app/Analyze-Capture.ps1",
-      "size_bytes": 18666,
-      "sha256": "9f2d3e202d5caebe24c3069a7480d261b66235d1939b3f7a05576d446e1c361e"
+      "size_bytes": 21138,
+      "sha256": "b8f0235f4f4a3b8323026519d7723e388b948c35b3989171fbb6f50ba7f5f1d9"
     },
     {
       "path": "app/Build-EXE.cmd",
@@ -40,9 +40,14 @@
       "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
     },
     {
+      "path": "app/Build-Unified-Report.ps1",
+      "size_bytes": 4760,
+      "sha256": "d84c56a6189011f032d0e4535c930ea861c087e0f8fd9a88058f7a6319aec144"
+    },
+    {
       "path": "app/CHANGELOG-fa.md",
-      "size_bytes": 1670,
-      "sha256": "b0c82bff35e3162eae44791ecbdcbd5b5150aeddbe8bdda3ad820f28b2c38844"
+      "size_bytes": 2817,
+      "sha256": "055a33926c3257064cb2bcbc70b76c3d646a932f6e80684ac55852fe6132a031"
     },
     {
       "path": "app/Capture-Normalize.ps1",
@@ -96,8 +101,8 @@
     },
     {
       "path": "app/Launch-Target.ps1",
-      "size_bytes": 3097,
-      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+      "size_bytes": 3583,
+      "sha256": "e6b3d5553e4976fda54a4688417e071abc3ba31006e4cdcf643f556c97f17443"
     },
     {
       "path": "app/Launcher.cs",
@@ -105,9 +110,14 @@
       "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
     },
     {
+      "path": "app/Local-Log-Audit.ps1",
+      "size_bytes": 7095,
+      "sha256": "ccd1846583514bf57cfa8d2beb27344b58b5fc7560abdea84d7a1a99d3659d72"
+    },
+    {
       "path": "app/Monitor.ps1",
-      "size_bytes": 22771,
-      "sha256": "a7f7af727fa81b51cdb33ac4b273c0c7f4f9ffce9b70e0a25f3e07e04a2ddf44"
+      "size_bytes": 22765,
+      "sha256": "93e84e10925d2b8e9787090f832f146177bfecb33afe809eb885a67cb2053cda"
     },
     {
       "path": "app/NEXT-STEP-fa.md",
@@ -151,18 +161,18 @@
     },
     {
       "path": "app/QUICK-START-fa.md",
-      "size_bytes": 9048,
-      "sha256": "ea33886267458c3ce69f01095a1a28476722c8b73b5e0d20a857e31760bc9d3f"
+      "size_bytes": 6525,
+      "sha256": "87b8409c1aa255db90a5beaf35ca37ace428b5e14759fc6859a4c1bdf2fe608b"
     },
     {
       "path": "app/README-fa.md",
-      "size_bytes": 21275,
-      "sha256": "3af42899ef8c78266c640f8a4a801881b1f0a5d67ddd783f18bda030d4c1f98b"
+      "size_bytes": 865,
+      "sha256": "934a48865969fc8891756ccfb9188fe25c833336da019b6fa1277681cd803fc0"
     },
     {
       "path": "app/Simple-UI.ps1",
-      "size_bytes": 22496,
-      "sha256": "3a76eb350d9748245df716d28bde1da58c0e563ead82e90be3ddfb7c42d98f8d"
+      "size_bytes": 19444,
+      "sha256": "68c3c96a8fcaaa833abc5a3a7b8eba9111200f7a0d42ad1022894a09b1540f0a"
     },
     {
       "path": "app/Start-Advanced.cmd",
@@ -248,6 +258,41 @@
       "path": "app/UPDATE-AND-TLS-fa.md",
       "size_bytes": 8191,
       "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "app/tests/Mock-Tshark-Bidirectional.ps1",
+      "size_bytes": 2988,
+      "sha256": "712bc5be3874675dcf27d94f23bd6369179a27a2e9d9a8baf71551246da51049"
+    },
+    {
+      "path": "app/tests/Mock-Tshark.ps1",
+      "size_bytes": 2370,
+      "sha256": "d4367ea454b4c166b2582c217b1e717fa73ce6bdbdbbe1cddfba49cabe236c65"
+    },
+    {
+      "path": "app/tests/QA-v2.7.md",
+      "size_bytes": 1728,
+      "sha256": "925d26c36382720cf4ba7c04bae97c2aba35df9f5489835a5bee96972fe22937"
+    },
+    {
+      "path": "app/tests/Test-Analyzer.ps1",
+      "size_bytes": 4426,
+      "sha256": "32a60809b12e5c497893d610f5c6ffde9c48cf9fb729e8e92048a01bd25d3a20"
+    },
+    {
+      "path": "app/tests/Test-Bidirectional.ps1",
+      "size_bytes": 2297,
+      "sha256": "a3e1d47e3e242a9249d12c79ffee71c9c00c6e7082c8c7d491c6450400e0c72f"
+    },
+    {
+      "path": "app/tests/Test-Local-Audit.ps1",
+      "size_bytes": 4022,
+      "sha256": "9ce73c966ad521224a5852ef2b5b15999edf70ab6a75cc7263ba353fbdc5cf56"
+    },
+    {
+      "path": "app/tests/Test-TLS-Key-Status.ps1",
+      "size_bytes": 1284,
+      "sha256": "b0b20b8a89b0f574509905510e27ec9628347a58e2426b15178cda66ffda129f"
     },
     {
       "path": "app/tools/mitmproxy/LICENSE-mitmproxy.txt",
@@ -1266,18 +1311,18 @@
     },
     {
       "path": "docs/session/FINDINGS-fa.md",
-      "size_bytes": 5673,
-      "sha256": "abc5bea314856a1384b46c6d002bc25cdfb90e9e8daf34a88e3d0fc965306a3d"
+      "size_bytes": 7029,
+      "sha256": "90890cd97e7fb8288c6b0ec19801cd3334a37da0353a23bd16d878fef11bb4b7"
     },
     {
       "path": "docs/session/HANDOFF-fa.md",
-      "size_bytes": 4575,
-      "sha256": "6577679b2b100cd77368acbad0ea56378c62162d33a01b0689f2f1d107e74d69"
+      "size_bytes": 5931,
+      "sha256": "813fd672e9cf111ef2a1fcd259581dfafab1bdb7439e2ccc71278b6800d093bc"
     },
     {
       "path": "docs/session/HISTORY-fa.md",
-      "size_bytes": 5430,
-      "sha256": "3fc410f1bcb9653cc066ea011f36f1b1fbd88840a28897e6942450ffa6b390dc"
+      "size_bytes": 6786,
+      "sha256": "5ed862ebb8334977de11302eed33072de431649b497dd491718c969330be0988"
     },
     {
       "path": "docs/session/TRANSFER-SCOPE-fa.md",
@@ -1319,5 +1364,7 @@
       "size_bytes": 5208,
       "sha256": "d47dfdfea11e1a4e1733cafdd71b64a8444f9214ff16277b0c43abbc7ea1ad13"
     }
-  ]
+  ],
+  "current_version": "2.7",
+  "current_workflow": "Passive unified monitoring; no CA/proxy/key request in Start.cmd"
 }

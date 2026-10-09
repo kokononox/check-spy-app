@@ -1,4 +1,4 @@
-﻿#requires -Version 5.1
+#requires -Version 5.1
 param(
  [Parameter(Mandatory=$true)][string]$CapturePath,
  [Parameter(Mandatory=$true)][string]$ContextPath,
@@ -65,7 +65,7 @@ function Safe-URI([string]$v) {
  $v=[regex]::Replace($v,'(?i)(token|secret|password|apikey|api_key)/[^/\s?]+','$1/[redacted]')
  return $v
 }
-$fields=@('frame.number','frame.time_epoch','ip.src','ipv6.src','tcp.srcport','udp.srcport','ip.dst','ipv6.dst','tcp.dstport','udp.dstport','tcp.stream','udp.stream','tls.handshake.extensions_server_name','http.request.method','http.host','http.request.uri','http.user_agent','http.file_data','data.data','tls.app_data','http2.header.name','http2.header.value','http2.data.data','dns.qry.name','tcp.payload','tcp.len','udp.length','tls.record.content_type','http.content_type','http2.streamid','tls.handshake.random')
+$fields=@('frame.number','frame.time_epoch','ip.src','ipv6.src','tcp.srcport','udp.srcport','ip.dst','ipv6.dst','tcp.dstport','udp.dstport','tcp.stream','udp.stream','tls.handshake.extensions_server_name','http.request.method','http.host','http.request.uri','http.user_agent','http.file_data','data.data','tls.app_data','http2.header.name','http2.header.value','http2.data.data','dns.qry.name','tcp.payload','tcp.len','udp.length','tls.record.content_type','http.content_type','http2.streamid','tls.handshake.random','tls.handshake.version','tls.handshake.extensions.supported_version','tls.handshake.extensions_alpn_str','tls.alert_message.desc','tls.alert_message.level','tcp.analysis.retransmission','tcp.analysis.fast_retransmission')
 # Detect fields first so older tshark releases can degrade explicitly rather than silently fail.
 $available=@{}
 $schemaTemp=$OutputPath+'.schema-fields.tmp';$dataTemp=$OutputPath+'.packet-fields.tmp'
@@ -85,7 +85,7 @@ if($KeyLogPath -and $keyStatus.FileExists -and $keyStatus.ValidEntries -gt 0) {
 }
 foreach($f in $fields){$argsList.Add('-e');$argsList.Add($f)}
 $script:networkFrames=0;$script:readableOverTLS=0;$script:keyMatches=@{};$script:protocolEvidence=New-Object System.Collections.ArrayList;$script:protocolSeen=@{}
-$script:allFrames=0; $script:correlatedFrames=0; $script:encryptedFrames=0; $script:readableFrames=0; $script:nonReadableFrames=0
+$script:allFrames=0; $script:correlatedFrames=0;$script:inboundFrames=0; $script:encryptedFrames=0; $script:readableFrames=0; $script:nonReadableFrames=0
 $script:reports=New-Object System.Collections.ArrayList
 $script:groups=@{}; $script:reported=@{}; $script:identifierCounts=@{}; $script:bodyCapped=0
 $epoch=[datetime]::SpecifyKind([datetime]'1970-01-01',[DateTimeKind]::Utc)
@@ -107,20 +107,42 @@ $script:quarantinedFrames=0
  $sa=$null;$da=$null
  if(![Net.IPAddress]::TryParse($src,[ref]$sa) -or ![Net.IPAddress]::TryParse($dst,[ref]$da)){return}
  $key=$proto+'|'+$sa.ToString()+'|'+$srcPort+'|'+$da.ToString()+'|'+$dstPort
- if(!$tupleIndex.ContainsKey($key)){return}
+ $direction='Outbound';$remoteIP=$dst;$remotePort=$dstPort
+ if(!$tupleIndex.ContainsKey($key)){
+  $key=$proto+'|'+$da.ToString()+'|'+$dstPort+'|'+$sa.ToString()+'|'+$srcPort
+  if(!$tupleIndex.ContainsKey($key)){return}
+  $direction='Inbound';$remoteIP=$src;$remotePort=$srcPort
+ }
  $seconds=0.0
  if(![double]::TryParse($v['frame.time_epoch'],[Globalization.NumberStyles]::Float,[Globalization.CultureInfo]::InvariantCulture,[ref]$seconds)){return}
  $time=$epoch.AddSeconds($seconds)
  $matchedRows=@($tupleIndex[$key] | Where-Object {$time -ge ([datetime]$_.FirstUTC).ToUniversalTime().AddSeconds(-5) -and $time -le ([datetime]$_.LastUTC).ToUniversalTime().AddSeconds(5)})
- if(!$matchedRows.Count){return}; $script:correlatedFrames++
+ if(!$matchedRows.Count){return}
+ if($direction -eq 'Outbound'){$script:correlatedFrames++}else{$script:inboundFrames++}
  if($v['tls.handshake.random']){foreach($r in ($v['tls.handshake.random'] -split ',')){$r=$r.Replace(':','').ToLowerInvariant();if($keyStatus.ClientRandoms.ContainsKey($r)){$script:keyMatches[$r]=$true}}}
  $isTLS=!!($v['tls.record.content_type'] -or $v['tls.app_data'])
- if($isTLS){$script:encryptedFrames++}
- $endpoint=$proto+'|'+$dst+':'+$dstPort
- if(!$script:groups.ContainsKey($endpoint)){$script:groups[$endpoint]=[ordered]@{RemoteIP=$dst;Port=$dstPort;Protocol=$proto;CorrelatedOutboundFrames=0;TLSRecognizedFrames=0;ReadableEvidenceFrames=0;SNI=@();Hosts=@()}}
- $g=$script:groups[$endpoint];$g.CorrelatedOutboundFrames++
- if($isTLS){$g.TLSRecognizedFrames++}
+ if($isTLS -and $direction -eq 'Outbound'){$script:encryptedFrames++}
+ $endpoint=$proto+'|'+$remoteIP+':'+$remotePort
+ if(!$script:groups.ContainsKey($endpoint)){$script:groups[$endpoint]=[ordered]@{RemoteIP=$remoteIP;Port=$remotePort;Protocol=$proto;CorrelatedOutboundFrames=0;CorrelatedInboundFrames=0;ObservedOutboundTransportPayloadBytes=0L;ObservedInboundTransportPayloadBytes=0L;ByteLengthUnknownFrames=0;ObservedRetransmissionFrames=0;TLSRecognizedFrames=0;ReadableEvidenceFrames=0;SNI=@();Hosts=@();TLSVersionCodes=@();KnownALPN=@();TLSAlertCodes=@()}}
+ $g=$script:groups[$endpoint]
+ if($direction -eq 'Outbound'){$g.CorrelatedOutboundFrames++}else{$g.CorrelatedInboundFrames++}
+ $length=0L;$lengthField=if($proto -eq 'TCP'){$v['tcp.len']}else{$v['udp.length']}
+ if([long]::TryParse($lengthField,[ref]$length) -and $length -ge 0){
+  if($proto -eq 'UDP'){$length=[Math]::Max(0,$length-8)}
+  if($direction -eq 'Outbound'){$g.ObservedOutboundTransportPayloadBytes+=$length}else{$g.ObservedInboundTransportPayloadBytes+=$length}
+ }else{$g.ByteLengthUnknownFrames++}
+ if($v['tcp.analysis.retransmission'] -or $v['tcp.analysis.fast_retransmission']){$g.ObservedRetransmissionFrames++}
+ if($isTLS -and $direction -eq 'Outbound'){$g.TLSRecognizedFrames++}
+ foreach($code in (($v['tls.handshake.version']+','+$v['tls.handshake.extensions.supported_version']) -split ',')){
+  if($code -match '^(?:0x)?[0-9a-fA-F]{4}$'){$g.TLSVersionCodes=@($g.TLSVersionCodes+$code|Select-Object -Unique)}
+ }
+ foreach($alpn in ($v['tls.handshake.extensions_alpn_str'] -split ',')){
+  if($alpn -in @('h2','http/1.1','http/1.0','h3','doq')){$g.KnownALPN=@($g.KnownALPN+$alpn|Select-Object -Unique)}
+ }
+ foreach($alert in ($v['tls.alert_message.desc'] -split ',')){if($alert -match '^\d{1,3}$'){$g.TLSAlertCodes=@($g.TLSAlertCodes+$alert|Select-Object -Unique)}}
  if($v['tls.handshake.extensions_server_name']){$g.SNI=@($g.SNI+$v['tls.handshake.extensions_server_name'] | Select-Object -Unique)}
+ # Inbound is used for byte/handshake metadata only, never claimed as outgoing information.
+ if($direction -eq 'Inbound'){return}
  if($v['http.host']){$g.Hosts=@($g.Hosts+$v['http.host'] | Select-Object -Unique)}
  $http2Request=($v['http2.header.name'] -match ':method')
  # Only named protocol-dissection fields are interpreted as readable application evidence.
@@ -174,7 +196,7 @@ if($LaunchStatusPath -and (Test-Path -LiteralPath $LaunchStatusPath)) {
  try{$raw=Get-Content -LiteralPath $LaunchStatusPath -Raw | ConvertFrom-Json;$launchDiagnostic=[ordered]@{Phase=$raw.Phase;Success=$raw.Success;ValidKeyRecords=$raw.ValidKeyRecords;KeyAssessment=$raw.KeyAssessment;Error=$raw.Error;UTC=$raw.UTC}}catch{}
 }
 $out=[ordered]@{
- Version='2.3.1';Target=$context.Target;TargetSHA256AtSessionStart=$context.TargetSHA256;CaptureSHA256=(Get-FileHash -LiteralPath $CapturePath -Algorithm SHA256).Hash;ContextSHA256=(Get-FileHash -LiteralPath $ContextPath -Algorithm SHA256).Hash;Capture=$CapturePath;AnalyzedCapture=$effectiveCapture;Normalization=$normalization;AnalyzedCaptureSHA256=(Get-FileHash -LiteralPath $effectiveCapture -Algorithm SHA256).Hash;GeneratedUTC=[datetime]::UtcNow.ToString('o');KeyLogRequested=!!$KeyLogPath;KeyLogProvided=$usingKeys;LocalIdentifierComparisonEnabled=[bool]$CompareLocalIdentifiers
+ Version='2.7';Target=$context.Target;TargetSHA256AtSessionStart=$context.TargetSHA256;CaptureSHA256=(Get-FileHash -LiteralPath $CapturePath -Algorithm SHA256).Hash;ContextSHA256=(Get-FileHash -LiteralPath $ContextPath -Algorithm SHA256).Hash;Capture=$CapturePath;AnalyzedCapture=$effectiveCapture;Normalization=$normalization;AnalyzedCaptureSHA256=(Get-FileHash -LiteralPath $effectiveCapture -Algorithm SHA256).Hash;GeneratedUTC=[datetime]::UtcNow.ToString('o');KeyLogRequested=!!$KeyLogPath;KeyLogProvided=$usingKeys;LocalIdentifierComparisonEnabled=[bool]$CompareLocalIdentifiers
  TsharkExitCode=$toolExit;TsharkDiagnosticPresent=!!$diagnostic;TsharkDissectorWarningPacketNumbers=@($quarantine.Keys);QuarantinedPacketCount=$script:quarantinedFrames
  TsharkWarningAssessment=if($quarantine.Count){'Dissector warning(s): named packets excluded from content/attribution analysis; remaining result is partial'}elseif($diagnostic){'Native diagnostic text recorded; process completed with exit zero'}else{'No native stderr diagnostic'}
  LauncherDiagnostic=$launchDiagnostic
@@ -182,9 +204,9 @@ $out=[ordered]@{
  TLSDecryptionAssessment=if($script:readableOverTLS){'Readable HTTP/HTTP2 observed on recognized TLS; some application decoding succeeded'}else{'TLS application-content decryption NOT established'}
  CaptureAssessment=if(!$script:networkFrames){'No IP decoded: capture cannot be assessed'}elseif(!$script:correlatedFrames){'IP decoded but no target tuples matched: attribution cannot be assessed'}else{'Target traffic correlated; encrypted/opaque content may remain unknown'}
  NetworkDecodedFrames=$script:networkFrames;ReadableHTTPOverTLSFrames=$script:readableOverTLS;ProtocolEvidence=@($script:protocolEvidence)
- AllCapturedFrames=$script:allFrames;CorrelatedOutboundFrames=$script:correlatedFrames;TLSRecognizedFrames=$script:encryptedFrames;ReadableEvidenceFrames=$script:readableFrames;OpaquePayloadFrames=$script:nonReadableFrames
+ AllCapturedFrames=$script:allFrames;CorrelatedOutboundFrames=$script:correlatedFrames;CorrelatedInboundFrames=$script:inboundFrames;TLSRecognizedFrames=$script:encryptedFrames;ReadableEvidenceFrames=$script:readableFrames;OpaquePayloadFrames=$script:nonReadableFrames
  MissingTsharkFields=$missing;LocalIdentifierMatchFrameCounts=$script:identifierCounts;Endpoints=@($script:groups.Values);Evidence=@($script:reports)
- Limitations=@('Packets named in dissector-bug warnings are quarantined from field/content interpretation; raw capture is retained unchanged. No conclusion of no transmission can be drawn from excluded content.','Only outbound tuples present in context and within observed time +/-5 seconds are analyzed. Unobserved short-lived flows are omitted.',
+ Limitations=@('Transport payload bytes are observed TCP length or UDP length minus 8, not unique application bytes; retransmissions and duplicate capture can inflate counts. TLS version codes are advertised/legacy metadata, not a guaranteed negotiated version; absence of an alert does not establish a successful handshake.','Packets named in dissector-bug warnings are quarantined from field/content interpretation; raw capture is retained unchanged. No conclusion of no transmission can be drawn from excluded content.','Only outbound tuples present in context and within observed time +/-5 seconds are analyzed. Unobserved short-lived flows are omitted.',
  'This is time/tuple correlation, not definitive kernel attribution. Port reuse, proxies and packet duplication can affect it. Counts are frames, not unique requests or byte totals.',
  'Pktmon captures all system traffic at NICs, subject to existing pktmon filters. Circular capture can overwrite old packets. Loopback and VPN inner traffic may be absent.',
  'TLS recognition is not complete. Unrecognized or opaque traffic is unknown, not safe. Providing a key file does not establish successful decryption.',
