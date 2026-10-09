@@ -1,0 +1,1318 @@
+{
+  "scope": "Text source, documentation, public vendor provenance, and synthetic test source only",
+  "real_evidence_included": false,
+  "raw_secrets_included": false,
+  "github_secret_scan": "Unavailable: Advanced Security not enabled; local review performed",
+  "files": [
+    {
+      "path": ".gitignore",
+      "size_bytes": 656,
+      "sha256": "0d00ef0cf7abcfa0bbd0b1c4d1d200394b9c09cd57953e3ed286b0c85eb08857"
+    },
+    {
+      "path": "LICENSE",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 4339,
+      "sha256": "06850357c3b68ec63ca3c992dda257f338b645e0248085473c0bd7de4dff1fd3"
+    },
+    {
+      "path": "SECURITY.md",
+      "size_bytes": 1673,
+      "sha256": "73c54a1096a2d53e73859ef023a3568ebb6c5a5da576e4ee7f5b0054d662c82a"
+    },
+    {
+      "path": "app/Analyze-Capture.ps1",
+      "size_bytes": 18666,
+      "sha256": "9f2d3e202d5caebe24c3069a7480d261b66235d1939b3f7a05576d446e1c361e"
+    },
+    {
+      "path": "app/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "app/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "app/CHANGELOG-fa.md",
+      "size_bytes": 1670,
+      "sha256": "b0c82bff35e3162eae44791ecbdcbd5b5150aeddbe8bdda3ad820f28b2c38844"
+    },
+    {
+      "path": "app/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "app/Cleanup-TLS.cmd",
+      "size_bytes": 189,
+      "sha256": "55fa9762dd645d108c405eccbc6e9a88124b7feb44e4744557dd6930f0cc7ea9"
+    },
+    {
+      "path": "app/Cleanup-TLS.ps1",
+      "size_bytes": 975,
+      "sha256": "eb3ce2ec4b9c5ef68c8c581e4359b221ce643843f1071ac6b27d1a2573751139"
+    },
+    {
+      "path": "app/Diagnostics-UI.ps1",
+      "size_bytes": 3815,
+      "sha256": "ed2c2be6f8520e1fbbb6b751e6d5cec0657807b1f25ad36644f37cc5dbfe17db"
+    },
+    {
+      "path": "app/Evidence-UI.ps1",
+      "size_bytes": 13578,
+      "sha256": "ffe5c7422f026d27e17951bbf173c801863538b35afee2a2c460ae94424e964e"
+    },
+    {
+      "path": "app/HOTFIX-fa.md",
+      "size_bytes": 4022,
+      "sha256": "94128fcd9fc5af414a2604f8e4c51b8597120987a26d629e2023e60dbde6e74b"
+    },
+    {
+      "path": "app/Inspect-Target.ps1",
+      "size_bytes": 6987,
+      "sha256": "69dfc7e0a0adb8351aad166ef751dc30c94baa0b03b85dd04ffbe71038ad5e2a"
+    },
+    {
+      "path": "app/Install-Mitmdump.ps1",
+      "size_bytes": 2413,
+      "sha256": "8b58ae19f602726bbfc9b0b1bf1df8b363ccb91d7b5f069985d9a43141a5e606"
+    },
+    {
+      "path": "app/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "app/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "app/Launch-Target.ps1",
+      "size_bytes": 3097,
+      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+    },
+    {
+      "path": "app/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "app/Monitor.ps1",
+      "size_bytes": 22771,
+      "sha256": "a7f7af727fa81b51cdb33ac4b273c0c7f4f9ffce9b70e0a25f3e07e04a2ddf44"
+    },
+    {
+      "path": "app/NEXT-STEP-fa.md",
+      "size_bytes": 4372,
+      "sha256": "8dda9fb7eb58da8cfb0d52cfd91eae4a168af33e36bab7518ea2a35358853963"
+    },
+    {
+      "path": "app/Native-Tool-IO.ps1",
+      "size_bytes": 1932,
+      "sha256": "285926ef6da96253a406125b5d790928622e0823f9164e242e71a17bf292a0ab"
+    },
+    {
+      "path": "app/PROXY-START-FIX-fa.md",
+      "size_bytes": 3750,
+      "sha256": "60114c423c956bcd188a1305965d512fa0d448e6f31125c8cd710d63d85972c4"
+    },
+    {
+      "path": "app/PROXY-TEST-fa.md",
+      "size_bytes": 7054,
+      "sha256": "84afdb0064bb42187ac979d2b4a923958cc5367fdd0472aa8d695d701e667c63"
+    },
+    {
+      "path": "app/Proxy-Bootstrap.ps1",
+      "size_bytes": 1618,
+      "sha256": "f58d94633eff726b29e8bd9f663ef23e48685f2345a23e636c0ef717b01cab89"
+    },
+    {
+      "path": "app/Proxy-Probe.cs",
+      "size_bytes": 9442,
+      "sha256": "613bdbd2f551ac416dca1ac10f658b22e5e4f4a2f32a121b9af6d58ad2a71a1b"
+    },
+    {
+      "path": "app/Proxy-Startup-Status.ps1",
+      "size_bytes": 517,
+      "sha256": "71fe1dccf58dc73898c83227e5abf844b43aa7303dc42fb39b48ca8559edb510"
+    },
+    {
+      "path": "app/Proxy-Test-UI.ps1",
+      "size_bytes": 12989,
+      "sha256": "40d4838c6f2c65d051bcb02cf314340376b96c875666e82f8383ff4859d12e27"
+    },
+    {
+      "path": "app/QUICK-START-fa.md",
+      "size_bytes": 9048,
+      "sha256": "ea33886267458c3ce69f01095a1a28476722c8b73b5e0d20a857e31760bc9d3f"
+    },
+    {
+      "path": "app/README-fa.md",
+      "size_bytes": 21275,
+      "sha256": "3af42899ef8c78266c640f8a4a801881b1f0a5d67ddd783f18bda030d4c1f98b"
+    },
+    {
+      "path": "app/Simple-UI.ps1",
+      "size_bytes": 22496,
+      "sha256": "3a76eb350d9748245df716d28bde1da58c0e563ead82e90be3ddfb7c42d98f8d"
+    },
+    {
+      "path": "app/Start-Advanced.cmd",
+      "size_bytes": 148,
+      "sha256": "e3fd1364e5477a5a76d03d6641b4b42d38f3bfbaf538f5e65447d2ad18625674"
+    },
+    {
+      "path": "app/Start-Diagnostics.cmd",
+      "size_bytes": 187,
+      "sha256": "b802ed9b5d74c1c0c0c58ad6831aff14f818536645ae2006cb42579c5e2c02bb"
+    },
+    {
+      "path": "app/Start-Proxy-Test.cmd",
+      "size_bytes": 193,
+      "sha256": "a5450c94edb6391a550c9d69ce6b8e8c92bb2da8210a89dfc72d87a71438f35c"
+    },
+    {
+      "path": "app/Start-TLS-Test.cmd",
+      "size_bytes": 191,
+      "sha256": "f2937923d79c18167ea2608e5ebf7bda30500556b1e970b08b556d255ecf06a8"
+    },
+    {
+      "path": "app/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "app/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "app/TLS-Bootstrap.ps1",
+      "size_bytes": 1459,
+      "sha256": "e3a0c95f70096ddbe6d63efb7d2f9c215a8a826b3e6a7189201d71e62ee5e6f0"
+    },
+    {
+      "path": "app/TLS-Cleanup.ps1",
+      "size_bytes": 2980,
+      "sha256": "1e0639b2efbed3e6e08cb85fc8de59df8f1401823d4ea120126293fd67505305"
+    },
+    {
+      "path": "app/TLS-Guard.ps1",
+      "size_bytes": 1072,
+      "sha256": "43f6888cfed5aa5164dab98db58f96d12b7ca27224d18e2df26d522461e7d019"
+    },
+    {
+      "path": "app/TLS-Key-Status.ps1",
+      "size_bytes": 1580,
+      "sha256": "f875f4585fd6aa537f58e4ca0111ce904a4a2726ea27280af8586b5c2a05b1f9"
+    },
+    {
+      "path": "app/TLS-TEST-fa.md",
+      "size_bytes": 10271,
+      "sha256": "29a5f5af37a4c342855f58da5589dab3b5a9f636f342df7ad9ba4c6fb8c0b2ed"
+    },
+    {
+      "path": "app/TLS-Test-UI.ps1",
+      "size_bytes": 19764,
+      "sha256": "2905dbd9f280b5c3c6dc04f85925a208a57efaf1c6a13f3c7c815a557020e00a"
+    },
+    {
+      "path": "app/Telemetry-Fields.py",
+      "size_bytes": 9043,
+      "sha256": "a9fb891e523a229a646fc340bb67066fa37d5125362650a8899bf589a847175c"
+    },
+    {
+      "path": "app/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "app/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "app/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "app/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "app/tools/mitmproxy/LICENSE-mitmproxy.txt",
+      "size_bytes": 1079,
+      "sha256": "cc4ab04ed7180af6c0ede7147f9ec2aa05212c088d7b3c8e38bbffe91c9c8f82"
+    },
+    {
+      "path": "app/tools/mitmproxy/mitmproxy-12.2.3.sigstore",
+      "size_bytes": 12057,
+      "sha256": "129f6485d3d7d034f9b742d6e3c979b7116f6982f270d1598aa458820f369ac7"
+    },
+    {
+      "path": "app/tools/mitmproxy/provenance.json",
+      "size_bytes": 445,
+      "sha256": "6e2d4f13aea49f5f016cd61ce78979d9884635bde701e6fb21fadd13408e0813"
+    },
+    {
+      "path": "app/tools/mitmproxy/release-attestation.json",
+      "size_bytes": 2825,
+      "sha256": "4e443af6775a90907886f26af8b971f6ae6425c3f9705b5bfd5552a4989bf409"
+    },
+    {
+      "path": "archive/v1/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v1/Build-EXE.ps1",
+      "size_bytes": 663,
+      "sha256": "5dc7cf9fdea337c0ac7ce5b225f34dbcec0ec6a5bba77b6cdb8b46383e007690"
+    },
+    {
+      "path": "archive/v1/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v1/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v1/Monitor.ps1",
+      "size_bytes": 21891,
+      "sha256": "347ed13129b135d7892c8cbb8f56d8bcfabb4df63abcb0f09217364628bf4df8"
+    },
+    {
+      "path": "archive/v1/README-fa.md",
+      "size_bytes": 10668,
+      "sha256": "8261bade7d6e3b4f835f42e97ede7342a1eb4499ec1d83b287355f2b4f3c482a"
+    },
+    {
+      "path": "archive/v1/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v1/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2/Analyze-Capture.ps1",
+      "size_bytes": 14042,
+      "sha256": "49156d89d26660e314f91c9c6994fa2bf628fc948eb91cf2e312e16e6bc70a01"
+    },
+    {
+      "path": "archive/v2/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2/CHANGELOG-fa.md",
+      "size_bytes": 1269,
+      "sha256": "69f5904e665e6e62727ff525cd77b668fa78c62d81890ca985798979c4310adb"
+    },
+    {
+      "path": "archive/v2/Evidence-UI.ps1",
+      "size_bytes": 13600,
+      "sha256": "82df7695825c9dbf33b374fefa350e017624dc5f5c2a542dfd42b2be915ff3f1"
+    },
+    {
+      "path": "archive/v2/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2/Launch-Target.cmd",
+      "size_bytes": 139,
+      "sha256": "858f1fe944cb699d8c8cad6bb020a16c85798528cbc7d93179a028a4251dbd67"
+    },
+    {
+      "path": "archive/v2/Launch-Target.ps1",
+      "size_bytes": 1008,
+      "sha256": "6d5874f1f3ca5d9066a039b736de09d0dac9602ea797bbc91bac231ff1175794"
+    },
+    {
+      "path": "archive/v2/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2/Monitor.ps1",
+      "size_bytes": 22291,
+      "sha256": "eef3e96bb2e2356809983838e782cf3cb3f0f1890d60c24b10660d58e6f05a6c"
+    },
+    {
+      "path": "archive/v2/README-fa.md",
+      "size_bytes": 17122,
+      "sha256": "7d5c8d244b4d01eb689333d63b648513d6da156cc8eae8dbc158727661ebf9df"
+    },
+    {
+      "path": "archive/v2/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.1/Analyze-Capture.ps1",
+      "size_bytes": 14042,
+      "sha256": "71d4a23f17e7515dd70918a84066b4caf0f7d22c1f2b1829907b6c889b3eef0b"
+    },
+    {
+      "path": "archive/v2.1/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.1/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.1/CHANGELOG-fa.md",
+      "size_bytes": 961,
+      "sha256": "1cfed6a63a84f84b31a5bb9cf7313a931f44b8531f440639e3ed83319eec0f19"
+    },
+    {
+      "path": "archive/v2.1/Evidence-UI.ps1",
+      "size_bytes": 12357,
+      "sha256": "fa23dfe284278a25cde7010f7411502c9840298ecef059eb7ab3ca563d8afb61"
+    },
+    {
+      "path": "archive/v2.1/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.1/Launch-Target.cmd",
+      "size_bytes": 139,
+      "sha256": "858f1fe944cb699d8c8cad6bb020a16c85798528cbc7d93179a028a4251dbd67"
+    },
+    {
+      "path": "archive/v2.1/Launch-Target.ps1",
+      "size_bytes": 1008,
+      "sha256": "6d5874f1f3ca5d9066a039b736de09d0dac9602ea797bbc91bac231ff1175794"
+    },
+    {
+      "path": "archive/v2.1/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.1/Monitor.ps1",
+      "size_bytes": 22551,
+      "sha256": "e88574c815702c58885c8f99db7a348d75ccecdec273892923a18fde5fb547f7"
+    },
+    {
+      "path": "archive/v2.1/README-fa.md",
+      "size_bytes": 20637,
+      "sha256": "81a4501c38ea8a744ebfc5b8cfef578773aa7a9dbc3f4c409a4e5b08ab651552"
+    },
+    {
+      "path": "archive/v2.1/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.1/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.1/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.1/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.1/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.2/Analyze-Capture.ps1",
+      "size_bytes": 16651,
+      "sha256": "e273dea9db08de33ea0c8e87dba065ec11535a96af70420313cc84b4c2d13cb5"
+    },
+    {
+      "path": "archive/v2.2/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.2/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.2/CHANGELOG-fa.md",
+      "size_bytes": 1130,
+      "sha256": "8d1efe038e53e1faa7ac8968ce3f91ec7b6dec78dc4151e358d3728b9b59794b"
+    },
+    {
+      "path": "archive/v2.2/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "archive/v2.2/Evidence-UI.ps1",
+      "size_bytes": 13467,
+      "sha256": "9d27edfb2e29e12392b99249fd2c637c4e1b0ac96c8ebccc993d9feb2d7a8a43"
+    },
+    {
+      "path": "archive/v2.2/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.2/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "archive/v2.2/Launch-Target.ps1",
+      "size_bytes": 2225,
+      "sha256": "e765e8afdfeeb768448d4e99048dac89184bacf1e5851ca4b7d4c6b9fe5f602e"
+    },
+    {
+      "path": "archive/v2.2/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.2/Monitor.ps1",
+      "size_bytes": 22551,
+      "sha256": "8d8010a61627f8c096a90ae79270ba9bdd82d08b92288d375abcfc67bd9848be"
+    },
+    {
+      "path": "archive/v2.2/README-fa.md",
+      "size_bytes": 20931,
+      "sha256": "fb057e0115c2b2145a3ce2b4db7fe490ad68fcd9ed44e785f5dd62bd5ceaeb90"
+    },
+    {
+      "path": "archive/v2.2/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.2/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.2/TLS-Key-Status.ps1",
+      "size_bytes": 1495,
+      "sha256": "49fe38d8e13a5bb15e43f47bd2ac5f9e112820cf1d52f14d901c4cd9af48c9fa"
+    },
+    {
+      "path": "archive/v2.2/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.2/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.2/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.2/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "archive/v2.3/Analyze-Capture.ps1",
+      "size_bytes": 17101,
+      "sha256": "9ec4d07478bcd705b3c2a917d5858c54eb924dd7c834a2774cc2b9f8a79551ca"
+    },
+    {
+      "path": "archive/v2.3/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.3/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.3/CHANGELOG-fa.md",
+      "size_bytes": 1052,
+      "sha256": "33115b52e69efe3ab54b3db0844da4099c123118cca72765e732fab7ec42203a"
+    },
+    {
+      "path": "archive/v2.3/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "archive/v2.3/Evidence-UI.ps1",
+      "size_bytes": 13578,
+      "sha256": "ffe5c7422f026d27e17951bbf173c801863538b35afee2a2c460ae94424e964e"
+    },
+    {
+      "path": "archive/v2.3/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.3/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "archive/v2.3/Launch-Target.ps1",
+      "size_bytes": 3097,
+      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+    },
+    {
+      "path": "archive/v2.3/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.3/Monitor.ps1",
+      "size_bytes": 22765,
+      "sha256": "733853ba80a7177c6e775c35730cfe9fb0e92e77851da6f38aa976fa5e14c470"
+    },
+    {
+      "path": "archive/v2.3/QUICK-START-fa.md",
+      "size_bytes": 8109,
+      "sha256": "dfa511a07c332e6b618fb7025cfc1eb3d137c018c4c983e1296db405a8fb2f23"
+    },
+    {
+      "path": "archive/v2.3/README-fa.md",
+      "size_bytes": 21145,
+      "sha256": "e840e5bc44830ad1f85b92a8b46e977a64e1202e362d7e9cbf9a3707d7ae00e6"
+    },
+    {
+      "path": "archive/v2.3/Simple-UI.ps1",
+      "size_bytes": 17871,
+      "sha256": "d520940ad687d74151bdc8e08795ee0b213315a4a29cdc111c6c9dcf91f13fc7"
+    },
+    {
+      "path": "archive/v2.3/Start-Advanced.cmd",
+      "size_bytes": 148,
+      "sha256": "e3fd1364e5477a5a76d03d6641b4b42d38f3bfbaf538f5e65447d2ad18625674"
+    },
+    {
+      "path": "archive/v2.3/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.3/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.3/TLS-Key-Status.ps1",
+      "size_bytes": 1580,
+      "sha256": "f875f4585fd6aa537f58e4ca0111ce904a4a2726ea27280af8586b5c2a05b1f9"
+    },
+    {
+      "path": "archive/v2.3/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.3/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.3/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.3/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "archive/v2.3.1/Analyze-Capture.ps1",
+      "size_bytes": 18666,
+      "sha256": "9f2d3e202d5caebe24c3069a7480d261b66235d1939b3f7a05576d446e1c361e"
+    },
+    {
+      "path": "archive/v2.3.1/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.3.1/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.3.1/CHANGELOG-fa.md",
+      "size_bytes": 731,
+      "sha256": "a3c10c887457b66e56db323c736a323a3452830d01c547f8225078d053037e84"
+    },
+    {
+      "path": "archive/v2.3.1/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "archive/v2.3.1/Evidence-UI.ps1",
+      "size_bytes": 13578,
+      "sha256": "ffe5c7422f026d27e17951bbf173c801863538b35afee2a2c460ae94424e964e"
+    },
+    {
+      "path": "archive/v2.3.1/HOTFIX-fa.md",
+      "size_bytes": 4022,
+      "sha256": "94128fcd9fc5af414a2604f8e4c51b8597120987a26d629e2023e60dbde6e74b"
+    },
+    {
+      "path": "archive/v2.3.1/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.3.1/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "archive/v2.3.1/Launch-Target.ps1",
+      "size_bytes": 3097,
+      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+    },
+    {
+      "path": "archive/v2.3.1/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.3.1/Monitor.ps1",
+      "size_bytes": 22771,
+      "sha256": "a7f7af727fa81b51cdb33ac4b273c0c7f4f9ffce9b70e0a25f3e07e04a2ddf44"
+    },
+    {
+      "path": "archive/v2.3.1/Native-Tool-IO.ps1",
+      "size_bytes": 1932,
+      "sha256": "285926ef6da96253a406125b5d790928622e0823f9164e242e71a17bf292a0ab"
+    },
+    {
+      "path": "archive/v2.3.1/QUICK-START-fa.md",
+      "size_bytes": 8109,
+      "sha256": "dfa511a07c332e6b618fb7025cfc1eb3d137c018c4c983e1296db405a8fb2f23"
+    },
+    {
+      "path": "archive/v2.3.1/README-fa.md",
+      "size_bytes": 21275,
+      "sha256": "3af42899ef8c78266c640f8a4a801881b1f0a5d67ddd783f18bda030d4c1f98b"
+    },
+    {
+      "path": "archive/v2.3.1/Simple-UI.ps1",
+      "size_bytes": 18142,
+      "sha256": "95e22167d188e992ca7e68ebdd585f0b4e906fa81145da8dc36b2af15c894be1"
+    },
+    {
+      "path": "archive/v2.3.1/Start-Advanced.cmd",
+      "size_bytes": 148,
+      "sha256": "e3fd1364e5477a5a76d03d6641b4b42d38f3bfbaf538f5e65447d2ad18625674"
+    },
+    {
+      "path": "archive/v2.3.1/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.3.1/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.3.1/TLS-Key-Status.ps1",
+      "size_bytes": 1580,
+      "sha256": "f875f4585fd6aa537f58e4ca0111ce904a4a2726ea27280af8586b5c2a05b1f9"
+    },
+    {
+      "path": "archive/v2.3.1/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.3.1/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.3.1/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.3.1/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "archive/v2.4/Analyze-Capture.ps1",
+      "size_bytes": 18666,
+      "sha256": "9f2d3e202d5caebe24c3069a7480d261b66235d1939b3f7a05576d446e1c361e"
+    },
+    {
+      "path": "archive/v2.4/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.4/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.4/CHANGELOG-fa.md",
+      "size_bytes": 934,
+      "sha256": "57f4ef87ed1656769109e594210e49d53b665e45319e6eabc531d6a719f020b9"
+    },
+    {
+      "path": "archive/v2.4/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "archive/v2.4/Diagnostics-UI.ps1",
+      "size_bytes": 3815,
+      "sha256": "ed2c2be6f8520e1fbbb6b751e6d5cec0657807b1f25ad36644f37cc5dbfe17db"
+    },
+    {
+      "path": "archive/v2.4/Evidence-UI.ps1",
+      "size_bytes": 13578,
+      "sha256": "ffe5c7422f026d27e17951bbf173c801863538b35afee2a2c460ae94424e964e"
+    },
+    {
+      "path": "archive/v2.4/HOTFIX-fa.md",
+      "size_bytes": 4022,
+      "sha256": "94128fcd9fc5af414a2604f8e4c51b8597120987a26d629e2023e60dbde6e74b"
+    },
+    {
+      "path": "archive/v2.4/Inspect-Target.ps1",
+      "size_bytes": 6987,
+      "sha256": "69dfc7e0a0adb8351aad166ef751dc30c94baa0b03b85dd04ffbe71038ad5e2a"
+    },
+    {
+      "path": "archive/v2.4/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.4/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "archive/v2.4/Launch-Target.ps1",
+      "size_bytes": 3097,
+      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+    },
+    {
+      "path": "archive/v2.4/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.4/Monitor.ps1",
+      "size_bytes": 22771,
+      "sha256": "a7f7af727fa81b51cdb33ac4b273c0c7f4f9ffce9b70e0a25f3e07e04a2ddf44"
+    },
+    {
+      "path": "archive/v2.4/NEXT-STEP-fa.md",
+      "size_bytes": 4372,
+      "sha256": "8dda9fb7eb58da8cfb0d52cfd91eae4a168af33e36bab7518ea2a35358853963"
+    },
+    {
+      "path": "archive/v2.4/Native-Tool-IO.ps1",
+      "size_bytes": 1932,
+      "sha256": "285926ef6da96253a406125b5d790928622e0823f9164e242e71a17bf292a0ab"
+    },
+    {
+      "path": "archive/v2.4/QUICK-START-fa.md",
+      "size_bytes": 8312,
+      "sha256": "89974a2b4b6e9d24941c520c9df1e26005a6a5270afbd96cfcc916610feba4f1"
+    },
+    {
+      "path": "archive/v2.4/README-fa.md",
+      "size_bytes": 21275,
+      "sha256": "3af42899ef8c78266c640f8a4a801881b1f0a5d67ddd783f18bda030d4c1f98b"
+    },
+    {
+      "path": "archive/v2.4/Simple-UI.ps1",
+      "size_bytes": 18965,
+      "sha256": "ad8853353d3e1d825a6a03e10affc56d207f1255b46f84413c0bea164ebb16d6"
+    },
+    {
+      "path": "archive/v2.4/Start-Advanced.cmd",
+      "size_bytes": 148,
+      "sha256": "e3fd1364e5477a5a76d03d6641b4b42d38f3bfbaf538f5e65447d2ad18625674"
+    },
+    {
+      "path": "archive/v2.4/Start-Diagnostics.cmd",
+      "size_bytes": 187,
+      "sha256": "b802ed9b5d74c1c0c0c58ad6831aff14f818536645ae2006cb42579c5e2c02bb"
+    },
+    {
+      "path": "archive/v2.4/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.4/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.4/TLS-Key-Status.ps1",
+      "size_bytes": 1580,
+      "sha256": "f875f4585fd6aa537f58e4ca0111ce904a4a2726ea27280af8586b5c2a05b1f9"
+    },
+    {
+      "path": "archive/v2.4/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.4/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.4/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.4/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "archive/v2.5/Analyze-Capture.ps1",
+      "size_bytes": 18666,
+      "sha256": "9f2d3e202d5caebe24c3069a7480d261b66235d1939b3f7a05576d446e1c361e"
+    },
+    {
+      "path": "archive/v2.5/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.5/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.5/CHANGELOG-fa.md",
+      "size_bytes": 1185,
+      "sha256": "b13216fc73f20ea877b5ef8fca11733961d6c0cd01c1c7c48ab48fec2d0c4e51"
+    },
+    {
+      "path": "archive/v2.5/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "archive/v2.5/Diagnostics-UI.ps1",
+      "size_bytes": 3815,
+      "sha256": "ed2c2be6f8520e1fbbb6b751e6d5cec0657807b1f25ad36644f37cc5dbfe17db"
+    },
+    {
+      "path": "archive/v2.5/Evidence-UI.ps1",
+      "size_bytes": 13578,
+      "sha256": "ffe5c7422f026d27e17951bbf173c801863538b35afee2a2c460ae94424e964e"
+    },
+    {
+      "path": "archive/v2.5/HOTFIX-fa.md",
+      "size_bytes": 4022,
+      "sha256": "94128fcd9fc5af414a2604f8e4c51b8597120987a26d629e2023e60dbde6e74b"
+    },
+    {
+      "path": "archive/v2.5/Inspect-Target.ps1",
+      "size_bytes": 6987,
+      "sha256": "69dfc7e0a0adb8351aad166ef751dc30c94baa0b03b85dd04ffbe71038ad5e2a"
+    },
+    {
+      "path": "archive/v2.5/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.5/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "archive/v2.5/Launch-Target.ps1",
+      "size_bytes": 3097,
+      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+    },
+    {
+      "path": "archive/v2.5/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.5/Monitor.ps1",
+      "size_bytes": 22771,
+      "sha256": "a7f7af727fa81b51cdb33ac4b273c0c7f4f9ffce9b70e0a25f3e07e04a2ddf44"
+    },
+    {
+      "path": "archive/v2.5/NEXT-STEP-fa.md",
+      "size_bytes": 4372,
+      "sha256": "8dda9fb7eb58da8cfb0d52cfd91eae4a168af33e36bab7518ea2a35358853963"
+    },
+    {
+      "path": "archive/v2.5/Native-Tool-IO.ps1",
+      "size_bytes": 1932,
+      "sha256": "285926ef6da96253a406125b5d790928622e0823f9164e242e71a17bf292a0ab"
+    },
+    {
+      "path": "archive/v2.5/PROXY-TEST-fa.md",
+      "size_bytes": 7054,
+      "sha256": "84afdb0064bb42187ac979d2b4a923958cc5367fdd0472aa8d695d701e667c63"
+    },
+    {
+      "path": "archive/v2.5/Proxy-Probe.cs",
+      "size_bytes": 9442,
+      "sha256": "613bdbd2f551ac416dca1ac10f658b22e5e4f4a2f32a121b9af6d58ad2a71a1b"
+    },
+    {
+      "path": "archive/v2.5/Proxy-Test-UI.ps1",
+      "size_bytes": 12813,
+      "sha256": "ad34c4dfc46cb4959ff92606b18b57bb3bd45ca62214a234c99d6c8aa8ef9ec8"
+    },
+    {
+      "path": "archive/v2.5/QUICK-START-fa.md",
+      "size_bytes": 8563,
+      "sha256": "d64d8b5cac59b131fdb3ac1e830dd24f7f989467000592b4e0d07568e49912c1"
+    },
+    {
+      "path": "archive/v2.5/README-fa.md",
+      "size_bytes": 21275,
+      "sha256": "3af42899ef8c78266c640f8a4a801881b1f0a5d67ddd783f18bda030d4c1f98b"
+    },
+    {
+      "path": "archive/v2.5/Simple-UI.ps1",
+      "size_bytes": 19002,
+      "sha256": "65043cf4843ec696c88fb0570d0f9de48eecb0722ec354e4889f7cbf95df5a3a"
+    },
+    {
+      "path": "archive/v2.5/Start-Advanced.cmd",
+      "size_bytes": 148,
+      "sha256": "e3fd1364e5477a5a76d03d6641b4b42d38f3bfbaf538f5e65447d2ad18625674"
+    },
+    {
+      "path": "archive/v2.5/Start-Diagnostics.cmd",
+      "size_bytes": 187,
+      "sha256": "b802ed9b5d74c1c0c0c58ad6831aff14f818536645ae2006cb42579c5e2c02bb"
+    },
+    {
+      "path": "archive/v2.5/Start-Proxy-Test.cmd",
+      "size_bytes": 186,
+      "sha256": "891394f8d66cb9a0272fe248b1b925277c4da1b44e185aa18f5d07d3fc132d93"
+    },
+    {
+      "path": "archive/v2.5/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.5/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.5/TLS-Key-Status.ps1",
+      "size_bytes": 1580,
+      "sha256": "f875f4585fd6aa537f58e4ca0111ce904a4a2726ea27280af8586b5c2a05b1f9"
+    },
+    {
+      "path": "archive/v2.5/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.5/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.5/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.5/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "archive/v2.5.1/Analyze-Capture.ps1",
+      "size_bytes": 18666,
+      "sha256": "9f2d3e202d5caebe24c3069a7480d261b66235d1939b3f7a05576d446e1c361e"
+    },
+    {
+      "path": "archive/v2.5.1/Build-EXE.cmd",
+      "size_bytes": 119,
+      "sha256": "ca4f2978c0e33c64276fbfa15ce7df988d83f186ee91df7a1e452dff21fa8277"
+    },
+    {
+      "path": "archive/v2.5.1/Build-EXE.ps1",
+      "size_bytes": 666,
+      "sha256": "82cae5cd7613991eeb0c35d86adacede983fbc4dd0401fb4357caa88e16df96d"
+    },
+    {
+      "path": "archive/v2.5.1/CHANGELOG-fa.md",
+      "size_bytes": 1412,
+      "sha256": "745e8ee1a624bcade66ed42cecfcc2fdfbdaf72f8d4d0f715daf3e2e6215de0e"
+    },
+    {
+      "path": "archive/v2.5.1/Capture-Normalize.ps1",
+      "size_bytes": 5191,
+      "sha256": "c5547f528d3784b2fcac0545cfb73de2de06e69a21be1f2f503b4ed8da7ceb37"
+    },
+    {
+      "path": "archive/v2.5.1/Diagnostics-UI.ps1",
+      "size_bytes": 3815,
+      "sha256": "ed2c2be6f8520e1fbbb6b751e6d5cec0657807b1f25ad36644f37cc5dbfe17db"
+    },
+    {
+      "path": "archive/v2.5.1/Evidence-UI.ps1",
+      "size_bytes": 13578,
+      "sha256": "ffe5c7422f026d27e17951bbf173c801863538b35afee2a2c460ae94424e964e"
+    },
+    {
+      "path": "archive/v2.5.1/HOTFIX-fa.md",
+      "size_bytes": 4022,
+      "sha256": "94128fcd9fc5af414a2604f8e4c51b8597120987a26d629e2023e60dbde6e74b"
+    },
+    {
+      "path": "archive/v2.5.1/Inspect-Target.ps1",
+      "size_bytes": 6987,
+      "sha256": "69dfc7e0a0adb8351aad166ef751dc30c94baa0b03b85dd04ffbe71038ad5e2a"
+    },
+    {
+      "path": "archive/v2.5.1/LICENSE.txt",
+      "size_bytes": 790,
+      "sha256": "aa4cbc9d8e654a3c36505c085fdf03c1a9163c9aa5e4075b08322e8ab3faa8b3"
+    },
+    {
+      "path": "archive/v2.5.1/Launch-Target.cmd",
+      "size_bytes": 123,
+      "sha256": "9188748a226020ec02fda45d218ff05319c44cfb05b3707eb3c07af3dadd7900"
+    },
+    {
+      "path": "archive/v2.5.1/Launch-Target.ps1",
+      "size_bytes": 3097,
+      "sha256": "631c15f7653ec39bca53c0567f51068ca388c6eef18333558dfb1e1348621716"
+    },
+    {
+      "path": "archive/v2.5.1/Launcher.cs",
+      "size_bytes": 851,
+      "sha256": "af7a68b0d2b237a3c61e58ae4c8dfd7a100374d2010ab42cc79089492b15f888"
+    },
+    {
+      "path": "archive/v2.5.1/Monitor.ps1",
+      "size_bytes": 22771,
+      "sha256": "a7f7af727fa81b51cdb33ac4b273c0c7f4f9ffce9b70e0a25f3e07e04a2ddf44"
+    },
+    {
+      "path": "archive/v2.5.1/NEXT-STEP-fa.md",
+      "size_bytes": 4372,
+      "sha256": "8dda9fb7eb58da8cfb0d52cfd91eae4a168af33e36bab7518ea2a35358853963"
+    },
+    {
+      "path": "archive/v2.5.1/Native-Tool-IO.ps1",
+      "size_bytes": 1932,
+      "sha256": "285926ef6da96253a406125b5d790928622e0823f9164e242e71a17bf292a0ab"
+    },
+    {
+      "path": "archive/v2.5.1/PROXY-START-FIX-fa.md",
+      "size_bytes": 3750,
+      "sha256": "60114c423c956bcd188a1305965d512fa0d448e6f31125c8cd710d63d85972c4"
+    },
+    {
+      "path": "archive/v2.5.1/PROXY-TEST-fa.md",
+      "size_bytes": 7054,
+      "sha256": "84afdb0064bb42187ac979d2b4a923958cc5367fdd0472aa8d695d701e667c63"
+    },
+    {
+      "path": "archive/v2.5.1/Proxy-Bootstrap.ps1",
+      "size_bytes": 1618,
+      "sha256": "f58d94633eff726b29e8bd9f663ef23e48685f2345a23e636c0ef717b01cab89"
+    },
+    {
+      "path": "archive/v2.5.1/Proxy-Probe.cs",
+      "size_bytes": 9442,
+      "sha256": "613bdbd2f551ac416dca1ac10f658b22e5e4f4a2f32a121b9af6d58ad2a71a1b"
+    },
+    {
+      "path": "archive/v2.5.1/Proxy-Startup-Status.ps1",
+      "size_bytes": 517,
+      "sha256": "71fe1dccf58dc73898c83227e5abf844b43aa7303dc42fb39b48ca8559edb510"
+    },
+    {
+      "path": "archive/v2.5.1/Proxy-Test-UI.ps1",
+      "size_bytes": 12989,
+      "sha256": "40d4838c6f2c65d051bcb02cf314340376b96c875666e82f8383ff4859d12e27"
+    },
+    {
+      "path": "archive/v2.5.1/QUICK-START-fa.md",
+      "size_bytes": 8790,
+      "sha256": "34832138d437ae873ef14062bdb37cc1f8a98ca6f60ee584e42292ec89f53969"
+    },
+    {
+      "path": "archive/v2.5.1/README-fa.md",
+      "size_bytes": 21275,
+      "sha256": "3af42899ef8c78266c640f8a4a801881b1f0a5d67ddd783f18bda030d4c1f98b"
+    },
+    {
+      "path": "archive/v2.5.1/Simple-UI.ps1",
+      "size_bytes": 22363,
+      "sha256": "07bfd4176687f0c2cddfcd94d49c935a79f303b0a9fd29ec059d62900d353b70"
+    },
+    {
+      "path": "archive/v2.5.1/Start-Advanced.cmd",
+      "size_bytes": 148,
+      "sha256": "e3fd1364e5477a5a76d03d6641b4b42d38f3bfbaf538f5e65447d2ad18625674"
+    },
+    {
+      "path": "archive/v2.5.1/Start-Diagnostics.cmd",
+      "size_bytes": 187,
+      "sha256": "b802ed9b5d74c1c0c0c58ad6831aff14f818536645ae2006cb42579c5e2c02bb"
+    },
+    {
+      "path": "archive/v2.5.1/Start-Proxy-Test.cmd",
+      "size_bytes": 193,
+      "sha256": "a5450c94edb6391a550c9d69ce6b8e8c92bb2da8210a89dfc72d87a71438f35c"
+    },
+    {
+      "path": "archive/v2.5.1/Start.cmd",
+      "size_bytes": 138,
+      "sha256": "bb56183ee9359088a6af9bf0784dae2fdd95db055499a22779209201da4a6f82"
+    },
+    {
+      "path": "archive/v2.5.1/Sysmon-config.xml",
+      "size_bytes": 265,
+      "sha256": "794cd14768a2945c42085a9b333a5e1f08aab8350964334c5ae37b41f13af08b"
+    },
+    {
+      "path": "archive/v2.5.1/TLS-Key-Status.ps1",
+      "size_bytes": 1580,
+      "sha256": "f875f4585fd6aa537f58e4ca0111ce904a4a2726ea27280af8586b5c2a05b1f9"
+    },
+    {
+      "path": "archive/v2.5.1/Test-Syntax.ps1",
+      "size_bytes": 448,
+      "sha256": "4213c51876407f636e67cbd5b1b983fea6e9634f1178ea1e1a0b54d2223df299"
+    },
+    {
+      "path": "archive/v2.5.1/Test-Tools.ps1",
+      "size_bytes": 718,
+      "sha256": "13ea09fc0362c607fb94b00e271a2414183657e887ba141793dafb49d9827f1d"
+    },
+    {
+      "path": "archive/v2.5.1/Tool-Setup.ps1",
+      "size_bytes": 7261,
+      "sha256": "0bafc0a1b2f535e2728c519f86b244e958121a23ce77958fc6962ad0df31d5be"
+    },
+    {
+      "path": "archive/v2.5.1/UPDATE-AND-TLS-fa.md",
+      "size_bytes": 8191,
+      "sha256": "6ba5fe7dcc01b91b6d126e4fe0f74bb156ae0afa272211a9e46b4a6140610af4"
+    },
+    {
+      "path": "docs/session/FINDINGS-fa.md",
+      "size_bytes": 4646,
+      "sha256": "3769b54877d5f419e94075b49d044260860074e7ceac0a5c9e88ecbe473ac3c4"
+    },
+    {
+      "path": "docs/session/HANDOFF-fa.md",
+      "size_bytes": 3873,
+      "sha256": "b8dd3fec4c1de505604db06b2f5cc00f5275a8b423062347dc77a166768298b0"
+    },
+    {
+      "path": "docs/session/HISTORY-fa.md",
+      "size_bytes": 5430,
+      "sha256": "3fc410f1bcb9653cc066ea011f36f1b1fbd88840a28897e6942450ffa6b390dc"
+    },
+    {
+      "path": "docs/session/TRANSFER-SCOPE-fa.md",
+      "size_bytes": 2337,
+      "sha256": "d0da269e09ed4d5e0f74123caebab53a6fcd17409c4f5a86c1f6f3ae3f24ba51"
+    },
+    {
+      "path": "tests/README.md",
+      "size_bytes": 1451,
+      "sha256": "e28b400fcd693f113f9fff2c3eae4131d7d73face43fd0c19a2c314757477444"
+    },
+    {
+      "path": "tests/diagnostics/test.ps1",
+      "size_bytes": 1516,
+      "sha256": "c1e27bac3051af1104543679d62675ba1fcd612e176b644f7604029f3e767635"
+    },
+    {
+      "path": "tests/proxy/Test-Proxy.ps1",
+      "size_bytes": 7595,
+      "sha256": "8144d018c9fcef87a52348c3d010de3f8433e85992db08aa18cbb8894b4c3542"
+    },
+    {
+      "path": "tests/startup/Test-Startup.ps1",
+      "size_bytes": 902,
+      "sha256": "6ff1090d33ce4a4337dec82840264eff8f3b693f71f99307b91b8e1b9dba0c2f"
+    },
+    {
+      "path": "tests/tls/smoke_startup.py",
+      "size_bytes": 1633,
+      "sha256": "5518cb2863e9e21cc421bbf965c4d2ebef475dd79c35580694b8b232a0b4291d"
+    },
+    {
+      "path": "tests/tls/test_addon.py",
+      "size_bytes": 3361,
+      "sha256": "c1af4226359bf9bd8459b7cd96f855371f47663ca98f1556b235f52e8e02d454"
+    },
+    {
+      "path": "tests/tls/test_tls_integration.py",
+      "size_bytes": 5208,
+      "sha256": "d47dfdfea11e1a4e1733cafdd71b64a8444f9214ff16277b0c43abbc7ea1ad13"
+    }
+  ]
+}
