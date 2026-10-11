@@ -1,0 +1,6 @@
+LIBRARY Wow_loader
+EXPORTS
+ OwnCaller
+ OwnCC
+ OwnCCBreak
+ OwnReturnLabel
