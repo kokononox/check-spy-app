@@ -5,7 +5,7 @@ function Check($ok,[string]$why){if(!$ok){throw $why};$script:n++}
 function Fixture([byte[]]$bytes,[string]$context='0000000000000011/0000000000000022',[int]$declared=-1){
  if($declared -lt 0){$declared=$bytes.Length}
  $lines=@('RM_BEGIN ctx='+$context+' declared='+$declared+' captured='+$bytes.Length)
- for($i=0;$i -lt $bytes.Length;$i+=16){$last=[Math]::Min($i+15,$bytes.Length-1);$part=@($bytes[$i..$last]|ForEach-Object {$_.ToString('x2')});$hex=$part -join ' ';$lines+=('00000000`00100000  '+$hex+'  SYNTHETIC-ASCII')}
+ for($i=0;$i -lt $bytes.Length;$i+=16){$last=[Math]::Min($i+15,$bytes.Length-1);$part=@($bytes[$i..$last]|ForEach-Object {$_.ToString('x2')});$hex=$part -join ' ';if($part.Count -gt 8){$hex=($part[0..7] -join ' ')+'-'+($part[8..($part.Count-1)] -join ' ')};$lines+=('00000000`00100000  '+$hex+'  SYNTHETIC-ASCII')}
  return ($lines+@('RM_END')) -join "`n"
 }
 $cmd=New-RMCdbCommands
@@ -19,6 +19,8 @@ $caught=$false;try{New-RMCdbCommands 'bad!symbol;g'|Out-Null}catch{$caught=$true
 $text="POST /upload/full?token=PRIVATE_TOKEN HTTP/1.1`r`nHost: telemetry-in.battle.net`r`nAuthorization: Bearer PRIVATE_AUTH`r`nContent-Length: 4`r`n`r`nDATA"
 $raw=Fixture ([Text.Encoding]::ASCII.GetBytes($text));$d=Read-RMCdbData $raw
 Check ($d.Records.Count -eq 1 -and $d.ParseErrors -eq 0) 'WinDbg db record parsed'
+$indented=Read-RMCdbData ($raw.Replace('RM_BEGIN',' RM_BEGIN').Replace('RM_END',' RM_END '))
+Check ($indented.Records.Count -eq 1 -and $indented.ParseErrors -eq 0) 'Debugger marker whitespace tolerated'
 $h=Get-RMHttpCandidates $d.Records
 Check ($h.Candidates.Count -eq 1) 'HTTP1 candidate'
 Check ($h.Candidates[0].URL -eq 'https://telemetry-in.battle.net/upload/full?token=PRIVATE_TOKEN') 'Private URL candidate reconstructed'

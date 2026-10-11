@@ -12,13 +12,14 @@ function Read-RMCdbData([string]$Text){
  if($Text.Length -gt 8388608){throw 'Log exceeds 8 MiB parser limit'}
  $records=New-Object Collections.ArrayList;$current=$null;$errors=0
  foreach($line in ($Text -split '\r?\n')){
-  if($line -match '^RM_BEGIN ctx=((?:0x)?[0-9a-fA-F`]+)/((?:0x)?[0-9a-fA-F`]+) declared=(\d+) captured=(\d+)\s*$'){
+  $marker=$line.Trim()
+  if($marker -match '^RM_BEGIN ctx=((?:0x)?[0-9a-fA-F`]+)/((?:0x)?[0-9a-fA-F`]+) declared=(\d+) captured=(\d+)\s*$'){
    if($current){$errors++}
    $declared=[long]$matches[3];$captured=[long]$matches[4]
    if($captured -gt 16384 -or $declared -lt $captured){$errors++;$current=$null;continue}
    $current=[pscustomobject]@{Context=$matches[1]+'/'+$matches[2];Declared=$declared;Captured=$captured;Bytes=(New-Object 'Collections.Generic.List[byte]')};continue
   }
-  if($line -match '^RM_END\s*$'){
+  if($marker -match '^RM_END\s*$'){
    if($current){
     if($current.Bytes.Count -eq $current.Captured){[void]$records.Add([pscustomobject]@{Context=$current.Context;Declared=$current.Declared;Captured=$current.Captured;Bytes=$current.Bytes.ToArray();Truncated=($current.Declared -ne $current.Captured)})}else{$errors++}
    }else{$errors++};$current=$null;continue
