@@ -6,10 +6,11 @@ function Read-RMLiveLog([string]$Path){
 }
 function Get-RMDiagnostics([string]$Text){
  if($Text.Length -gt 8388608){throw 'Diagnostic log exceeds limit'}
- $initialized=$false;$requested=$false;$listing=$false;$listingMode=$false;$exceptionCount=0;$firstAV=0;$secondAV=0;$pausePossible=$false;$commandError=$false;$lastCode='None';$insideBuffer=$false
+ $initialized=$false;$requested=$false;$listing=$false;$listingState='NotObserved';$apiHits=0;$listingMode=$false;$exceptionCount=0;$firstAV=0;$secondAV=0;$pausePossible=$false;$commandError=$false;$lastCode='None';$insideBuffer=$false
  foreach($line in ($Text -split '\r\n|\r|\n')){
   $l=$line.Trim()
   # Do not interpret bytes within captured payload as debugger diagnostics.
+  if($l -eq 'RM_API_ENTRY'){$apiHits++}
   if($l -match '^RM_BEGIN ctx='){$insideBuffer=$true;continue}
   if($l -eq 'RM_END'){$insideBuffer=$false;continue}
   if($insideBuffer){continue}
@@ -17,7 +18,7 @@ function Get-RMDiagnostics([string]$Text){
   if($l -eq 'RM_BREAKPOINT_REQUESTED'){$requested=$true}
   if($l -eq 'RM_BP_STATE_BEGIN'){$listingMode=$true;continue}
   if($l -eq 'RM_BP_STATE_END'){$listingMode=$false;continue}
-  if($listingMode -and $l -match '^\d+\s+[ed]\s+.*(?:sspicli|secur32)!EncryptMessage'){$listing=$true}
+  if($listingMode -and $l -match '^\d+\s+([ed])(u)?\s+.*(?:sspicli|secur32)!EncryptMessage'){$listing=$true;$listingState=if($matches[1] -eq 'd'){'DisabledListed'}elseif($matches[2]){'EnabledDeferredAtListing'}else{'EnabledListedNotExecutionProof'}}
   # Actual CDB exception summary lines only. Prompt command echoes are not events.
   if($l -match '^\([0-9a-f]+\.[0-9a-f]+\):\s+.*?\bcode\s+([0-9a-f]{8})\s+\((first|second) chance\)\s*$'){
    $code=$matches[1].ToLowerInvariant();$chance=$matches[2]
@@ -31,7 +32,7 @@ function Get-RMDiagnostics([string]$Text){
   if($l -match '^(?:Syntax error|Unable to resolve breakpoint|Couldn.t resolve|No runnable debuggees|Command error|Unable to insert breakpoint)\b'){$commandError=$true}
  }
  $state=if($commandError){'DebuggerCommandError'}elseif($pausePossible){'ExceptionObservedPausePossible'}elseif(!$initialized){'ObserverInitializationNotObserved'}else{'NoFaultPauseObserved'}
- return [pscustomobject]@{ObserverInitialized=$initialized;BreakpointRequested=$requested;BreakpointListingObserved=$listing;BreakpointResolution='NotEstablished';TargetExceptionSummaries=$exceptionCount;FirstChanceAccessViolations=$firstAV;SecondChanceAccessViolations=$secondAV;LastExceptionClass=$lastCode;ExceptionPausePossible=$pausePossible;DebuggerCommandErrorObserved=$commandError;ObservationState=$state;AutomaticExceptionResume=$false}
+ return [pscustomobject]@{ObserverInitialized=$initialized;BreakpointRequested=$requested;BreakpointListingObserved=$listing;BreakpointListingState=$listingState;APIEntryMarkers=$apiHits;BreakpointResolution='NotEstablished';TargetExceptionSummaries=$exceptionCount;FirstChanceAccessViolations=$firstAV;SecondChanceAccessViolations=$secondAV;LastExceptionClass=$lastCode;ExceptionPausePossible=$pausePossible;DebuggerCommandErrorObserved=$commandError;ObservationState=$state;AutomaticExceptionResume=$false}
 }
 function Get-RMEndEvidence([string]$Folder){
  $d=[pscustomobject]@{StopHelperEvidence='NotAvailable';FailureStage='NotAvailable';DebuggerExitedAfterDetachRequest=$false;TargetAliveAfterDebuggerExit=$null;DetachSuccess='NotEstablished';TargetTerminationRequested=$false}

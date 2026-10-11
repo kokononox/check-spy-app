@@ -18,12 +18,17 @@ $d=Get-RMDiagnostics $t
 Assert ($d.ObserverInitialized) 'Initialization marker'
 Assert ($d.BreakpointRequested) 'Requested marker'
 Assert ($d.BreakpointListingObserved) 'Listing evidence'
+Assert ($d.BreakpointListingState -eq 'EnabledListedNotExecutionProof') 'Listing is not execution proof'
 Assert ($d.BreakpointResolution -eq 'NotEstablished') 'Do not overclaim symbol resolution'
 Assert ($d.TargetExceptionSummaries -eq 1) 'Initial debugger break not target fault'
 Assert ($d.FirstChanceAccessViolations -eq 1) 'First chance AV'
 Assert ($d.ExceptionPausePossible) 'Do not confuse paused session with no traffic'
 Assert (!$d.AutomaticExceptionResume) 'Never automatically resume exceptions'
 Assert ($d.ObservationState -eq 'ExceptionObservedPausePossible') 'Pause classification'
+$deferred=Get-RMDiagnostics ($t.Replace('0 e Disable','0 eu Disable'))
+Assert ($deferred.BreakpointListingObserved -and $deferred.BreakpointListingState -eq 'EnabledDeferredAtListing') 'Real CDB deferred eu listing'
+$hit=Get-RMDiagnostics ($t+"`nRM_API_ENTRY`n")
+Assert ($hit.APIEntryMarkers -eq 1) 'API handler entry distinct from captured bytes'
 $r=Get-RMDiagnostics ($t+"`n0:000> g`n")
 Assert (!$r.ExceptionPausePossible) 'Explicit resume observation'
 $r=Get-RMDiagnostics ($t.Replace('(first chance)','(second chance)'))
