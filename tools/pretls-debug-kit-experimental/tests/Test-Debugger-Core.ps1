@@ -10,7 +10,7 @@ function Fixture([byte[]]$bytes,[string]$context='0000000000000011/0000000000000
 }
 $cmd=New-RMCdbCommands
 Check ($cmd -match 'bu sspicli!EncryptMessage') 'One explicit symbol'
-Check ($cmd -match '0x40000' -and $cmd -match '0x4000' -and $cmd -match '0x40') 'Capture budgets'
+Check ($cmd -match '0x40000' -and $cmd -match '0x4000' -and $cmd -match '0x40' -and $cmd -match 'db /c 0x10') 'Capture budgets and explicit hex dump width'
 Check ($cmd -match 'bc \*; .logclose; .detach; q') 'Detach before quit'
 Check ($cmd -match '0x80000000') 'Readonly data excluded'
 Check ($cmd -notmatch '(?m)^\.echo .*;') 'No accidental initial detach from echo text'
