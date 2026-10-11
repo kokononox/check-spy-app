@@ -60,7 +60,7 @@ try{
  $d=Get-RMDiagnostics $text;if(!$d.InitialWaiting -or $d.UserInitialContinueMarker -or $d.PromptContinueCommands -gt 0 -or (Test-Path $handled)){throw 'OwnIndependentCodeUnexpectedContinue'}
  & (Join-Path $base 'Read-Private-Log.ps1') -LogPath $log
  $report=Get-Content (Join-Path $dir 'local-results\Report-to-share.json') -Raw|ConvertFrom-Json;$json=$report|ConvertTo-Json -Depth 10
- if((!$NormalInitial -and $report.CallbackSlot.CandidatePoint.RVA -ne $expected) -or $report.CodeWindows.State -ne 'BothWindowsCompared' -or $json -match 'C:\\|SlotAddress|CallerStackPointer|TopReturnAddress|PRIVATE-|Ranges|ExceptionAddress'){throw 'OwnSlotSafeExportFailed'}
+ if((!$NormalInitial -and $report.CallbackSlot.CandidatePoint.RVA -ne $expected) -or $report.CodeWindows.State -ne 'BothWindowsCompared' -or $json -match 'C:\\|SlotAddress|CallerStackPointer|TopReturnAddress|PRIVATE-|Ranges|ExceptionAddress'){throw ('OwnSlotSafeExportFailed: callbackMatch='+($report.CallbackSlot.CandidatePoint.RVA -eq $expected)+'; codeState='+$report.CodeWindows.State+'; privateFieldMatch='+([regex]::Match($json,'C:\\|SlotAddress|CallerStackPointer|TopReturnAddress|PRIVATE-|Ranges|ExceptionAddress').Value))}
  $windows=Get-RMSafeCodeWindows $dir $text
  if($windows.State -ne 'BothWindowsCompared' -or $windows.TotalComparedBytes -ne 48){throw ('OwnCodeWindowsIncomplete: '+$windows.State)}
  if($MutatedCode){if($windows.Entry.EqualToDisk -or $windows.Entry.ChangedByteOffsets.Count -ne 1 -or $windows.Entry.ChangedByteOffsets[0] -ne 20){throw 'OwnDeliberateCodeDifferenceMissing'}}else{if(!$windows.Entry.EqualToDisk -or !$windows.ConfiguredStopSite.EqualToDisk){throw 'OwnEqualCodeWindowsFailed'}}
