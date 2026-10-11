@@ -152,7 +152,7 @@ $timer.Add_Tick({
      & (Join-Path $script:base 'Read-Private-Log.ps1') -LogPath $script:state.Meta.LogPath -SavePrivateBodies:$form.Controls['Body'].Checked
      $path=Join-Path $script:state.Meta.Root 'local-results\Report-to-share.json';$d=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
      $form.Controls['Status'].Text=('دیباگر پایان یافت. بافر خوانده‌شده: '+$d.ParsedDataBuffers+'؛ نامزد HTTP/1: '+$d.CandidateHTTP1Requests+'. این شمارنده‌ها اثبات ارسال نیستند.')
-     if($d.DebuggerDiagnostics.ExceptionPausePossible){$form.Controls['Status'].Text='بررسی پایان یافت؛ خطای برنامه و توقف احتمالی دیده شد. گزارش امن را بفرست. صفر درخواست اثبات نبود ارسال نیست.'}
+     if($d.DebuggerDiagnostics.ExceptionPausePossible){$form.Controls['Status'].Text='بررسی پایان یافت؛ توقف دیباگر یا خطای برنامه در لاگ دیده شد. گزارش امن را بفرست. صفر درخواست اثبات نبود ارسال نیست.'}
      elseif($d.CaptureOutcome -like 'NoDataObserved*'){$form.Controls['Status'].Text='داده‌ای ثبت نشد؛ علت و ارسال/عدم ارسال تأیید نشده‌اند. گزارش امن شامل وضعیت راه‌اندازی و پایان است.'}
      if($d.EndEvidence.StopHelperEvidence -eq 'StopNotConfirmedManualRecoveryRequired'){$form.Controls['Status'].Text+=' پایانِ فرمان توقف تأیید نشده است.'}
      $form.Controls['Report'].Enabled=$true;$form.Controls['PrivateURL'].Enabled=$true
