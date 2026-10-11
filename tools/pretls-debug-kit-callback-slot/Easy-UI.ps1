@@ -1,10 +1,11 @@
 ﻿#requires -Version 5.1
-param([switch]$LayoutSmoke)
+param([switch]$LayoutSmoke,[switch]$TickSmoke)
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 . (Join-Path $PSScriptRoot 'Session-UI-Core.ps1')
 . (Join-Path $PSScriptRoot 'Diagnostic-Core.ps1')
+. (Join-Path $PSScriptRoot 'Startup-Metadata-Core.ps1')
 function New-RMEasyWindow {
  $form=New-Object Windows.Forms.Form;$form.Text='PreTLS — بررسی آزمایشی';$form.Size=New-Object Drawing.Size(820,680);$form.StartPosition='CenterScreen';$form.FormBorderStyle='FixedDialog';$form.MaximizeBox=$false;$form.Font=New-Object Drawing.Font('Tahoma',10);$form.RightToLeft='Yes';$form.RightToLeftLayout=$true
  $heading=New-Object Windows.Forms.Label;$heading.SetBounds(20,16,760,64);$heading.Text="فقط محیط آزمایشی جداگانه؛ بدون حساب واقعی یا جلسهٔ آنلاین ضدتقلب.`r`nروی بازی تأیید نشده است. خروجی خام ممکن است حاوی اطلاعات خصوصی باشد.";$form.Controls.Add($heading)
@@ -147,7 +148,7 @@ $form.Controls['ManualCopy'].Add_Click({
 $form.Controls['Report'].Add_Click({if($script:state.Meta){Start-Process explorer.exe -ArgumentList ('/select,"'+(Join-Path $script:state.Meta.Root 'local-results\Report-to-share.json')+'"')}})
 $form.Controls['PrivateURL'].Add_Click({if($script:state.Meta){Start-Process notepad.exe -ArgumentList ('"'+(Join-Path $script:state.Meta.Root 'local-results\PRIVATE-URL-candidates.json')+'"')}})
 $timer=New-Object Windows.Forms.Timer;$timer.Interval=500
-$timer.Add_Tick({
+$script:tickBody={
  try{
   if($script:state.Debugger){
    if(!$script:state.Debugger.HasExited -and !$script:state.StopAttempted -and $script:state.Meta){
@@ -189,8 +190,57 @@ $timer.Add_Tick({
    }
   }
   Update-RMButtons
- }catch{$form.Controls['Status'].Text='خواندن نتیجه کامل نشد. اگر CDB هنوز باز است، توقف امن یا راهنمای دستی را استفاده کن.'}
-})
+ }catch{
+  $form.Controls['Status'].Text='خواندن نتیجه کامل نشد. اگر CDB هنوز باز است، توقف امن یا راهنمای دستی را استفاده کن.'
+  # Parsing/helper-scheduling failures must not skip the timeout stop attempt.
+  try{
+   if($script:state.Debugger -and !$script:state.Debugger.HasExited -and !$script:state.StopAttempted){
+    $expired=if($script:state.ContinueSentUTC){([datetime]::UtcNow-$script:state.ContinueSentUTC).TotalSeconds -ge 30}else{([datetime]::UtcNow-$script:state.StartedUTC).TotalSeconds -ge 60}
+    if($expired){Request-RMStop}
+   }
+  }catch{$form.Controls['Status'].Text='پایان بررسی تأیید نشد؛ اگر CDB باز است، راهنمای توقف دستی همین نشست را استفاده کن.'}
+ }
+}
+$timer.Add_Tick($script:tickBody)
+if($TickSmoke){
+ # OWN synthetic UI wiring only. No target/CDB/helper invocation; replace helper requests with harmless counters.
+ $dir=Join-Path $env:TEMP ('RM-own-ui-tick-'+[guid]::NewGuid().ToString('N'));[void][IO.Directory]::CreateDirectory($dir)
+ try{
+  $log=Join-Path $dir 'synthetic-only.txt'
+  $text=@'
+(1234.abcd): Break instruction exception - code 80000003 (first chance)
+RM_OBSERVER_EXPERIMENTAL_X64
+RM_INITIAL_EVENT_BEGIN
+Last event: 1234.abcd: Break instruction exception - code 80000003 (first chance)
+ExceptionAddress: 00000001`80000123 (OwnFixture+0x123)
+ExceptionCode: 80000003 (Break instruction exception)
+RM_INITIAL_EVENT_END
+RM_INITIAL_WAITING_NO_AUTO_GO
+RM_CONTEXT_BEGIN
+Last event: 1234.abcd: Break instruction exception - code 80000003 (first chance)
+. 1 Id: 1234.abcd Suspend: 1 Teb: 00000000`00000000 Unfrozen
+00000000`11111111 00000001`80000456 OwnFixture
+00000000`22222222 00000001`80000789 OwnFixture
+RM_CONTEXT_END
+'@
+  [IO.File]::WriteAllText($log,$text)
+  $script:state.Debugger=[pscustomobject]@{HasExited=$false};$script:state.Meta=[pscustomobject]@{Root=$dir;LogPath=$log}
+  $script:state.MetadataAttempted=$true;$script:state.MetadataHelper=[pscustomobject]@{HasExited=$true}
+  $script:state.StartedUTC=[datetime]::UtcNow.AddSeconds(-61);$script:callbackRequests=0;$script:stopRequests=0
+  function Request-RMCallbackSlot {$script:callbackRequests++;$script:state.CallbackAttempted=$true;$script:state.CallbackHelper=[pscustomobject]@{HasExited=$true}}
+  function Request-RMStop {$script:stopRequests++;$script:state.StopAttempted=$true}
+  & $script:tickBody
+  if($script:callbackRequests -ne 1 -or $script:stopRequests -ne 1 -or $script:state.LastDiag.InitialContinueAllowed){throw 'FreshUITickDidNotScheduleCallbackAndStop'}
+  # Deliberate parser failure in next independent tick must still schedule overdue stop.
+  $script:state.StopAttempted=$false;$script:stopRequests=0
+  function Get-RMContextIndicators {throw 'OWNDeliberateParserFailure'}
+  $script:state.CallbackAttempted=$false
+  & $script:tickBody
+  if($script:stopRequests -ne 1){throw 'ParserFailureSkippedTimeoutStop'}
+  Write-Host '::notice title=Fresh standalone UI tick PASS::Fresh process imported its own parser; actual tick scheduled mock callback and overdue mock stop; deliberate parser failure still scheduled mock stop; continuation gate remained blocked. No target/CDB/helpers executed.'
+ }finally{Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue;$timer.Dispose();$form.Dispose()}
+ return
+}
 $form.Add_FormClosing({param($sender,$e)
  if($script:state.Debugger -and !$script:state.Debugger.HasExited){
   $e.Cancel=$true

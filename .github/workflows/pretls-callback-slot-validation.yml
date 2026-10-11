@@ -30,6 +30,7 @@ jobs:
         run: |
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Debugger-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-UI-Safety.ps1
+          ./tools/pretls-debug-kit-callback-slot/tests/Test-Fresh-UI-Tick.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Diagnostic-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Startup-Metadata-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Core.ps1
@@ -39,6 +40,7 @@ jobs:
         run: |
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Debugger-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-UI-Safety.ps1
+          ./tools/pretls-debug-kit-callback-slot/tests/Test-Fresh-UI-Tick.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Diagnostic-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Startup-Metadata-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Core.ps1
