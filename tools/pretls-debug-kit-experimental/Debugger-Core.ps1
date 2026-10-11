@@ -2,11 +2,11 @@
 function New-RMCdbCommands([string]$Symbol='sspicli!EncryptMessage'){
  if($Symbol -notin @('sspicli!EncryptMessage','secur32!EncryptMessage')){throw 'Unsupported breakpoint symbol'}
  $handler=@'
-r @$t8 = @$t8 + 1; .if (@rcx != 0 && @r8 != 0 && @edx == 0) { .if (dwo(@r8+4) > 0 && dwo(@r8+4) <= 0x10 && poi(@r8+8) != 0) { .for (r @$t0 = 0; @$t0 < dwo(@r8+4); r @$t0 = @$t0 + 1) { r @$t1 = poi(@r8+8) + @$t0 * 0x10; .if ((dwo(@$t1+4) & 0x0fffffff) == 1 && (dwo(@$t1+4) & 0x80000000) == 0 && poi(@$t1+8) != 0) { r @$t3 = dwo(@$t1); r @$t4 = poi(@$t1+8); r @$t5 = @$t3; .if (@$t5 > 0x4000) { r @$t5 = 0x4000; }; .if (@$t5 > 0x40000 - @$t9) { r @$t5 = 0x40000 - @$t9; }; .if (@$t5 > 0) { .printf "RM_BEGIN ctx=%p/%p declared=%u captured=%u\n", poi(@rcx), poi(@rcx+8), @$t3, @$t5; db /c 16 @$t4 L@$t5; .echo RM_END; r @$t9 = @$t9 + @$t5; }; }; }; }; }; .if (@$t8 >= 0x40 || @$t9 >= 0x40000) { .echo RM_STOP_LIMIT; bc *; .logclose; .detach; q; } .else { g; }
+r @$t8 = @$t8 + 1; .if ((@rcx != 0) and (@r8 != 0) and (@edx == 0)) { .if ((dwo(@r8+4) > 0) and (dwo(@r8+4) <= 0x10) and (poi(@r8+8) != 0)) { .for (r @$t0 = 0; @$t0 < dwo(@r8+4); r @$t0 = @$t0 + 1) { r @$t1 = poi(@r8+8) + @$t0 * 0x10; .if (((dwo(@$t1+4) and 0x0fffffff) == 1) and ((dwo(@$t1+4) and 0x80000000) == 0) and (poi(@$t1+8) != 0)) { r @$t3 = dwo(@$t1); r @$t4 = poi(@$t1+8); r @$t5 = @$t3; .if (@$t5 > 0x4000) { r @$t5 = 0x4000; }; .if (@$t5 > 0x40000 - @$t9) { r @$t5 = 0x40000 - @$t9; }; .if (@$t5 > 0) { .printf "RM_BEGIN ctx=%p/%p declared=%u captured=%u\n", poi(@rcx), poi(@rcx+8), @$t3, @$t5; db /c 16 @$t4 L@$t5; .echo RM_END; r @$t9 = @$t9 + @$t5; }; }; }; }; }; .if ((@$t8 >= 0x40) or (@$t9 >= 0x40000)) { .echo RM_STOP_LIMIT; bc *; .logclose; .detach; q; } .else { g; }
 '@
  # Escape printf quotes for the outer breakpoint command string.
  $handler=$handler.Trim().Replace('"','\"')
- return @('.echo RM_OBSERVER_EXPERIMENTAL_X64','r @$t8 = 0','r @$t9 = 0',('bu '+$Symbol+' "'+$handler+'"'),'.echo Stop with Ctrl+C then use the detach commands from README','g') -join "`r`n"
+ return @('.expr /s masm','.echo RM_OBSERVER_EXPERIMENTAL_X64','r @$t8 = 0','r @$t9 = 0',('bu '+$Symbol+' "'+$handler+'"'),'.echo Stop with Ctrl+C then use the detach commands from README','g') -join "`r`n"
 }
 function Read-RMCdbData([string]$Text){
  if($Text.Length -gt 8388608){throw 'Log exceeds 8 MiB parser limit'}
