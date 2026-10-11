@@ -1,7 +1,7 @@
 {
-  "version": "0.8.2-code-windows-experimental",
-  "tested_code_commit": "792ccf1be440a70a93cb8d635d0208a2d8196908",
-  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38159240231",
+  "version": "0.8.3-independent-code-windows-experimental",
+  "tested_code_commit": "992fb37802a9323c2c6a682f1e8d5ab6c80c36ea",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38176682970",
   "core_assertions": 24,
   "diagnostic_privacy_assertions": 44,
   "startup_metadata_privacy_assertions": 33,
@@ -25,10 +25,14 @@
   "fresh_standalone_ui_tick_in_powershell51_and_7": "PASS with mock callback/stop; parser-failure timeout path PASS",
   "real_live_gui_all_failure_races": "NOT TESTED",
   "offline_extractor_run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38153385627",
-  "code_window_assertions": 17,
+  "code_window_assertions": 26,
   "owned_equal_memory_vs_disk_48_bytes": "PASS",
-  "owned_one_mutated_unused_padding_byte": "PASS; exact changed entry offset20",
+  "owned_one_mutated_unused_padding_byte": "PASS; entry offset20",
   "total_code_bytes_per_successful_sample": 48,
   "raw_code_exported": false,
-  "real_game_code_comparison": "NOT TESTED"
+  "real_game_code_comparison": "NOT TESTED",
+  "owned_normal_initial_without_callback": "PASS; 48-byte comparison; no continuation; target survived",
+  "owned_custom_dll_initial": "PASS",
+  "fresh_ui_tick_both_initial_gates": "PASS with mocks; no continuation requested",
+  "exact_tid_rip_guards_preserved": true
 }

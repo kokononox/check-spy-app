@@ -1,8 +1,9 @@
-# تغییرات ۰.۸.۲ — مقایسهٔ محدود کد
+# تغییرات ۰.۸.۳
 
-- EntryRVA اختیاری در پروفایل؛ تطبیق دو پنجرهٔ executable و file-backed با hash منطبقِ فایل loader.
-- خواندن ۳۲+۱۶ بایت پس از guard قبلی و تطبیق دوبارهٔ مقدار slot با entry.
-- خروجی امن فقط hash/وضعیت/offset اختلاف و byteهای cc؛ بدون raw code یا pointer.
-- ۱۷ آزمون parser/PE-range/privacy؛ آزمون واقعی CDB برای کد یکسان و یک بایت اختلاف عمدی در fixture خودمان.
-- دروازهٔ ادامه، observer، UI اصلاح‌شده، helper توقف و خطا بدون تغییر.
-- هیچ فایل/کد/پروفایل/hash اختصاصی کاربر به CI فرستاده نشده است.
+- مقایسهٔ مستقل در توقف اولیهٔ مورد انتظار ntdll و breakpoint ناشناختهٔ loader، بدون نیاز به callback/frame1/slot.
+- رسید code-windows-result مستقل و تفسیر موفقیت بدون CallbackSlot.
+- نام دقیق ConfiguredStopSite: محدودهٔ ثابت loader، نه لزوماً exception فعلی.
+- بازنشانی local override با انتخاب مجدد همان نخ در دیباگر؛ بدون اجرای هدف، با TID/RIP guards دقیق.
+- زمان‌بندی مستقل و انتظار پایان helper در رابط؛ آزمون تازهٔ تایمر برای هر دو gate.
+- آزمون واقعی CDB: normal initial بدون callback، custom DLL breakpoint، کد یکسان و یک بایت اختلاف عمدی در fixture خودمان.
+- دروازهٔ ادامه، observer و helper توقف بدون تغییر؛ هیچ دادهٔ کاربر روی GitHub/CI نیست.

@@ -1,8 +1,24 @@
-# کیت آزمایشی پیش از رمزگذاری — ۰.۸.۲
+# کیت آزمایشی پیش از رمزگذاری — ۰.۸.۳
 
 **راه استفاده: START-HERE-fa.md و Start.cmd.** CDB x64 رسمی باید از قبل نصب باشد.
 
-## جدید در ۰.۸.۲: فقط ۴۸ بایت کد
+## جدید در ۰.۸.۳: helper مستقل در هر دو الگوی توقف اولیه
+
+Code-Windows.ps1 از callback، فریم ۱ و خانهٔ slot مستقل است. وضعیت اولیه باید snapshot کامل و منطبق، first-chance 80000003، PID/TID صحیح، زمینهٔ نخ منطبق، انتظار آغاز و بدون درخواست/فرمان ادامه باشد؛ gate فقط ExpectedInitialBreakAwaitingUser یا InitialBreakLocationUnverified پذیرفته می‌شود. خطای اولیه، second-chance، رخداد عوض‌شده و snapshot ناسازگار رد می‌شوند. پذیرش خواندن، شرط ادامه را تغییر نمی‌دهد.
+
+همان هویت/نسل هدف و CDB، hash فایل CDB، loader یکتا و محلی با hash پروفایل، محدودهٔ module و executable/file-backed PE بررسی می‌شوند. Expected bytes پس از hash مجدد فقط خصوصی ذخیره می‌شوند. فرمان محدود، همان نخ OS ثبت‌شده را فقط در دیباگر انتخاب می‌کند و سپس TID و RIP دقیقِ رویداد فعلی را guard می‌کند. آدرس دو پنجره از base ماژول + RVAهای ثابت پروفایل ساخته می‌شود؛ به exception address فعلی یا callback pointer وابسته نیست. فقط ۳۲+۱۶ بایت خوانده می‌شود؛ هیچ resume/interrupt/target-write وجود ندارد.
+
+code-windows-result.json رسید مستقلِ queued است، نه proof تکمیل. گزارش فقط با رسید مستقل، markerهای کامل و bytes پیوستهٔ درست تفسیر می‌شود. CallbackSlot می‌تواند NotAvailable باشد و CodeWindows موفق باشد. Entry و ConfiguredStopSite نام دو محدودهٔ ثابت‌اند؛ ConfiguredStopSite لزوماً محل توقف فعلی نیست. خروجی فقط وضعیت، hash و offsetهای کوچک است.
+
+اشکال زمینهٔ محلی نیز اصلاح شد: .frame /c 0 همیشه پس از override فریم۱ بازنشانی نمی‌کرد؛ در CI پیام Frame 0 is before current base frame 1 دیده شد. انتخاب مجدد همان OS-thread با دستور محدود CDB، زمینهٔ دیباگر را بازنشانی می‌کند. این اجرا/step/resume نخ یا SetThreadContext هدف نیست. callback قبلی نیز همین بازنشانی را برای پایان local override به کار می‌برد. TID/RIP guards دقیق حفظ شدند و برای گذر آزمون گسترده نشدند.
+
+UI helperها را پشت‌سرهم اجرا می‌کند: metadata، callback فقط در الگوی قبلی‌اش، مقایسهٔ مستقل، سپس توقف/گزارش. تایمر مستقل در هر دو gate با mock آزموده شده؛ parser error نیز تلاش توقف موعدگذشته را از دست نمی‌دهد. همهٔ کلیک‌ها، شکست‌ها و raceهای اجرای زنده تأیید نشده‌اند.
+
+منبع رفتار زمینهٔ دیباگر: https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/changing-contexts
+
+بخش‌های پایین تاریخچهٔ قابلیت‌ها هستند؛ شرح وابستگی مقایسه به callback و بازگشت با .frame /c 0 مربوط به نسخهٔ ۰.۸.۲ و قدیمی‌تر است، نه مسیر فعلی.
+
+## تاریخچهٔ ۰.۸.۲: فقط ۴۸ بایت کد
 
 EntryRVA اختیاری و عددی به پروفایل محلی افزوده شده است. helper پیش از صف‌کردن، ۳۲ بایت ابتدای تابع و ۱۶ بایت از محل exception را از یک محدودهٔ executable و file-backed یکتای PE x64 می‌خواند؛ محدودهٔ ماژول نیز بررسی می‌شود. hash کل فایل پس از خواندن دوباره باید با پروفایل loader منطبق باشد. Expected bytes و آدرس‌ها فقط در PRIVATE-code-windows.json ذخیره می‌شوند. فایل/پروفایل اختصاصی کاربر هرگز به مخزن/CI فرستاده نمی‌شود.
 
@@ -105,4 +121,4 @@ Prepare-Session.ps1 مسیر دستی قدیمی است و برای این گر�
 - https://learn.microsoft.com/en-us/windows/win32/secauthn/encryptmessage--schannel
 - https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/cdb-command-line-options
 
-آزمون موفق ویندوز: https://github.com/kokononox/check-spy-app/actions/runs/38159240231
+آزمون موفق ویندوز: https://github.com/kokononox/check-spy-app/actions/runs/38176682970
