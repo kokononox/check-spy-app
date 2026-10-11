@@ -1,0 +1,16 @@
+{
+  "version": "0.2-easy-experimental",
+  "tested_code_commit": "5c3ecd9f98c5106d4258dd32f0c68dc515d50194",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38140791990",
+  "synthetic_assertions": 24,
+  "windows_powershell51_core": "PASS",
+  "windows_powershell7_core": "PASS",
+  "gui_construction_default_gates": "PASS",
+  "cdb_invalid_context_own_fixture": "PASS",
+  "owned_console_stop_detach_target_survival": "PASS",
+  "interactive_gui_attach": "NOT TESTED",
+  "real_game": "NOT TESTED",
+  "schannel_context_verification": "NOT IMPLEMENTED",
+  "successful_network_send": "NOT ESTABLISHED",
+  "private_user_data_uploaded": false
+}
