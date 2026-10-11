@@ -1,0 +1,51 @@
+name: Experimental read-only startup metadata validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/pretls-debug-kit-startup-metadata/**'
+      - '.github/workflows/pretls-startup-metadata-validation.yml'
+  pull_request:
+    paths:
+      - 'tools/pretls-debug-kit-startup-metadata/**'
+      - '.github/workflows/pretls-startup-metadata-validation.yml'
+permissions:
+  contents: read
+jobs:
+  core-and-layout:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Core and GUI layout in Windows PowerShell
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: |
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Debugger-Core.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-UI-Safety.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Diagnostic-Core.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Startup-Metadata-Core.ps1
+      - name: Core and GUI layout in PowerShell 7
+        if: matrix.shell == 'pwsh'
+        shell: pwsh
+        run: |
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Debugger-Core.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-UI-Safety.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Diagnostic-Core.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Startup-Metadata-Core.ps1
+      - name: Owned fixture CDB dump and stop integration
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: |
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-CDB-Smoke.ps1 -RequireCdb
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Stop-Smoke.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Attach-Gate-Smoke.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Fault-Snapshot-Smoke.ps1
+          ./tools/pretls-debug-kit-startup-metadata/tests/Test-Startup-Metadata-Smoke.ps1
