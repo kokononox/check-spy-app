@@ -39,10 +39,10 @@ Assert (($r|ConvertTo-Json) -notmatch 'SECRET_AUTH|fixture.invalid|account|C:\\p
 $dir=Join-Path ([IO.Path]::GetTempPath()) ('RM-diag-own-'+[guid]::NewGuid().ToString('N'));[void][IO.Directory]::CreateDirectory($dir)
 try{
  $e=Get-RMEndEvidence $dir
- Assert ($e.DetachSuccess -eq 'NotEstablished' -and !$e.DetachCommandSequenceCompleted) 'No exit evidence is not success'
+ Assert ($e.DetachSuccess -eq 'NotEstablished' -and !$e.DebuggerExitedAfterDetachRequest) 'No exit evidence is not success'
  @{StopConfirmed=$true;Reason='private SECRET_AUTH';TargetAliveAfterDebuggerExit=$true}|ConvertTo-Json|Set-Content (Join-Path $dir 'stop-result.json') -Encoding UTF8
  $e=Get-RMEndEvidence $dir
- Assert ($e.DetachCommandSequenceCompleted -and $e.TargetAliveAfterDebuggerExit) 'Safe helper end evidence'
+ Assert ($e.DebuggerExitedAfterDetachRequest -and $e.TargetAliveAfterDebuggerExit) 'Safe helper end evidence'
  Assert ($e.DetachSuccess -eq 'NotEstablished') 'Exit and survival are not proof of every detach instruction'
  Assert (($e|ConvertTo-Json) -notmatch 'SECRET_AUTH') 'Reason text not exported'
  @{StopConfirmed=$false}|ConvertTo-Json|Set-Content (Join-Path $dir 'stop-result.json') -Encoding UTF8

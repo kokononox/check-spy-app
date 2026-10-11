@@ -116,7 +116,7 @@ $timer.Add_Tick({
    }
    if(!$script:state.Debugger.HasExited -and !$script:state.StopAttempted -and ([datetime]::UtcNow-$script:state.StartedUTC).TotalSeconds -ge 30){Request-RMStop}
    if($script:state.StopHelper -and $script:state.StopHelper.HasExited -and !$script:state.Debugger.HasExited){$form.Controls['Status'].Text='توقف تأیید نشد؛ راهنمای توقف دستی را بزن. ابزار هدف یا دیباگر را با زور نمی‌بندد.'}
-   if($script:state.Debugger.HasExited -and !$script:state.ReadDone){
+   if($script:state.Debugger.HasExited -and (!$script:state.StopHelper -or $script:state.StopHelper.HasExited) -and !$script:state.ReadDone){
     $script:state.ReadDone=$true
     if(Test-Path -LiteralPath $script:state.Meta.LogPath){
      & (Join-Path $script:base 'Read-Private-Log.ps1') -LogPath $script:state.Meta.LogPath -SavePrivateBodies:$form.Controls['Body'].Checked

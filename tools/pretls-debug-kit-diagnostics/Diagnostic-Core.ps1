@@ -34,13 +34,14 @@ function Get-RMDiagnostics([string]$Text){
  return [pscustomobject]@{ObserverInitialized=$initialized;BreakpointRequested=$requested;BreakpointListingObserved=$listing;BreakpointResolution='NotEstablished';TargetExceptionSummaries=$exceptionCount;FirstChanceAccessViolations=$firstAV;SecondChanceAccessViolations=$secondAV;LastExceptionClass=$lastCode;ExceptionPausePossible=$pausePossible;DebuggerCommandErrorObserved=$commandError;ObservationState=$state;AutomaticExceptionResume=$false}
 }
 function Get-RMEndEvidence([string]$Folder){
- $d=[pscustomobject]@{StopHelperEvidence='NotAvailable';DetachCommandSequenceCompleted=$false;TargetAliveAfterDebuggerExit=$null;DetachSuccess='NotEstablished';TargetTerminationRequested=$false}
+ $d=[pscustomobject]@{StopHelperEvidence='NotAvailable';FailureStage='NotAvailable';DebuggerExitedAfterDetachRequest=$false;TargetAliveAfterDebuggerExit=$null;DetachSuccess='NotEstablished';TargetTerminationRequested=$false}
  $path=Join-Path $Folder 'stop-result.json'
  if(!(Test-Path -LiteralPath $path)){return $d}
  try{
   if((Get-Item -LiteralPath $path).Length -gt 4096){return $d}
   $r=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
-  if($r.StopConfirmed -is [bool] -and $r.StopConfirmed){$d.StopHelperEvidence='DebuggerExitedAfterDetachCommands';$d.DetachCommandSequenceCompleted=$true}
+  if($r.FailureStage -in @('None','IdentityCheck','AttachOwnConsole','VerifyConsoleScope','InterruptOwnDebugger','QueueDetachCommands','WaitDebuggerExit')){$d.FailureStage=$r.FailureStage}
+  if($r.StopConfirmed -is [bool] -and $r.StopConfirmed){$d.StopHelperEvidence='DebuggerExitedAfterDetachCommands';$d.DebuggerExitedAfterDetachRequest=$true}
   elseif($r.StopConfirmed -is [bool]){$d.StopHelperEvidence='StopNotConfirmedManualRecoveryRequired'}
   if($r.TargetAliveAfterDebuggerExit -is [bool]){$d.TargetAliveAfterDebuggerExit=$r.TargetAliveAfterDebuggerExit}
   # Even debugger exit plus surviving target is not proof that every detach instruction succeeded.
