@@ -56,6 +56,6 @@ jobs:
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Fault-Snapshot-Smoke.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Startup-Metadata-Smoke.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Initial-AV-Metadata-Smoke.ps1
+          ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Smoke.ps1 -NormalInitial
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Smoke.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Smoke.ps1 -MutatedCode
-          ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Smoke.ps1 -NormalInitial
