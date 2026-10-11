@@ -1,0 +1,21 @@
+{
+  "version": "0.7-initial-av-context-experimental",
+  "tested_code_commit": "66ad66aa3985a6c0cc7e39dd784e9d3e777904c4",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38151724066",
+  "core_assertions": 24,
+  "diagnostic_privacy_assertions": 44,
+  "startup_metadata_privacy_assertions": 33,
+  "windows_powershell51_and_powershell7_core_diagnostics_gui_construction": "PASS",
+  "own_cdb_fixture_tests": "PASS",
+  "own_loaded_dll_disk_baseline_event_thread_bounded_stack_no_initial_continue": "PASS",
+  "real_game": "NOT TESTED",
+  "real_unknown_loader_initial_break": "NOT TESTED",
+  "breakpoint_origin": "NOT ESTABLISHED",
+  "network_send": "NOT ESTABLISHED",
+  "definitive_detach_success": "NOT ESTABLISHED",
+  "full_interactive_clicks_and_all_failure_races": "NOT TESTED",
+  "user_files_uploaded_to_github": false,
+  "game_files_executed": false,
+  "own_initial_raised_av_read_only_hash_stack_exr_no_continue": "PASS; Write classification; no handled marker before stop; own target survived",
+  "real_invalid_memory_access_in_fixture": false
+}
