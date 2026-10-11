@@ -11,7 +11,7 @@ r @$t8 = @$t8 + 1; .if ((@rcx != 0) and (@r8 != 0) and (@edx == 0)) { .if ((dwo(
 function Read-RMCdbData([string]$Text){
  if($Text.Length -gt 8388608){throw 'Log exceeds 8 MiB parser limit'}
  $records=New-Object Collections.ArrayList;$current=$null;$errors=0
- foreach($line in ($Text -split '\r?\n')){
+ foreach($line in ($Text -split '\r\n|\r|\n')){
   $marker=$line.Trim()
   if($marker -match '^RM_BEGIN ctx=((?:0x)?[0-9a-fA-F`]+)/((?:0x)?[0-9a-fA-F`]+) declared=(\d+) captured=(\d+)\s*$'){
    if($current){$errors++}

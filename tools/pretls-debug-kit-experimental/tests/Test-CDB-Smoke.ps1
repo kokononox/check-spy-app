@@ -24,7 +24,7 @@ try{
  if(!(Test-Path -LiteralPath $log)){throw 'No synthetic debugger log'}
  $text=[IO.File]::ReadAllText($log)
  $parsed=Read-RMCdbData $text;$http=Get-RMHttpCandidates $parsed.Records
- if($parsed.ParseErrors -or $http.Candidates.Count -ne 1 -or $http.Candidates[0].URL -ne 'https://fixture.invalid/private?token=DUMMY'){throw ('Live CDB ABI fixture failed: parsed buffers='+$parsed.Records.Count+'; parse errors='+$parsed.ParseErrors+'; HTTP candidates='+$http.Candidates.Count+'; begin lines='+@($text -split '\r?\n' | Where-Object {$_.Trim() -match '^RM_BEGIN'}).Count+'; end lines='+@($text -split '\r?\n' | Where-Object {$_.Trim() -match '^RM_END'}).Count+'; URL assertion='+[bool]($http.Candidates.Count -eq 1 -and $http.Candidates[0].URL -eq 'https://fixture.invalid/private?token=DUMMY'))}
+ if($parsed.ParseErrors -or $http.Candidates.Count -ne 1 -or $http.Candidates[0].URL -ne 'https://fixture.invalid/private?token=DUMMY'){throw ('Live CDB ABI fixture failed: parsed buffers='+$parsed.Records.Count+'; parse errors='+$parsed.ParseErrors+'; HTTP candidates='+$http.Candidates.Count+'; LF='+@([regex]::Matches($text,"`n")).Count+'; CR='+@([regex]::Matches($text,"`r")).Count+'; begin lines='+@($text -split '\r\n|\r|\n' | Where-Object {$_.Trim() -match '^RM_BEGIN'}).Count+'; end lines='+@($text -split '\r\n|\r|\n' | Where-Object {$_.Trim() -match '^RM_END'}).Count+'; URL assertion='+[bool]($http.Candidates.Count -eq 1 -and $http.Candidates[0].URL -eq 'https://fixture.invalid/private?token=DUMMY'))}
  Write-Host 'PASS: CDB breakpoint command and x64 SecBuffer dump on own INVALID-context fixture. No Schannel/TLS/send/game test.'
  }catch{
  $message=$_.Exception.Message.Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')

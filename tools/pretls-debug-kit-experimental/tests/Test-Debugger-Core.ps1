@@ -21,6 +21,8 @@ $raw=Fixture ([Text.Encoding]::ASCII.GetBytes($text));$d=Read-RMCdbData $raw
 Check ($d.Records.Count -eq 1 -and $d.ParseErrors -eq 0) 'WinDbg db record parsed'
 $indented=Read-RMCdbData ($raw.Replace('RM_BEGIN',' RM_BEGIN').Replace('RM_END',' RM_END '))
 Check ($indented.Records.Count -eq 1 -and $indented.ParseErrors -eq 0) 'Debugger marker whitespace tolerated'
+$cr=Read-RMCdbData ($raw.Replace("`n","`r"))
+Check ($cr.Records.Count -eq 1 -and $cr.ParseErrors -eq 0) 'Native CR-only log newlines supported'
 $h=Get-RMHttpCandidates $d.Records
 Check ($h.Candidates.Count -eq 1) 'HTTP1 candidate'
 Check ($h.Candidates[0].URL -eq 'https://telemetry-in.battle.net/upload/full?token=PRIVATE_TOKEN') 'Private URL candidate reconstructed'
