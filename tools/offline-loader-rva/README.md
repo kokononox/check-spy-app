@@ -1,0 +1,15 @@
+# Offline saved-session loader RVA review — experimental 0.1
+
+Double-click Start-RVA.cmd. See START-HERE-fa.md. Windows x64 PowerShell; no CDB installation/admin/game execution required for extraction.
+
+Reads only previous ExeRouteMonitor/PreTLS-PRIVATE GUID session files in the current user's LOCALAPPDATA store, plus local module disk files referenced by the recorded metadata. It never attaches to or controls a process, executes target binaries, requests elevation, or sends network requests. The GUI launches Explorer only to select its safe output file.
+
+A saved complete initial event must match its exception record, expected PID, first-chance code (80000003 or c0000005), and the thread ID recorded in PRIVATE-startup-metadata.json. Collection must be Collected. Stack output additionally requires complete context markers and current-thread/last-event agreement. Thread start requires the previous native query Success status. Markers inside captured payloads are excluded. Logs and JSON inputs are bounded.
+
+Only MainExecutable, Loader and SystemNtdll mappings are considered. Local x64 PE headers provide SizeOfImage; current disk hash must match BOTH private module metadata and the allowlisted public metadata from that session. Changed/unavailable/unsupported files leave points unknown. Reparse session/file entries, network paths, duplicate module kinds, overlapping ranges and unsupported PE headers are refused/discarded. This is a numerical mapping of recorded bases to on-disk image ranges, not validation of mapped runtime contents or snapshot authenticity. Ancestor filesystem configuration and every possible failure/race are not comprehensively tested.
+
+Output RVA-to-share.json contains only allowlisted module category, relative RVA, file hash/image size, limited status and frame-row indexes. No absolute addresses, paths, IDs, symbols, arguments, URLs, headers, bodies or arbitrary error text are copied. Frame return addresses are NOT current instruction pointers and do not establish instruction execution or unwind accuracy. Source may have loader transformations/obfuscation. No breakpoint-origin or continuation authorization is inferred. No telemetry send/Schannel context/server receipt is established.
+
+Unmapped frames export null, not a raw pointer. Incomplete/inconsistent snapshots do not export points. The original safe report alone has no absolute addresses; extraction must run where the previous private session still exists. Default selector lists up to 20 recent saved metadata sessions; choose the relevant local time. Script output is in the extracted tool folder. Never upload private session folders to GitHub.
+
+Tests use ONLY owned synthetic saved-session text and non-executable fake PE header bytes. No user files, hashes or game binaries were uploaded to CI. Parser tests and Windows extraction/GUI-construction tests passed in Windows PowerShell 5.1 and PowerShell 7; this does not mean the user's real session has already been extracted. See QA.md and VALIDATION.json.

@@ -1,0 +1,14 @@
+{
+  "version": "0.1-offline-rva",
+  "tested_code_commit": "652fde517e9ac95324f4a9a1715e686d77a9ad67",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38153385627",
+  "synthetic_assertions": 25,
+  "windows_powershell51_and_powershell7_offline_extraction_and_gui_construction": "PASS",
+  "user_private_session": "NOT EXTRACTED BY US",
+  "target_execution": false,
+  "debugger_invocation": false,
+  "user_files_uploaded": false,
+  "runtime_mapped_memory_identity": "NOT ESTABLISHED",
+  "breakpoint_origin": "NOT ESTABLISHED",
+  "full_gui_interaction_all_races": "NOT TESTED"
+}
