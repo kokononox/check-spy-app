@@ -1,0 +1,46 @@
+name: Experimental pre-TLS diagnostics validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/pretls-debug-kit-diagnostics/**'
+      - '.github/workflows/pretls-diagnostics-validation.yml'
+  pull_request:
+    paths:
+      - 'tools/pretls-debug-kit-diagnostics/**'
+      - '.github/workflows/pretls-diagnostics-validation.yml'
+permissions:
+  contents: read
+jobs:
+  core-and-layout:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Core and GUI layout in Windows PowerShell
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: |
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-Debugger-Core.ps1
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-UI-Safety.ps1
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-Diagnostic-Core.ps1
+      - name: Core and GUI layout in PowerShell 7
+        if: matrix.shell == 'pwsh'
+        shell: pwsh
+        run: |
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-Debugger-Core.ps1
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-UI-Safety.ps1
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-Diagnostic-Core.ps1
+      - name: Owned fixture CDB dump and stop integration
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: |
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-CDB-Smoke.ps1 -RequireCdb
+          ./tools/pretls-debug-kit-diagnostics/tests/Test-Stop-Smoke.ps1
