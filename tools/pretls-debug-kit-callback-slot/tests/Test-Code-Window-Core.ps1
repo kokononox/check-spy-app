@@ -16,8 +16,8 @@ Check ((Get-RMCodeWindowComparison ($t+"`nRM_CODE_GUARD_REJECTED") 'ENTRY' 0x180
 Check ((Get-RMCodeWindowComparison ("RM_BEGIN ctx=0/0 declared=0 captured=0`n"+$t+"`nRM_END") 'ENTRY' 0x180001000 $expected).ReadState -eq 'NotEstablished') 'Payload markers ignored'
 Check ((Get-RMCodeWindowComparison ($t.Replace('00 01','?? 01')) 'ENTRY' 0x180001000 $expected).ReadState -eq 'NotEstablished') 'Unreadable memory refused'
 Check ((Get-RMCodeWindowComparison ($t.Replace('07 08','07-08')) 'ENTRY' 0x180001000 $expected).EqualToDisk) 'CDB half-row dash supported'
-$cmd=New-RMCallbackSlotCommands 1 0x180002000 0x180003000 0x10000 48 0x180001000
-Check ($cmd -match 'db /c 0x10 0x180001000 L0x20' -and $cmd -match 'db /c 0x10 0x180002000 L0x10' -and $cmd -match 'poi\(@rsp\+0x30\) == 0x180001000') 'Exact 48-byte reads guarded by candidate entry'
+$cmd=New-RMIndependentCodeCommands 1 0x7ff000001234 0x180001000 0x180002000
+Check ($cmd -match 'db /c 0x10 0x180001000 L0x20' -and $cmd -match 'db /c 0x10 0x180002000 L0x10' -and $cmd -match '@rip == 0x7ff000001234') 'Exact 48-byte reads guarded by current event'
 Check ($cmd -notmatch 'WriteProcessMemory|SetThreadContext|(?:^|;\s)(?:g|gn|gh)(?:;|\s|$)') 'No target change/resume commands'
 $dir=Join-Path ([IO.Path]::GetTempPath()) ('RM-own-code-core-'+[guid]::NewGuid().ToString('N'));[void][IO.Directory]::CreateDirectory($dir)
 try{
@@ -30,4 +30,17 @@ try{
  $bad=$false;try{Read-RMStaticCodeWindow $p 0x1010 32|Out-Null}catch{$bad=$true};Check $bad 'Nonexecutable section refused'
  $bad=$false;try{Read-RMStaticCodeWindow $p 0x1010 4096|Out-Null}catch{$bad=$true};Check $bad 'Large window refused'
 }finally{Remove-Item $dir -Recurse -Force}
+$diag=[pscustomobject]@{InitialWaiting=$true;UserInitialContinueMarker=$false;PromptContinueCommands=0;InitialGate='ExpectedInitialBreakAwaitingUser'}
+$ev=[pscustomobject]@{Complete=$true;ProcessId=1;ThreadId=2;Code='80000003';RecordCode='80000003';Chance='first'}
+Check (Test-RMCodeReadEligibility $diag $ev 1) 'Expected ntdll initial break eligible for reading only'
+$diag.InitialGate='InitialBreakLocationUnverified';Check (Test-RMCodeReadEligibility $diag $ev 1) 'Unknown loader initial break eligible for same reading'
+$diag.UserInitialContinueMarker=$true;Check (!(Test-RMCodeReadEligibility $diag $ev 1)) 'Prior continuation refuses code reading';$diag.UserInitialContinueMarker=$false
+$diag.InitialGate='EventChangedAfterSnapshot';Check (!(Test-RMCodeReadEligibility $diag $ev 1)) 'Event changed refuses';$diag.InitialGate='ExpectedInitialBreakAwaitingUser'
+$ev.Chance='second';Check (!(Test-RMCodeReadEligibility $diag $ev 1)) 'Second chance refuses';$ev.Chance='first'
+Check (!(Test-RMCodeReadEligibility $diag $ev 99)) 'Wrong target refuses'
+$independent=New-RMIndependentCodeCommands 1 0x7ff000001234 0x180001000 0x180002000
+Check ($independent -match '@rip == 0x7ff000001234' -and $independent -match 'db /c 0x10 0x180001000 L0x20') 'Guard uses current event independently of configured sites'
+Check ($independent -notmatch 'poi|dq|frame /c /r 0x1') 'No slot/frame1 dependency in new command'
+$reader=Get-Content (Join-Path $base 'Code-Windows.ps1') -Raw
+Check ($reader -notmatch 'Get-RMRecordedCallbackFrame|TopReturnAddress|CallerStackPointer|GenerateConsoleCtrlEvent|WriteProcessMemory|ResumeThread|SetThreadContext') 'Reader independent and read-only'
 Write-Host ('PASS: '+$n+' bounded code window/file/parser/privacy assertions')

@@ -1,4 +1,4 @@
-param([switch]$MutatedCode)
+param([switch]$MutatedCode,[switch]$NormalInitial)
 $ErrorActionPreference='Stop';$base=Split-Path -Parent $PSScriptRoot
 . (Join-Path $base 'Session-UI-Core.ps1');. (Join-Path $base 'Diagnostic-Core.ps1');. (Join-Path $base 'Callback-Slot-Core.ps1');. (Join-Path $base 'Code-Window-Core.ps1')
 $cdb=Join-Path ${env:ProgramFiles(x86)} 'Windows Kits\10\Debuggers\x64\cdb.exe'
@@ -13,14 +13,22 @@ try{
  & $env:ComSpec /d /c ('"'+$builder+'"');if($LASTEXITCODE -ne 0){throw 'OwnSlotCompileFailed'}
  [IO.File]::WriteAllText($cmd,(New-RMCdbCommands),[Text.Encoding]::ASCII)
  # Fixture only: skip standard process launch break so first observer stop is our custom handled CC.
+ if($NormalInitial){
+  $target=Start-Process -FilePath $exe -ArgumentList ('"'+$dll+'" "'+$ready+'" "'+$handled+'" wait') -PassThru -WindowStyle Hidden
+  for($i=0;$i -lt 40 -and !(Test-Path $ready);$i++){Start-Sleep -Milliseconds 200}
+  if(!(Test-Path $ready)){throw 'OwnNormalTargetNotReady'}
+  $debugger=Start-Process -FilePath $cdb -ArgumentList ('-pd -p '+$target.Id+' -cf "'+$cmd+'" -logo "'+$log+'"') -PassThru -WindowStyle Hidden
+ }else{
  $debugger=Start-Process -FilePath $cdb -ArgumentList ('-2 -pd -g -cf "'+$cmd+'" -logo "'+$log+'" "'+$exe+'" "'+$dll+'" "'+$ready+'" "'+$handled+'"'+$(if($MutatedCode){' mutate'}else{''})) -PassThru -WindowStyle Hidden
+ }
+ $expectedGate=if($NormalInitial){'ExpectedInitialBreakAwaitingUser'}else{'InitialBreakLocationUnverified'}
  for($i=0;$i -lt 50;$i++){Start-Sleep -Milliseconds 200;$target=Get-Process -Name 'OwnSlotTarget' -ErrorAction SilentlyContinue|Where-Object {$_.MainModule.FileName -eq $exe}|Select-Object -First 1;if($target -and (Test-Path $ready)){break}}
  if(!$target -or !(Test-Path $ready)){throw 'OwnSlotTargetNotReady'}
- for($i=0;$i -lt 40;$i++){Start-Sleep -Milliseconds 500;$d=Get-RMDiagnostics (Read-RMLiveLog $log);if($d.InitialWaiting -and $d.InitialGate -eq 'InitialBreakLocationUnverified'){break}}
- if(!$d.InitialWaiting -or $d.InitialGate -ne 'InitialBreakLocationUnverified'){throw 'OwnSlotInitialGateUnexpected'}
+ for($i=0;$i -lt 40;$i++){Start-Sleep -Milliseconds 500;$d=Get-RMDiagnostics (Read-RMLiveLog $log);if($d.InitialWaiting -and $d.InitialGate -eq $expectedGate){break}}
+ if(!$d.InitialWaiting -or $d.InitialGate -ne $expectedGate){throw 'OwnSlotInitialGateUnexpected'}
  $session=Join-Path $dir 'PRIVATE-ui-session.json';@{TargetId=$target.Id;TargetStart=$target.StartTime.ToUniversalTime().ToString('o');TargetSHA256=(Get-FileHash $exe -Algorithm SHA256).Hash;DebuggerId=$debugger.Id;DebuggerStart=$debugger.StartTime.ToUniversalTime().ToString('o');CdbPath=$cdb;CdbSHA256=(Get-FileHash $cdb -Algorithm SHA256).Hash;LogPath=$log}|ConvertTo-Json|Set-Content $session -Encoding UTF8
  $ownkit=Join-Path $dir 'own-kit';[void][IO.Directory]::CreateDirectory($ownkit)
- foreach($name in @('Callback-Slot.ps1','Callback-Slot-Core.ps1','Code-Window-Core.ps1','Startup-Metadata.ps1','Startup-Metadata-Core.ps1','Session-UI-Core.ps1','Diagnostic-Core.ps1','Debugger-Core.ps1')){Copy-Item (Join-Path $base $name) (Join-Path $ownkit $name)}
+ foreach($name in @('Code-Windows.ps1','Callback-Slot.ps1','Callback-Slot-Core.ps1','Code-Window-Core.ps1','Startup-Metadata.ps1','Startup-Metadata-Core.ps1','Session-UI-Core.ps1','Diagnostic-Core.ps1','Debugger-Core.ps1')){Copy-Item (Join-Path $base $name) (Join-Path $ownkit $name)}
  $config=Get-Content $ready -Raw|ConvertFrom-Json;$expected='0x'+([uint64]$config.ExpectedCandidateRVA).ToString('x')
  @{LoaderSHA256=(Get-FileHash $dll -Algorithm SHA256).Hash;ExceptionRVA=$config.ExceptionRVA;CallerReturnRVA=$config.CallerReturnRVA;SlotOffset=48;EntryRVA=$config.ExpectedCandidateRVA}|ConvertTo-Json|Set-Content (Join-Path $ownkit 'CallbackTarget-local.json') -Encoding UTF8
  $ps=Join-Path $env:WINDIR 'System32\WindowsPowerShell\v1.0\powershell.exe'
@@ -28,6 +36,7 @@ try{
  if(!$helper.WaitForExit(35000)){throw 'OwnMetadataTimedOut'}
  for($i=0;$i -lt 40;$i++){Start-Sleep -Milliseconds 500;$text=Read-RMLiveLog $log;$frame=Get-RMRecordedCallbackFrame $text;if($frame){break}}
  if(!$frame){throw 'OwnSlotContextMissing'}
+ if(!$NormalInitial){
  $helper=Start-Process -FilePath $ps -ArgumentList ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $ownkit 'Callback-Slot.ps1')+'" -SessionPath "'+$session+'"') -PassThru -WindowStyle Hidden
  if(!$helper.WaitForExit(25000)){throw 'OwnSlotHelperTimedOut'}
  $receipt=Get-Content (Join-Path $dir 'callback-slot-result.json') -Raw|ConvertFrom-Json
@@ -39,25 +48,34 @@ try{
   Write-Host ('::error title=Own synthetic slot log::'+$tail.Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A'))
   throw ('OwnSlotCandidateFailed: state='+$r.ReadState)
  }
- $d=Get-RMDiagnostics $text;if($d.InitialContinueAllowed -or !$d.InitialWaiting -or $d.UserInitialContinueMarker -or $d.PromptContinueCommands -gt 0 -or (Test-Path $handled)){throw 'OwnSlotUnexpectedContinuation'}
+ }
+ $d=Get-RMDiagnostics $text;if((!$NormalInitial -and $d.InitialContinueAllowed) -or !$d.InitialWaiting -or $d.UserInitialContinueMarker -or $d.PromptContinueCommands -gt 0 -or (Test-Path $handled)){throw 'OwnSlotUnexpectedContinuation'}
+ # Independent helper must work even with no callback attempt/receipt.
+ $helper=Start-Process -FilePath $ps -ArgumentList ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $ownkit 'Code-Windows.ps1')+'" -SessionPath "'+$session+'"') -PassThru -WindowStyle Hidden
+ if(!$helper.WaitForExit(25000)){throw 'OwnIndependentCodeTimedOut'}
+ $codeReceipt=Get-Content (Join-Path $dir 'code-windows-result.json') -Raw|ConvertFrom-Json
+ if(!$codeReceipt.CommandsQueued){throw ('OwnIndependentCodeRefused: '+$codeReceipt.FailureStage)}
+ for($i=0;$i -lt 40;$i++){Start-Sleep -Milliseconds 500;$text=Read-RMLiveLog $log;$windows=Get-RMSafeCodeWindows $dir $text;if($windows.State -eq 'BothWindowsCompared'){break}}
+ if($NormalInitial -and (Test-Path (Join-Path $dir 'callback-slot-result.json'))){throw 'NormalCodeUnexpectedCallbackDependency'}
+ $d=Get-RMDiagnostics $text;if(!$d.InitialWaiting -or $d.UserInitialContinueMarker -or $d.PromptContinueCommands -gt 0 -or (Test-Path $handled)){throw 'OwnIndependentCodeUnexpectedContinue'}
  & (Join-Path $base 'Read-Private-Log.ps1') -LogPath $log
  $report=Get-Content (Join-Path $dir 'local-results\Report-to-share.json') -Raw|ConvertFrom-Json;$json=$report|ConvertTo-Json -Depth 10
- if($report.CallbackSlot.CandidatePoint.RVA -ne $expected -or $json -match 'C:\\|SlotAddress|CallerStackPointer|TopReturnAddress|PRIVATE-|Ranges|ExceptionAddress'){throw 'OwnSlotSafeExportFailed'}
+ if((!$NormalInitial -and $report.CallbackSlot.CandidatePoint.RVA -ne $expected) -or $report.CodeWindows.State -ne 'BothWindowsCompared' -or $json -match 'C:\\|SlotAddress|CallerStackPointer|TopReturnAddress|PRIVATE-|Ranges|ExceptionAddress'){throw 'OwnSlotSafeExportFailed'}
  $windows=Get-RMSafeCodeWindows $dir $text
  if($windows.State -ne 'BothWindowsCompared' -or $windows.TotalComparedBytes -ne 48){throw ('OwnCodeWindowsIncomplete: '+$windows.State)}
- if($MutatedCode){if($windows.Entry.EqualToDisk -or $windows.Entry.ChangedByteOffsets.Count -ne 1 -or $windows.Entry.ChangedByteOffsets[0] -ne 20){throw 'OwnDeliberateCodeDifferenceMissing'}}else{if(!$windows.Entry.EqualToDisk -or !$windows.Exception.EqualToDisk){throw 'OwnEqualCodeWindowsFailed'}}
+ if($MutatedCode){if($windows.Entry.EqualToDisk -or $windows.Entry.ChangedByteOffsets.Count -ne 1 -or $windows.Entry.ChangedByteOffsets[0] -ne 20){throw 'OwnDeliberateCodeDifferenceMissing'}}else{if(!$windows.Entry.EqualToDisk -or !$windows.ConfiguredStopSite.EqualToDisk){throw 'OwnEqualCodeWindowsFailed'}}
  if(($windows|ConvertTo-Json -Depth 8) -match 'DiskHex|SlotAddress|EntryAddress|ExceptionAddress'){throw 'OwnRawCodeExported'}
  # Wrong configuration must refuse BEFORE queue, even with a valid paused own fixture.
- Remove-Item (Join-Path $dir 'callback-slot.lock');@{LoaderSHA256=('0'*64);ExceptionRVA=$config.ExceptionRVA;CallerReturnRVA=$config.CallerReturnRVA;SlotOffset=48;EntryRVA=$config.ExpectedCandidateRVA}|ConvertTo-Json|Set-Content (Join-Path $ownkit 'CallbackTarget-local.json') -Encoding UTF8
- $helper=Start-Process -FilePath $ps -ArgumentList ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $ownkit 'Callback-Slot.ps1')+'" -SessionPath "'+$session+'"') -PassThru -WindowStyle Hidden
+ Remove-Item (Join-Path $dir 'code-windows.lock');@{LoaderSHA256=('0'*64);ExceptionRVA=$config.ExceptionRVA;CallerReturnRVA=$config.CallerReturnRVA;SlotOffset=48;EntryRVA=$config.ExpectedCandidateRVA}|ConvertTo-Json|Set-Content (Join-Path $ownkit 'CallbackTarget-local.json') -Encoding UTF8
+ $helper=Start-Process -FilePath $ps -ArgumentList ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $ownkit 'Code-Windows.ps1')+'" -SessionPath "'+$session+'"') -PassThru -WindowStyle Hidden
  if(!$helper.WaitForExit(20000)){throw 'OwnWrongHashHelperTimedOut'}
- $bad=Get-Content (Join-Path $dir 'callback-slot-result.json') -Raw|ConvertFrom-Json;if($bad.CommandsQueued -or $bad.FailureStage -ne 'ModuleIdentity'){throw 'OwnWrongHashNotRefused'}
+ $bad=Get-Content (Join-Path $dir 'code-windows-result.json') -Raw|ConvertFrom-Json;if($bad.CommandsQueued -or $bad.FailureStage -ne 'ModuleIdentity'){throw 'OwnWrongHashNotRefused'}
  $helper=Start-Process -FilePath $ps -ArgumentList ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $base 'Stop-Debugger.ps1')+'" -SessionPath "'+$session+'"') -PassThru -WindowStyle Hidden
  if(!$helper.WaitForExit(25000)){throw 'OwnSlotStopTimedOut'}
  $end=Get-Content (Join-Path $dir 'stop-result.json') -Raw|ConvertFrom-Json
  if(!$end.StopConfirmed -or !$end.TargetAliveAfterDebuggerExit -or $target.HasExited){throw 'OwnSlotTargetSurvivalFailed'}
- Write-Host ('::notice title=Own 48-byte code window PASS::Mutation='+$MutatedCode+'; 32 entry and 16 exception bytes compared; exact source file hash/executable PE ranges; raw code/pointers excluded; no initial continue; own target survived.')
- Write-Host '::notice title=Own guarded callback slot PASS::Custom owned asm breakpoint; exact caller return/RSP/TID guards; one stack qword maps to expected own callback RVA; debugger-local context restored; safe export; wrong loader hash refused; no initial continue/handled marker before stop; own target survived debugger end. No game/network.'
+ Write-Host ('::notice title=Own 48-byte code window PASS::NormalInitial='+$NormalInitial+'; Mutation='+$MutatedCode+'; 32 entry and 16 exception bytes compared; exact source file hash/executable PE ranges; raw code/pointers excluded; no initial continue; own target survived.')
+ if(!$NormalInitial){Write-Host '::notice title=Own guarded callback slot PASS::Custom owned asm breakpoint; exact caller return/RSP/TID guards; one stack qword maps to expected own callback RVA; debugger-local context restored; safe export; wrong loader hash refused; no initial continue/handled marker before stop; own target survived debugger end. No game/network.'}
 }catch{Write-Host ('::error title=Own callback slot test::'+$_.Exception.Message.Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A'));throw}finally{
  foreach($p in @($helper,$debugger,$target)){if($p -and !$p.HasExited){$p.Kill()}}
  Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue

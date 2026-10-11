@@ -36,14 +36,14 @@ if($LayoutSmoke){
  foreach($c in $form.Controls){if($c.Right -gt $form.ClientSize.Width -or $c.Bottom -gt $form.ClientSize.Height){throw 'Control exceeds form bounds'}}
  $form.Dispose();Write-Host 'PASS: GUI layout/default-gate smoke. No display, target or debugger started.';return
 }
-$script:state=[pscustomobject]@{Exe='';Cdb='';Meta=$null;Debugger=$null;StopHelper=$null;FaultHelper=$null;FaultAttempted=$false;MetadataHelper=$null;MetadataAttempted=$false;CallbackHelper=$null;CallbackAttempted=$false;ContinueHelper=$null;ContinueAttempted=$false;ContinueSentUTC=$null;LastDiag=$null;StartedUTC=$null;StopAttempted=$false;ReadDone=$false}
+$script:state=[pscustomobject]@{Exe='';Cdb='';Meta=$null;Debugger=$null;StopHelper=$null;FaultHelper=$null;FaultAttempted=$false;MetadataHelper=$null;MetadataAttempted=$false;CallbackHelper=$null;CallbackAttempted=$false;CodeHelper=$null;CodeAttempted=$false;ContinueHelper=$null;ContinueAttempted=$false;ContinueSentUTC=$null;LastDiag=$null;StartedUTC=$null;StopAttempted=$false;ReadDone=$false}
 $script:base=$PSScriptRoot
 $default=Join-Path ${env:ProgramFiles(x86)} 'Windows Kits\10\Debuggers\x64\cdb.exe'
 if(Test-Path -LiteralPath $default){$script:state.Cdb=$default;$form.Controls['CdbLabel'].Text='CDB پیدا شد؛ امضای Microsoft پیش از اتصال بررسی می‌شود.'}else{$form.Controls['CdbLabel'].Text='CDB نصب/پیدا نشده؛ ابزار آن را خودکار نصب نمی‌کند.'}
 function Update-RMButtons {
  $running=$script:state.Debugger -and !$script:state.Debugger.HasExited
  $form.Controls['Start'].Enabled=(!$running -and $script:state.Exe -and $script:state.Cdb -and $form.Controls['Processes'].SelectedItem -and $form.Controls['Isolated'].Checked -and $form.Controls['Private'].Checked)
- $continueBusy=($script:state.ContinueHelper -and !$script:state.ContinueHelper.HasExited) -or ($script:state.FaultHelper -and !$script:state.FaultHelper.HasExited) -or ($script:state.MetadataHelper -and !$script:state.MetadataHelper.HasExited) -or ($script:state.CallbackHelper -and !$script:state.CallbackHelper.HasExited)
+ $continueBusy=($script:state.ContinueHelper -and !$script:state.ContinueHelper.HasExited) -or ($script:state.FaultHelper -and !$script:state.FaultHelper.HasExited) -or ($script:state.MetadataHelper -and !$script:state.MetadataHelper.HasExited) -or ($script:state.CallbackHelper -and !$script:state.CallbackHelper.HasExited) -or ($script:state.CodeHelper -and !$script:state.CodeHelper.HasExited)
  $form.Controls['Stop'].Enabled=[bool]($running -and !$continueBusy -and (!$script:state.StopHelper -or $script:state.StopHelper.HasExited))
  $form.Controls['InitialContinue'].Enabled=[bool]($running -and !$continueBusy -and !$script:state.StopAttempted -and !$script:state.ContinueAttempted -and $script:state.LastDiag -and $script:state.LastDiag.InitialContinueAllowed)
  $form.Controls['PickExe'].Enabled=!$running;$form.Controls['Refresh'].Enabled=!$running;$form.Controls['PickCdb'].Enabled=!$running;$form.Controls['Processes'].Enabled=!$running
@@ -75,6 +75,13 @@ function Request-RMCallbackSlot {
  $args='-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $script:base 'Callback-Slot.ps1')+'" -SessionPath "'+(Join-Path $script:state.Meta.Root 'PRIVATE-ui-session.json')+'"'
  $script:state.CallbackHelper=Start-Process -FilePath $ps -ArgumentList $args -PassThru -WindowStyle Hidden
 }
+function Request-RMCodeWindows {
+ if($script:state.CodeAttempted -or $script:state.StopAttempted -or !$script:state.Meta){return}
+ $script:state.CodeAttempted=$true
+ $ps=Join-Path $env:WINDIR 'System32\WindowsPowerShell\v1.0\powershell.exe'
+ $args='-NoLogo -NoProfile -ExecutionPolicy Bypass -File "'+(Join-Path $script:base 'Code-Windows.ps1')+'" -SessionPath "'+(Join-Path $script:state.Meta.Root 'PRIVATE-ui-session.json')+'"'
+ $script:state.CodeHelper=Start-Process -FilePath $ps -ArgumentList $args -PassThru -WindowStyle Hidden
+}
 function Request-RMFaultSnapshot {
  if($script:state.FaultAttempted -or $script:state.StopAttempted -or !$script:state.Meta){return}
  $script:state.FaultAttempted=$true
@@ -84,7 +91,7 @@ function Request-RMFaultSnapshot {
 }
 function Request-RMStop {
  if(!$script:state.Debugger -or $script:state.Debugger.HasExited){return}
- if(($script:state.StopHelper -and !$script:state.StopHelper.HasExited) -or ($script:state.ContinueHelper -and !$script:state.ContinueHelper.HasExited) -or ($script:state.FaultHelper -and !$script:state.FaultHelper.HasExited) -or ($script:state.MetadataHelper -and !$script:state.MetadataHelper.HasExited) -or ($script:state.CallbackHelper -and !$script:state.CallbackHelper.HasExited)){return}
+ if(($script:state.StopHelper -and !$script:state.StopHelper.HasExited) -or ($script:state.ContinueHelper -and !$script:state.ContinueHelper.HasExited) -or ($script:state.FaultHelper -and !$script:state.FaultHelper.HasExited) -or ($script:state.MetadataHelper -and !$script:state.MetadataHelper.HasExited) -or ($script:state.CallbackHelper -and !$script:state.CallbackHelper.HasExited) -or ($script:state.CodeHelper -and !$script:state.CodeHelper.HasExited)){return}
  $script:state.StopAttempted=$true
  $session=Join-Path $script:state.Meta.Root 'PRIVATE-ui-session.json';$helper=Join-Path $script:base 'Stop-Debugger.ps1'
  $ps=Join-Path $env:WINDIR 'System32\WindowsPowerShell\v1.0\powershell.exe'
@@ -115,10 +122,10 @@ $form.Controls['Start'].Add_Click({
   $p=Get-Process -Id $choice.Id;if($p.StartTime.ToUniversalTime() -ne $choice.Start){throw 'Target generation changed'}
   $args='-pd -p '+$choice.Id+' -cf "'+$meta.CommandPath+'" -logo "'+$meta.LogPath+'"'
   $debugger=Start-Process -FilePath $meta.CdbPath -ArgumentList $args -PassThru
-  $script:state.Meta=$meta;$script:state.Debugger=$debugger;$script:state.StartedUTC=[datetime]::UtcNow;$script:state.StopAttempted=$false;$script:state.StopHelper=$null;$script:state.FaultHelper=$null;$script:state.FaultAttempted=$false;$script:state.MetadataHelper=$null;$script:state.MetadataAttempted=$false;$script:state.CallbackHelper=$null;$script:state.CallbackAttempted=$false;$script:state.ContinueHelper=$null;$script:state.ContinueAttempted=$false;$script:state.ContinueSentUTC=$null;$script:state.LastDiag=$null;$script:state.ReadDone=$false
+  $script:state.Meta=$meta;$script:state.Debugger=$debugger;$script:state.StartedUTC=[datetime]::UtcNow;$script:state.StopAttempted=$false;$script:state.StopHelper=$null;$script:state.FaultHelper=$null;$script:state.FaultAttempted=$false;$script:state.MetadataHelper=$null;$script:state.MetadataAttempted=$false;$script:state.CallbackHelper=$null;$script:state.CallbackAttempted=$false;$script:state.CodeHelper=$null;$script:state.CodeAttempted=$false;$script:state.ContinueHelper=$null;$script:state.ContinueAttempted=$false;$script:state.ContinueSentUTC=$null;$script:state.LastDiag=$null;$script:state.ReadDone=$false
   $meta.DebuggerId=$debugger.Id;$meta.DebuggerStart=$debugger.StartTime.ToUniversalTime().ToString('o')
   $meta|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $meta.Root 'PRIVATE-ui-session.json') -Encoding UTF8
-  $script:state.Meta=$meta;$script:state.Debugger=$debugger;$script:state.StartedUTC=[datetime]::UtcNow;$script:state.StopAttempted=$false;$script:state.StopHelper=$null;$script:state.FaultHelper=$null;$script:state.FaultAttempted=$false;$script:state.MetadataHelper=$null;$script:state.MetadataAttempted=$false;$script:state.CallbackHelper=$null;$script:state.CallbackAttempted=$false;$script:state.ContinueHelper=$null;$script:state.ContinueAttempted=$false;$script:state.ContinueSentUTC=$null;$script:state.LastDiag=$null;$script:state.ReadDone=$false
+  $script:state.Meta=$meta;$script:state.Debugger=$debugger;$script:state.StartedUTC=[datetime]::UtcNow;$script:state.StopAttempted=$false;$script:state.StopHelper=$null;$script:state.FaultHelper=$null;$script:state.FaultAttempted=$false;$script:state.MetadataHelper=$null;$script:state.MetadataAttempted=$false;$script:state.CallbackHelper=$null;$script:state.CallbackAttempted=$false;$script:state.CodeHelper=$null;$script:state.CodeAttempted=$false;$script:state.ContinueHelper=$null;$script:state.ContinueAttempted=$false;$script:state.ContinueSentUTC=$null;$script:state.LastDiag=$null;$script:state.ReadDone=$false
   $form.Controls['Status'].Text='اتصال انجام شد؛ ادامه خودکار حذف شده است. در حال بررسی توقف اولیه؛ اگر دکمه ادامهٔ اولیه فعال شد، علت را بخوان و خودت تأیید کن.'
  }catch{$form.Controls['Status'].Text='شروع تأیید نشد: EXE/PID، x64، امضای CDB یا مجوز را بررسی کن. محافظت/ضدتقلب را غیرفعال نکن.'}
  Update-RMButtons
@@ -156,6 +163,7 @@ $script:tickBody={
     $script:state.LastDiag=$diag
     if($diag.InitialWaiting -and $diag.InitialGate -in @('ExpectedInitialBreakAwaitingUser','InitialBreakLocationUnverified','InitialEventNotExpectedBreak') -and !$diag.UserInitialContinueMarker -and !$script:state.MetadataAttempted){Request-RMStartupMetadata}
     if($diag.InitialWaiting -and $diag.InitialGate -eq 'InitialBreakLocationUnverified' -and $script:state.MetadataHelper -and $script:state.MetadataHelper.HasExited -and !$script:state.CallbackAttempted -and (Get-RMContextIndicators (Read-RMLiveLog $script:state.Meta.LogPath)).Complete){Request-RMCallbackSlot}
+    if($diag.InitialWaiting -and $diag.InitialGate -in @('ExpectedInitialBreakAwaitingUser','InitialBreakLocationUnverified') -and $script:state.MetadataHelper -and $script:state.MetadataHelper.HasExited -and (!$script:state.CallbackHelper -or $script:state.CallbackHelper.HasExited) -and !$script:state.CodeAttempted -and (Get-RMContextIndicators (Read-RMLiveLog $script:state.Meta.LogPath)).Complete){Request-RMCodeWindows}
     if($diag.ExceptionPausePossible -and $diag.LastExceptionClass -eq 'AccessViolation' -and $diag.LastExceptionChance -eq 'first' -and $diag.UserInitialContinueMarker -and !$script:state.FaultAttempted){Request-RMFaultSnapshot}
     if($diag.InitialContinueAllowed -and !$script:state.ContinueAttempted){$form.Controls['Status'].Text='الگوی توقف اولیهٔ دیباگر دیده شد؛ ادامه خودکار انجام نمی‌شود. برای ادامه، دکمه ۳ و تأیید نهایی را بزن.'}
     elseif($diag.InitialWaiting -and !$diag.InitialContinueAllowed){$form.Controls['Status'].Text='علت توقف اولیه تأیید نشده؛ ادامه مسدود می‌ماند. metadata خواندنی جمع می‌شود؛ پس از پایان فقط گزارش امن را بفرست.'}
@@ -171,7 +179,7 @@ $script:tickBody={
     if($expired){Request-RMStop}
    }
    if($script:state.StopHelper -and $script:state.StopHelper.HasExited -and !$script:state.Debugger.HasExited){$form.Controls['Status'].Text='توقف تأیید نشد؛ راهنمای توقف دستی را بزن. ابزار هدف یا دیباگر را با زور نمی‌بندد.'}
-   if($script:state.Debugger.HasExited -and (!$script:state.StopHelper -or $script:state.StopHelper.HasExited) -and (!$script:state.ContinueHelper -or $script:state.ContinueHelper.HasExited) -and (!$script:state.FaultHelper -or $script:state.FaultHelper.HasExited) -and (!$script:state.MetadataHelper -or $script:state.MetadataHelper.HasExited) -and (!$script:state.CallbackHelper -or $script:state.CallbackHelper.HasExited) -and !$script:state.ReadDone){
+   if($script:state.Debugger.HasExited -and (!$script:state.StopHelper -or $script:state.StopHelper.HasExited) -and (!$script:state.ContinueHelper -or $script:state.ContinueHelper.HasExited) -and (!$script:state.FaultHelper -or $script:state.FaultHelper.HasExited) -and (!$script:state.MetadataHelper -or $script:state.MetadataHelper.HasExited) -and (!$script:state.CallbackHelper -or $script:state.CallbackHelper.HasExited) -and (!$script:state.CodeHelper -or $script:state.CodeHelper.HasExited) -and !$script:state.ReadDone){
     $script:state.ReadDone=$true
     if(Test-Path -LiteralPath $script:state.Meta.LogPath){
      & (Join-Path $script:base 'Read-Private-Log.ps1') -LogPath $script:state.Meta.LogPath -SavePrivateBodies:$form.Controls['Body'].Checked
@@ -226,18 +234,25 @@ RM_CONTEXT_END
   [IO.File]::WriteAllText($log,$text)
   $script:state.Debugger=[pscustomobject]@{HasExited=$false};$script:state.Meta=[pscustomobject]@{Root=$dir;LogPath=$log}
   $script:state.MetadataAttempted=$true;$script:state.MetadataHelper=[pscustomobject]@{HasExited=$true}
-  $script:state.StartedUTC=[datetime]::UtcNow.AddSeconds(-61);$script:callbackRequests=0;$script:stopRequests=0
+  $script:state.StartedUTC=[datetime]::UtcNow.AddSeconds(-61);$script:callbackRequests=0;$script:stopRequests=0;$script:codeRequests=0
   function Request-RMCallbackSlot {$script:callbackRequests++;$script:state.CallbackAttempted=$true;$script:state.CallbackHelper=[pscustomobject]@{HasExited=$true}}
+  function Request-RMCodeWindows {$script:codeRequests++;$script:state.CodeAttempted=$true;$script:state.CodeHelper=[pscustomobject]@{HasExited=$true}}
   function Request-RMStop {$script:stopRequests++;$script:state.StopAttempted=$true}
   & $script:tickBody
-  if($script:callbackRequests -ne 1 -or $script:stopRequests -ne 1 -or $script:state.LastDiag.InitialContinueAllowed){throw 'FreshUITickDidNotScheduleCallbackAndStop'}
+  if($script:callbackRequests -ne 1 -or $script:codeRequests -ne 1 -or $script:stopRequests -ne 1 -or $script:state.LastDiag.InitialContinueAllowed){throw 'FreshUITickDidNotScheduleCallbackAndStop'}
+  # Expected ntdll initial gate must schedule code WITHOUT a callback request.
+  [IO.File]::WriteAllText($log,$text.Replace('(OwnFixture+0x123)','(ntdll!DbgBreakPoint)'))
+  $script:state.StopAttempted=$false;$script:state.CodeAttempted=$false;$script:state.CallbackAttempted=$false
+  $script:state.CallbackHelper=$null;$script:codeRequests=0;$script:callbackRequests=0;$script:stopRequests=0
+  & $script:tickBody
+  if($script:codeRequests -ne 1 -or $script:callbackRequests -ne 0 -or $script:stopRequests -ne 1 -or !$script:state.LastDiag.InitialContinueAllowed -or $script:state.LastDiag.UserInitialContinueMarker){throw 'ExpectedInitialTickCodeSchedulingFailed'}
   # Deliberate parser failure in next independent tick must still schedule overdue stop.
   $script:state.StopAttempted=$false;$script:stopRequests=0
   function Get-RMContextIndicators {throw 'OWNDeliberateParserFailure'}
-  $script:state.CallbackAttempted=$false
+  $script:state.CallbackAttempted=$false;$script:state.CodeAttempted=$false
   & $script:tickBody
   if($script:stopRequests -ne 1){throw 'ParserFailureSkippedTimeoutStop'}
-  Write-Host '::notice title=Fresh standalone UI tick PASS::Fresh process imported its own parser; actual tick scheduled mock callback and overdue mock stop; deliberate parser failure still scheduled mock stop; continuation gate remained blocked. No target/CDB/helpers executed.'
+  Write-Host '::notice title=Fresh standalone UI tick PASS::Fresh process imported its own parser; actual tick scheduled mock code for BOTH initial gates; expected ntdll gate needed no callback; deliberate parser failure still scheduled mock stop; continuation gate remained blocked. No target/CDB/helpers executed.'
  }finally{Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue;$timer.Dispose();$form.Dispose()}
  return
 }

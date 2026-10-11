@@ -46,20 +46,34 @@ function Get-RMCodeWindowComparison([string]$Text,[string]$Label,[uint64]$Addres
  return $out
 }
 function Get-RMSafeCodeWindows([string]$Folder,[string]$Text){
- $out=[pscustomobject]@{State='NotAvailable';Entry=$null;Exception=$null;TotalComparedBytes=0;OnlySmallWindowsCompared=$true;WholeMappedImageIdentity='NotEstablished';DifferenceCause='NotEstablished';RawCodeExported=$false;AbsoluteAddressesExported=$false;ContinuationAuthorized=$false}
+ $out=[pscustomobject]@{State='NotAvailable';Entry=$null;ConfiguredStopSite=$null;TotalComparedBytes=0;RequestCommandsQueued=$false;FailureStage='NotAvailable';IndependentOfCallback=$true;ConfiguredStopSiteIsNotNecessarilyCurrentException=$true;OnlySmallWindowsCompared=$true;WholeMappedImageIdentity='NotEstablished';DifferenceCause='NotEstablished';RawCodeExported=$false;AbsoluteAddressesExported=$false;ContinuationAuthorized=$false}
  try{
+  $receipt=Join-Path $Folder 'code-windows-result.json'
+  if(!(Test-Path $receipt) -or (Get-Item $receipt).Length -gt 4096){return $out}
+  $request=Get-Content $receipt -Raw|ConvertFrom-Json
+  if($request.FailureStage -in @('None','ValidateState','Configuration','TargetIdentity','DebuggerIdentity','ModuleIdentity','RevalidateState','AttachOwnConsole','VerifyConsoleScope','QueueReadOnlyCommands')){$out.FailureStage=$request.FailureStage}
+  if($request.CommandsQueued -isnot [bool] -or !$request.CommandsQueued){$out.State='RequestNotConfirmed';return $out}
+  $out.RequestCommandsQueued=$true
   $p=Join-Path $Folder 'PRIVATE-code-windows.json';if(!(Test-Path $p) -or (Get-Item $p).Length -gt 8192){return $out}
-  $slot=Get-RMSafeCallbackSlot $Folder $Text
-  if($slot.ReadState -ne 'OneSlotReadNotActualCallProof'){return $out}
+  $lines=@($Text -split '\r\n|\r|\n'|ForEach-Object {$_.Trim()})
+  if($lines -notcontains 'RM_CODE_DONE' -or $lines -notcontains 'RM_CODE_CONTEXT_ZERO'){ $out.State='IncompleteOrGuardRejected';return $out }
   $r=Get-Content $p -Raw|ConvertFrom-Json
   foreach($label in @('Entry','Exception')){
    $w=$r.$label;$address=Convert-RMSlotHex $w.Address;$size=if($label -eq 'Entry'){32}else{16}
    if($null -eq $address -or $w.DiskHex -isnot [string] -or $w.DiskHex.Length -ne 2*$size -or $w.DiskHex -cnotmatch '^[0-9a-fA-F]+$'){return $out}
    $expected=New-Object byte[] $size;for($i=0;$i -lt $size;$i++){$expected[$i]=[Convert]::ToByte($w.DiskHex.Substring(2*$i,2),16)}
-   $out.$label=Get-RMCodeWindowComparison $Text $label.ToUpperInvariant() $address $expected
+   $field=if($label -eq 'Entry'){'Entry'}else{'ConfiguredStopSite'}
+   $out.$field=Get-RMCodeWindowComparison $Text $label.ToUpperInvariant() $address $expected
   }
-  $out.State=if($out.Entry.ReadState -eq 'CompleteSmallWindow' -and $out.Exception.ReadState -eq 'CompleteSmallWindow'){'BothWindowsCompared'}else{'IncompleteOrGuardRejected'}
-  $out.TotalComparedBytes=$out.Entry.ComparedBytes+$out.Exception.ComparedBytes
+  $out.State=if($out.Entry.ReadState -eq 'CompleteSmallWindow' -and $out.ConfiguredStopSite.ReadState -eq 'CompleteSmallWindow'){'BothWindowsCompared'}else{'IncompleteOrGuardRejected'}
+  $out.TotalComparedBytes=$out.Entry.ComparedBytes+$out.ConfiguredStopSite.ComparedBytes
  }catch{$out.State='NotEstablished'}
  return $out
+}
+function Test-RMCodeReadEligibility($Diag,$Event,[uint32]$TargetId){
+ return ($Diag.InitialWaiting -and !$Diag.UserInitialContinueMarker -and $Diag.PromptContinueCommands -eq 0 -and $Diag.InitialGate -in @('ExpectedInitialBreakAwaitingUser','InitialBreakLocationUnverified') -and $Event.Complete -and $Event.ProcessId -eq $TargetId -and $Event.ThreadId -and $Event.Code -eq '80000003' -and $Event.RecordCode -eq $Event.Code -and $Event.Chance -eq 'first')
+}
+function New-RMIndependentCodeCommands([uint32]$ThreadId,[uint64]$CurrentExceptionAddress,[uint64]$EntryAddress,[uint64]$SiteAddress){
+ if(!$ThreadId -or !$CurrentExceptionAddress -or !$EntryAddress -or !$SiteAddress){throw 'InvalidNumericCodeCommandInput'}
+ return ('.echo RM_CODE_ATTEMPT; .lastevent; ~.; .frame /c 0x0; .echo RM_CODE_CONTEXT_ZERO; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .echo RM_CODE_ENTRY_BEGIN; db /c 0x10 0x{2} L0x20; .echo RM_CODE_ENTRY_END; .echo RM_CODE_EXCEPTION_BEGIN; db /c 0x10 0x{3} L0x10; .echo RM_CODE_EXCEPTION_END }} .else {{ .echo RM_CODE_GUARD_REJECTED }}; .echo RM_CODE_DONE' -f $ThreadId.ToString('x'),$CurrentExceptionAddress.ToString('x'),$EntryAddress.ToString('x'),$SiteAddress.ToString('x'))+"`r"
 }

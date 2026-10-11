@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 typedef int (*CALLER)(void);
 int main(int argc,char **argv){
  HMODULE dll;FILE *f;HANDLE h;CALLER caller;FARPROC cc,br,ret;
@@ -11,7 +12,8 @@ int main(int argc,char **argv){
  if(!caller||!cc||!br||!ret)return 4;
  if(fopen_s(&f,argv[2],"w"))return 5;
  fprintf(f,"{\"ExceptionRVA\":%llu,\"CallerReturnRVA\":%llu,\"ExpectedCandidateRVA\":%llu,\"SlotOffset\":48}",(unsigned long long)((uintptr_t)br-(uintptr_t)dll),(unsigned long long)((uintptr_t)ret-(uintptr_t)dll),(unsigned long long)((uintptr_t)cc-(uintptr_t)dll));fclose(f);
- if(argc==5){DWORD old;unsigned char *q=(unsigned char*)cc+20;if(!VirtualProtect(q,1,PAGE_EXECUTE_READWRITE,&old))return 6;*q=0xcc;FlushInstructionCache(GetCurrentProcess(),q,1);{DWORD unused;VirtualProtect(q,1,old,&unused);}}
+ if(argc==5 && strcmp(argv[4],"wait")==0){Sleep(90000);}
+ if(argc==5 && strcmp(argv[4],"mutate")==0){DWORD old;unsigned char *q=(unsigned char*)cc+20;if(!VirtualProtect(q,1,PAGE_EXECUTE_READWRITE,&old))return 6;*q=0xcc;FlushInstructionCache(GetCurrentProcess(),q,1);{DWORD unused;VirtualProtect(q,1,old,&unused);}}
  __try{caller();}__except(EXCEPTION_EXECUTE_HANDLER){
   h=CreateFileA(argv[3],GENERIC_WRITE,FILE_SHARE_READ,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);if(h!=INVALID_HANDLE_VALUE)CloseHandle(h);
  }
