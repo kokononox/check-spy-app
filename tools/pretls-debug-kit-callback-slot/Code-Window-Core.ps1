@@ -75,5 +75,5 @@ function Test-RMCodeReadEligibility($Diag,$Event,[uint32]$TargetId){
 }
 function New-RMIndependentCodeCommands([uint32]$ThreadId,[uint64]$CurrentExceptionAddress,[uint64]$EntryAddress,[uint64]$SiteAddress){
  if(!$ThreadId -or !$CurrentExceptionAddress -or !$EntryAddress -or !$SiteAddress){throw 'InvalidNumericCodeCommandInput'}
- return ('.echo RM_CODE_ATTEMPT; .lastevent; ~.; .frame /c 0x0; .echo RM_CODE_CONTEXT_ZERO; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .echo RM_CODE_ENTRY_BEGIN; db /c 0x10 0x{2} L0x20; .echo RM_CODE_ENTRY_END; .echo RM_CODE_EXCEPTION_BEGIN; db /c 0x10 0x{3} L0x10; .echo RM_CODE_EXCEPTION_END }} .else {{ .echo RM_CODE_GUARD_REJECTED }}; .echo RM_CODE_DONE' -f $ThreadId.ToString('x'),$CurrentExceptionAddress.ToString('x'),$EntryAddress.ToString('x'),$SiteAddress.ToString('x'))+"`r"
+ return ('.echo RM_CODE_ATTEMPT; .lastevent; ~.; ~~[0x{0}]s; .echo RM_CODE_CONTEXT_ZERO; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .echo RM_CODE_ENTRY_BEGIN; db /c 0x10 0x{2} L0x20; .echo RM_CODE_ENTRY_END; .echo RM_CODE_EXCEPTION_BEGIN; db /c 0x10 0x{3} L0x10; .echo RM_CODE_EXCEPTION_END }} .else {{ .echo RM_CODE_GUARD_REJECTED }}; .echo RM_CODE_DONE' -f $ThreadId.ToString('x'),$CurrentExceptionAddress.ToString('x'),$EntryAddress.ToString('x'),$SiteAddress.ToString('x'))+"`r"
 }

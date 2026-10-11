@@ -15,7 +15,7 @@ Check ($null -eq (Get-RMRecordedCallbackFrame ($t.Replace('RM_CONTEXT_END','')))
 Check ($null -eq (Get-RMRecordedCallbackFrame ("RM_BEGIN ctx=0/0 declared=0 captured=0`n"+$t+"`nRM_END"))) 'Captured payload context ignored'
 $cmd=New-RMCallbackSlotCommands 0xabcd 0x180000400 0x180000500 0x11111100 0x30
 Check ($cmd -match 'dq @rsp\+0x30 L0x1' -and $cmd -match '@rip == 0x180000500' -and $cmd -match '@rsp == 0x11111100' -and $cmd -match '@\$tid == 0xabcd') 'Exact one-slot read and current TID/RIP/RSP guards'
-Check ($cmd -match '\.frame /c /r 0x1' -and $cmd -match '\.frame /c 0x0; \.echo RM_SLOT_CONTEXT_RESTORED') 'Debugger-local override restored'
+Check ($cmd -match '\.frame /c /r 0x1' -and $cmd -match '~~\[0xabcd\]s; \.echo RM_SLOT_CONTEXT_RESTORED') 'Same recorded OS thread reselected to reset local override'
 Check ($cmd -notmatch '(?:^|[;{}]\s*)(?:g|gn|gh|eb|eq|ed|r\s+@|\.detach|q)(?:\s|;|$)') 'No resume/memory write/detach in snapshot'
 $bad=$false;try{New-RMCallbackSlotCommands 1 1 2 3 257|Out-Null}catch{$bad=$true};Check $bad 'Oversized offset refused'
 $ranges=@([pscustomobject]@{Kind='Loader';Base=[uint64]0x180000000;Size=[uint64]0x1000})

@@ -27,8 +27,8 @@ function Get-RMRecordedCallbackFrame([string]$Text){
 }
 function New-RMCallbackSlotCommands([uint32]$ThreadId,[uint64]$ExceptionAddress,[uint64]$ReturnAddress,[uint64]$CallerSP,[uint64]$Offset){
  if(!$ThreadId -or !$ExceptionAddress -or !$ReturnAddress -or !$CallerSP -or $Offset -gt 256 -or $Offset%8 -ne 0){throw 'InvalidNumericCommandInput'}
- # .frame /c changes debugger LOCAL override context, not target registers. Restore frame 0 even on inner rejection.
- return ('.echo RM_SLOT_ATTEMPT; .lastevent; ~.; .frame /c 0x0; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .frame /c /r 0x1; .if ((@rip == 0x{2}) and (@rsp == 0x{3})) {{ .echo RM_SLOT_BEGIN; dq @rsp+0x{4} L0x1; .echo RM_SLOT_END }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .frame /c 0x0; .echo RM_SLOT_CONTEXT_RESTORED }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .echo RM_SLOT_DONE' -f $ThreadId.ToString('x'),$ExceptionAddress.ToString('x'),$ReturnAddress.ToString('x'),$CallerSP.ToString('x'),$Offset.ToString('x'))+"`r"
+ # .frame /c is debugger LOCAL override, not target-register write. Selecting the SAME OS thread resets override; .frame /c 0 alone can fail after frame1.
+ return ('.echo RM_SLOT_ATTEMPT; .lastevent; ~.; ~~[0x{0}]s; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .frame /c /r 0x1; .if ((@rip == 0x{2}) and (@rsp == 0x{3})) {{ .echo RM_SLOT_BEGIN; dq @rsp+0x{4} L0x1; .echo RM_SLOT_END }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; ~~[0x{0}]s; .echo RM_SLOT_CONTEXT_RESTORED }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .echo RM_SLOT_DONE' -f $ThreadId.ToString('x'),$ExceptionAddress.ToString('x'),$ReturnAddress.ToString('x'),$CallerSP.ToString('x'),$Offset.ToString('x'))+"`r"
 }
 function Get-RMCallbackSlotResult([string]$Text,[uint64]$ExpectedSlot,$Ranges){
  if($Text.Length -gt 8388608){throw 'LogTooLarge'}
