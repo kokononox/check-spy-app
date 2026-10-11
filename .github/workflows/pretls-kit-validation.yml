@@ -1,0 +1,38 @@
+name: Experimental pre-TLS kit validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/pretls-debug-kit-experimental/**'
+      - '.github/workflows/pretls-kit-validation.yml'
+  pull_request:
+    paths:
+      - 'tools/pretls-debug-kit-experimental/**'
+      - '.github/workflows/pretls-kit-validation.yml'
+permissions:
+  contents: read
+jobs:
+  synthetic-and-optional-abi:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Synthetic core in Windows PowerShell 5.1
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: ./tools/pretls-debug-kit-experimental/tests/Test-Debugger-Core.ps1
+      - name: Synthetic core in PowerShell 7
+        if: matrix.shell == 'pwsh'
+        shell: pwsh
+        run: ./tools/pretls-debug-kit-experimental/tests/Test-Debugger-Core.ps1
+      - name: Optional CDB ABI test on own invalid-context fixture only
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: ./tools/pretls-debug-kit-experimental/tests/Test-CDB-Smoke.ps1
