@@ -7,6 +7,11 @@ class Fixture {
  [DllImport("secur32.dll", ExactSpelling=true)] static extern int EncryptMessage(IntPtr context,uint qop,IntPtr message,uint sequence);
  static int Main(string[] args){
   if(IntPtr.Size!=8) return 3;
+  if(args.Length>1 && args[0]=="attach-hold"){
+   // Own local-file fixture rendezvous only. Never accepts a network destination.
+   DateTime until=DateTime.UtcNow.AddSeconds(90);
+   while(!System.IO.File.Exists(args[1])){if(DateTime.UtcNow>until)return 5;System.Threading.Thread.Sleep(50);}
+  }
   // Deliberately INVALID context. No credentials, TLS handshake, socket or network send.
   byte[] data=Encoding.ASCII.GetBytes("POST https://fixture.invalid/private?token=DUMMY HTTP/1.1\r\nHost: fixture.invalid\r\nContent-Length: 4\r\n\r\nTEST");
   IntPtr ctx=Marshal.AllocHGlobal(16),payload=Marshal.AllocHGlobal(data.Length),buf=Marshal.AllocHGlobal(16),desc=Marshal.AllocHGlobal(16);
@@ -16,7 +21,7 @@ class Fixture {
    Marshal.StructureToPtr(new Desc{Version=0,Count=1,Buffers=buf},desc,false);
    int status=EncryptMessage(ctx,0,desc,0);
    Console.WriteLine("FIXTURE: invalid-context ABI call only; no TLS or network. Status="+status.ToString("X8"));
-   if(args.Length>0 && args[0]=="hold")System.Threading.Thread.Sleep(60000);
+   if(args.Length>0 && (args[0]=="hold" || args[0]=="attach-hold"))System.Threading.Thread.Sleep(60000);
    return status==0 ? 4 : 0;
   }finally{Marshal.FreeHGlobal(desc);Marshal.FreeHGlobal(buf);Marshal.FreeHGlobal(payload);Marshal.FreeHGlobal(ctx);}
  }

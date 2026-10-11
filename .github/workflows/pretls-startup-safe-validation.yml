@@ -44,3 +44,4 @@ jobs:
         run: |
           ./tools/pretls-debug-kit-startup-safe/tests/Test-CDB-Smoke.ps1 -RequireCdb
           ./tools/pretls-debug-kit-startup-safe/tests/Test-Stop-Smoke.ps1
+          ./tools/pretls-debug-kit-startup-safe/tests/Test-Attach-Gate-Smoke.ps1

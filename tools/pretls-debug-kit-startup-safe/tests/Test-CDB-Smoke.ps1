@@ -18,7 +18,7 @@ try{
  & $csc /nologo /platform:x64 /target:exe ('/out:'+$exe) (Join-Path $PSScriptRoot 'EncryptMessage-ABI-Fixture.cs')
  if($LASTEXITCODE -ne 0){throw 'Fixture build failed'}
  [IO.File]::WriteAllText($cmd,(New-RMCdbCommands),[Text.Encoding]::ASCII)
- $arguments='-G -pd -cf "'+$cmd+'" -logo "'+$log+'" "'+$exe+'"'
+ $arguments='-2 -G -pd -cf "'+$cmd+'" -logo "'+$log+'" "'+$exe+'"'
  $p=Start-Process -FilePath $cdb -ArgumentList $arguments -PassThru -WindowStyle Hidden
  Start-OwnInitialContinuation $p $dir $log $exe $cdb $base
  if(!$p.WaitForExit(60000)){
