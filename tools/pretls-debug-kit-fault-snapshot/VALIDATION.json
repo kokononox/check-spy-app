@@ -1,0 +1,18 @@
+{
+  "version": "0.5-fault-snapshot-experimental",
+  "tested_code_commit": "1e79ef1c9e2a1a8de97270681db4993ff97a44a1",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38147541005",
+  "core_assertions": 24,
+  "diagnostic_privacy_assertions": 44,
+  "windows_powershell51_and_powershell7_core_diagnostics_gui_construction": "PASS",
+  "cdb_own_invalid_context_fixture": "PASS",
+  "own_running_fixture_attach_initial_gate_stop_survival": "PASS",
+  "read_only_own_native_raised_av_record": "PASS; Execute metadata; no g/gn/interrupt by snapshot helper; own target survived stop",
+  "real_invalid_memory_access_in_fixture": false,
+  "real_game": "NOT TESTED",
+  "network_send": "NOT ESTABLISHED",
+  "definitive_detach_success": "NOT ESTABLISHED",
+  "full_interactive_clicks_and_all_failure_races": "NOT TESTED",
+  "user_files_uploaded_to_github": false,
+  "game_files_executed": false
+}
