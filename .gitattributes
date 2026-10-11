@@ -1,0 +1,3 @@
+# Preserve reviewed inspector file bytes across Linux/Windows checkouts.
+# Its SHA256SUMS.txt hashes UTF-8 files with LF line endings.
+/tools/etw-field-inspector-v2.6.5/** -text

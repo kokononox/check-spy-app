@@ -1,0 +1,61 @@
+name: Windows synthetic validation and inspector package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'tools/etw-field-inspector-v2.6.5/**'
+      - 'scripts/ci/**'
+      - '.github/workflows/windows-validation.yml'
+      - '.gitattributes'
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'tools/etw-field-inspector-v2.6.5/**'
+      - 'scripts/ci/**'
+      - '.github/workflows/windows-validation.yml'
+      - '.gitattributes'
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-tests:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    steps:
+      - name: Checkout source without retained credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Parse and run synthetic tests
+        shell: ${{ matrix.shell }}
+        run: ./scripts/ci/Test-Windows.ps1
+
+  package-inspector:
+    needs: synthetic-tests
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source without retained credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Build allowlisted source package
+        shell: powershell
+        run: ./scripts/ci/Build-Inspector.ps1
+      - name: Upload only the source ZIP and its checksum
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ETW-Inspector-v2.6.5-${{ github.run_id }}
+          path: |
+            .ci-artifacts/ExeRouteMonitor-ETW-Inspector-v2.6.5.zip
+            .ci-artifacts/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 7
