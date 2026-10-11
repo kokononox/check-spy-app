@@ -1,4 +1,4 @@
-. (Join-Path $PSScriptRoot 'Local-Log-Audit.ps1')
+﻿. (Join-Path $PSScriptRoot 'Local-Log-Audit.ps1')
 . (Join-Path $PSScriptRoot 'Build-Unified-Report.ps1')
 # Single primary action. Core monitoring and capture continue on their existing workers.
 $script:simpleMode=$true;$script:autoPreparing=$false;$script:autoPhase='Idle';$script:autoAnalysis=$null;$script:autoDeadline=[datetime]::MinValue

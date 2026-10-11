@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 $ErrorActionPreference='Stop'
 $config=$null;$diagFile=Join-Path $PSScriptRoot 'launcher-status.json';$process=$null
 function Save-LaunchDiagnostic($phase,$success,$keyStatus,$errorMessage='') {
