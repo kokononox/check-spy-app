@@ -1,13 +1,14 @@
-# Validation — 0.8.1 UI wiring fix
+# Validation — 0.8.2 bounded code windows
 
-Tested code commit: 4f5a0375e4c0e0bfc0053c4f3480f0469e99ad0f
-Windows Actions run: https://github.com/kokononox/check-spy-app/actions/runs/38158044970
-Status: PASS on Windows Server 2022.
+Tested source commit: 792ccf1be440a70a93cb8d635d0208a2d8196908
+Windows Actions run: https://github.com/kokononox/check-spy-app/actions/runs/38159240231
+Status: PASS, Windows Server 2022.
 
-- Prior debugger/diagnostics/startup/callback parser assertions and owned CDB/asm fixtures passed.
-- NEW fresh child process in both Windows PowerShell 5.1 and PowerShell 7: actual UI tick body imports its own parser, schedules mock callback and overdue mock stop; deliberately throwing context parser still schedules overdue mock stop; continuation gate remains blocked. No target/CDB/helpers invoked by UI tick mocks.
-- GUI construction and tick mocks do NOT cover all real UI clicks, live timing, parser errors or hangs. Owned CDB helper fixtures are separate from UI scheduling tests. No real game test.
-- The 0.8 missing UI parser import was not caught by the earlier layout/direct-helper tests; this regression test now covers that independent launch path.
-- Unchanged callback helper still reads one guarded qword and exports candidate module/RVA only. Actual call target, runtime unwind, breakpoint origin and network send remain NOT ESTABLISHED.
-- Offline extractor bundled without source changes, previously tested: https://github.com/kokononox/check-spy-app/actions/runs/38153385627
-- No user data/config/hash/game files sent to CI. No protections bypassed.
+- 24 debugger, 44 diagnostic/privacy, 33 startup-state, 21 callback-slot and 17 code-window/PE/privacy synthetic assertions.
+- Fresh independent GUI tick tests and prior owned CDB/fault/attach fixtures: PASS.
+- Owned ASM DLL unmodified: 32 entry +16 exception bytes compare equal to file-backed executable PE regions.
+- Separate owned ASM DLL run: C fixture deliberately changes ONE unused padding byte at entry offset20 in its OWN memory; parser finds exact one-byte mismatch. No user-game memory is modified or uploaded. Production reader does not contain this mutation capability.
+- Both real CDB fixture runs: guarded callback candidate, complete windows, safe export without raw code/pointers, wrong loader hash refused, no initial continuation, own target alive after debugger end.
+- First CI run exposed a missing parser import in the integration TEST script; test dependency corrected before this passing run.
+
+Limits: game and unreliable obfuscated unwind NOT tested. ASLR relocation not normalized; difference cause unknown. Small window match is not mapped-image identity. cc offsets are byte matches, not proved instruction boundaries. No network/TLS/content/send/server receipt established. GUI tests use mocks, not all live clicks/failure races. Stop/detach markers are not definitive general detach proof.

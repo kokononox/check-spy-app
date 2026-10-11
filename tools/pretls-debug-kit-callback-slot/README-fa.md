@@ -1,6 +1,18 @@
-# کیت آزمایشی پیش از رمزگذاری — ۰.۸.۱
+# کیت آزمایشی پیش از رمزگذاری — ۰.۸.۲
 
 **راه استفاده: START-HERE-fa.md و Start.cmd.** CDB x64 رسمی باید از قبل نصب باشد.
+
+## جدید در ۰.۸.۲: فقط ۴۸ بایت کد
+
+EntryRVA اختیاری و عددی به پروفایل محلی افزوده شده است. helper پیش از صف‌کردن، ۳۲ بایت ابتدای تابع و ۱۶ بایت از محل exception را از یک محدودهٔ executable و file-backed یکتای PE x64 می‌خواند؛ محدودهٔ ماژول نیز بررسی می‌شود. hash کل فایل پس از خواندن دوباره باید با پروفایل loader منطبق باشد. Expected bytes و آدرس‌ها فقط در PRIVATE-code-windows.json ذخیره می‌شوند. فایل/پروفایل اختصاصی کاربر هرگز به مخزن/CI فرستاده نمی‌شود.
+
+فرمان‌های db /c 0x10 با طول‌های ثابت L0x20 و L0x10 داخل همان guard قبلی TID/RIP/RSP و فقط اگر مقدار slot مجدداً با entry address تطبیق داشت، صف می‌شوند. pointer مجدد فقط برای guard همان خانه خوانده می‌شود؛ heap یا ساختارهای دلخواه دنبال نمی‌شوند. هیچ g/gn/interrupt، نوشتن حافظه یا تغییر exception filter در helper خواندنی اضافه نشده است. .frame local override دیباگر همچنان به فریم صفر بازگردانده می‌شود؛ marker بازگشت، proof عمومیِ بازیابی نیست.
+
+Parser فقط خطوط ۱۶بایتی پیوسته با آدرس مورد انتظار و markerهای کامل را می‌پذیرد؛ payloadهای API نادیده گرفته می‌شوند. نتیجه فقط پس از callback-slot معتبر و کامل تفسیر می‌شود. CodeWindows شامل وضعیت، تعداد بایت، EqualToDisk nullable، offset اختلاف‌ها، SHA256 پنجره‌ها و محل byteهای cc است. هیچ کد خام، مسیر یا آدرس کامل صادر نمی‌شود. محل cc، byte match است نه اثبات دستور/مرز instruction. hash حافظه کوچک نیز اثرانگشت همان bytes است، نه کل تصویر loader.
+
+اختلاف علت را مشخص نمی‌کند: ASLR relocation، breakpoint/instrumentation، تغییر زمان اجرا و سایر علت‌ها ممکن‌اند. تطبیق کوچک هم رفتار/هدف/سلامت کل ماژول یا محتوای شبکه را ثابت نمی‌کند. وضعیت ناقص/guard ردشده نامعلوم می‌ماند. پنجرهٔ اطراف exception ممکن است بایت‌های همسایه/تابع بعدی را نیز شامل شود، نه فقط یک instruction یا یک تابع.
+
+آزمون fixture-owned شامل دو اجراست: DLL asm یکسان با فایل، و تغییر عمدی یک بایت padding استفاده‌نشده در حافظهٔ همان DLL متعلق به CI. VirtualProtect/نوشتن حافظه فقط در C fixture آزمون وجود دارد، نه helper/UI تولیدی؛ نه بازی و نه حفاظت کاربر. هر دو اجرا مقایسه صحیح، عدم ادامه و زنده‌ماندن هدف پس از پایان دیباگر را آزمودند. GUI تایمر مستقل قبلی نیز در هر دو PowerShell آزموده شد؛ همهٔ raceها/کلیک‌ها تأیید نشده‌اند.
 
 ## اصلاح مهم در ۰.۸.۱
 
@@ -93,4 +105,4 @@ Prepare-Session.ps1 مسیر دستی قدیمی است و برای این گر�
 - https://learn.microsoft.com/en-us/windows/win32/secauthn/encryptmessage--schannel
 - https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/cdb-command-line-options
 
-آزمون موفق ویندوز: https://github.com/kokononox/check-spy-app/actions/runs/38158044970
+آزمون موفق ویندوز: https://github.com/kokononox/check-spy-app/actions/runs/38159240231
