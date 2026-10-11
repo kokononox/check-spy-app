@@ -1,0 +1,19 @@
+{
+  "version": "0.6-startup-context-experimental",
+  "tested_code_commit": "3ece526981db677937c1a6516f6218c76516a711",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38149518964",
+  "core_assertions": 24,
+  "diagnostic_privacy_assertions": 44,
+  "startup_metadata_privacy_assertions": 23,
+  "windows_powershell51_and_powershell7_core_diagnostics_gui_construction": "PASS",
+  "own_cdb_fixture_tests": "PASS",
+  "own_loaded_dll_disk_baseline_event_thread_bounded_stack_no_initial_continue": "PASS",
+  "real_game": "NOT TESTED",
+  "real_unknown_loader_initial_break": "NOT TESTED",
+  "breakpoint_origin": "NOT ESTABLISHED",
+  "network_send": "NOT ESTABLISHED",
+  "definitive_detach_success": "NOT ESTABLISHED",
+  "full_interactive_clicks_and_all_failure_races": "NOT TESTED",
+  "user_files_uploaded_to_github": false,
+  "game_files_executed": false
+}
