@@ -1,8 +1,16 @@
-# کیت آزمایشی پیش از رمزگذاری — ۰.۸
+# کیت آزمایشی پیش از رمزگذاری — ۰.۸.۱
 
 **راه استفاده: START-HERE-fa.md و Start.cmd.** CDB x64 رسمی باید از قبل نصب باشد.
 
-## جدید در ۰.۸: خواندن یک خانهٔ stack با شرط‌های محدود
+## اصلاح مهم در ۰.۸.۱
+
+رابط مستقل Startup-Metadata-Core.ps1 را پیش از ارزیابی Get-RMContextIndicators بارگذاری می‌کند. در نسخهٔ ۰.۸ این وابستگی در رابط جا افتاده بود؛ خطای تایمر می‌توانست پیش از زمان‌بندی callback و پیش از تلاش برای توقف خودکار رخ دهد. آزمون‌های helper و ساخت رابط قبلی این مسیر مستقل را پوشش نمی‌دادند. Test-Fresh-UI-Tick اکنون فرایند تازه‌ای بدون parser ازپیش‌بارگذاری‌شده می‌سازد و بدنهٔ واقعی تایمر را با داده/درخواست‌های ساختگی اجرا می‌کند.
+
+اگر parser یا زمان‌بندی در تایمر خطا بدهد، مسیر catch نیز تلاش برای توقف overdue را انجام می‌دهد؛ هویت/console و شرایط helper توقف قبلی تغییر نکرده است. helperهای زنده همچنان باعث تعویق توقف می‌شوند؛ همهٔ حالت‌های failure/hang و کلیک‌های رابط آزموده نشده‌اند و بازیابی دستی ممکن است لازم شود. گزارش EndEvidence.NotAvailable به‌تنهایی بسته‌شدن یا بازماندن CDB را ثابت نمی‌کند.
+
+در بستهٔ ترکیبی، Read-Existing-RVA.cmd ابزار آفلاین قبلاً آزموده‌شده را از زیرپوشه اجرا می‌کند. این launcher به بازی/CDB وصل نمی‌شود و خروجی در Existing-RVA/RVA-to-share.json است. برای بررسی نشست ذخیره‌شده، آن را استفاده کن؛ صرف وجود نسخهٔ اصلاح‌شده نیاز به آزمایش تازه ایجاد نمی‌کند. منابع ابزار آفلاین در tools/offline-loader-rva مخزن جداگانه موجودند.
+
+## قابلیت جدید ۰.۸: خواندن یک خانهٔ stack با شرط‌های محدود
 
 Callback-Slot.ps1 بعد از helper metadata و رکورد کامل زمینهٔ نخ، یک‌بار تلاش می‌کند. فقط توقف اولیهٔ first-chance 80000003 با record منطبق، انتظار آغاز، دروازهٔ InitialBreakLocationUnverified، بدون ادامه/رخداد تازه/فرمان خطادار پذیرفته می‌شود. هویت/نسل هدف و CDB، hash فایل CDB، loader یکتا با hash فایل منطبق با تنظیم محلی، محدودهٔ RVA، محل exception و آدرس بازگشت اولِ stack نیز بررسی می‌شوند. تنظیم محلی از allowlist اعداد و hash خوانده می‌شود؛ هیچ فرمان آزاد وارد نمی‌شود. فایل loader شبکه‌ای/درایو غیرمحلی رد می‌شود.
 
@@ -85,4 +93,4 @@ Prepare-Session.ps1 مسیر دستی قدیمی است و برای این گر�
 - https://learn.microsoft.com/en-us/windows/win32/secauthn/encryptmessage--schannel
 - https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/cdb-command-line-options
 
-آزمون موفق ویندوز: https://github.com/kokononox/check-spy-app/actions/runs/38157284701
+آزمون موفق ویندوز: https://github.com/kokononox/check-spy-app/actions/runs/38158044970

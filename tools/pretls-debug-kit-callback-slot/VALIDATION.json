@@ -1,7 +1,7 @@
 {
-  "version": "0.8-callback-slot-experimental",
-  "tested_code_commit": "85befdfb57306e65185eb1443f4c0271d9659b4e",
-  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38157284701",
+  "version": "0.8.1-callback-ui-fix-experimental",
+  "tested_code_commit": "4f5a0375e4c0e0bfc0053c4f3480f0469e99ad0f",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38158044970",
   "core_assertions": 24,
   "diagnostic_privacy_assertions": 44,
   "startup_metadata_privacy_assertions": 33,
@@ -21,5 +21,8 @@
   "callback_slot_privacy_assertions": 21,
   "own_asm_guarded_one_qword_callback_candidate": "PASS; expected own callback RVA; wrong loader hash refused; no initial continue; target survived",
   "real_unwind_accuracy": "NOT ESTABLISHED",
-  "actual_callback_invocation": "NOT ESTABLISHED"
+  "actual_callback_invocation": "NOT ESTABLISHED",
+  "fresh_standalone_ui_tick_in_powershell51_and_7": "PASS with mock callback/stop; parser-failure timeout path PASS",
+  "real_live_gui_all_failure_races": "NOT TESTED",
+  "offline_extractor_run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38153385627"
 }
