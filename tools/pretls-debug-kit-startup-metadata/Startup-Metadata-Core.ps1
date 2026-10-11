@@ -30,7 +30,7 @@ function Get-RMContextIndicators([string]$Text){
    try{$currentPid=[Convert]::ToUInt32($matches[1],16);$currentTid=[Convert]::ToUInt32($matches[2],16)}catch{}
   }
   # Count CDB stack rows, not arbitrary text or prompt command echoes.
-  if($l -match '^[0-9a-f]{1,3}\s+[0-9a-f`]{8,17}\s+[0-9a-f`]{8,17}\s+'){
+  if($l -match '^(?:[0-9a-f]{1,3}\s+)?[0-9a-f`]{8,17}\s+[0-9a-f`]{8,17}\s+'){
    $frames++
    if($l -match '\bntdll!DbgUiRemoteBreakin\b'){$remote=$true}
    if($l -match '\bntdll!DbgBreakPoint\b'){$breakSymbol=$true}

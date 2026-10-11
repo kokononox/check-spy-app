@@ -20,6 +20,8 @@ Last event: 1234.abcd: Break instruction exception - code 80000003 (first chance
 02 00000000`55555555 00000000`66666666 kernel32!BaseThreadInitThunk
 RM_CONTEXT_END
 '@
+$plain=$context -replace '(?m)^0[0-2] ',''
+Check ((Get-RMContextIndicators $plain).StackFrameRowsObserved -eq 3) 'Unnumbered CDB kv rows supported'
 $c=Get-RMContextIndicators $context
 Check ($c.Complete -and $c.CurrentContextMatchesLastEventThread -and $c.StackFrameRowsObserved -eq 3) 'Context tied to last event thread'
 Check ($c.RemoteBreakinSymbolTextObserved -and $c.DbgBreakPointSymbolTextObserved -and $c.ThreadStartSymbolTextObserved) 'Whitelist-only stack indicators'
