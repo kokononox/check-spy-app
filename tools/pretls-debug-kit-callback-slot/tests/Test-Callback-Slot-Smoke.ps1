@@ -1,6 +1,6 @@
 param([switch]$MutatedCode)
 $ErrorActionPreference='Stop';$base=Split-Path -Parent $PSScriptRoot
-. (Join-Path $base 'Session-UI-Core.ps1');. (Join-Path $base 'Diagnostic-Core.ps1');. (Join-Path $base 'Callback-Slot-Core.ps1')
+. (Join-Path $base 'Session-UI-Core.ps1');. (Join-Path $base 'Diagnostic-Core.ps1');. (Join-Path $base 'Callback-Slot-Core.ps1');. (Join-Path $base 'Code-Window-Core.ps1')
 $cdb=Join-Path ${env:ProgramFiles(x86)} 'Windows Kits\10\Debuggers\x64\cdb.exe'
 $vswhere=Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 $vs=(& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath|Select-Object -First 1)
