@@ -17,9 +17,9 @@ try{
  $ready=$false
  for($i=0;$i -lt 30;$i++){
   Start-Sleep -Milliseconds 500
-  if(Test-Path -LiteralPath $log){try{if([IO.File]::ReadAllText($log) -match '(?m)^\s*RM_END\s*$'){$ready=$true;break}}catch{}}
+  if(Test-Path -LiteralPath $log){try{$fs=[IO.File]::Open($log,[IO.FileMode]::Open,[IO.FileAccess]::Read,[IO.FileShare]::ReadWrite);$sr=New-Object IO.StreamReader($fs);$text=$sr.ReadToEnd();$sr.Dispose();if($text -match '(?m)^\s*RM_END\s*$'){$ready=$true;break}}catch{}}
  }
- if(!$ready){throw 'Fixture observer did not become ready'}
+ if(!$ready){throw ('Fixture observer did not become ready; CDB exited='+$debugger.HasExited+'; log exists='+(Test-Path -LiteralPath $log)+'; own log markers='+@([regex]::Matches([string]$text,'RM_END')).Count)}
  $session=Join-Path $dir 'PRIVATE-ui-session.json'
  @{DebuggerId=$debugger.Id;DebuggerStart=$debugger.StartTime.ToUniversalTime().ToString('o');CdbPath=$cdb;CdbSHA256=(Get-FileHash -LiteralPath $cdb -Algorithm SHA256).Hash}|ConvertTo-Json|Set-Content -LiteralPath $session -Encoding UTF8
  $ps=Join-Path $env:WINDIR 'System32\WindowsPowerShell\v1.0\powershell.exe'
