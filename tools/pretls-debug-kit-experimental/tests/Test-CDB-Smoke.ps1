@@ -26,4 +26,22 @@ try{
  $parsed=Read-RMCdbData $text;$http=Get-RMHttpCandidates $parsed.Records
  if($parsed.ParseErrors -or $http.Candidates.Count -ne 1 -or $http.Candidates[0].URL -ne 'https://fixture.invalid/private?token=DUMMY'){throw 'Live CDB command/ABI fixture failed; no payload log printed'}
  Write-Host 'PASS: CDB breakpoint command and x64 SecBuffer dump on own INVALID-context fixture. No Schannel/TLS/send/game test.'
-}finally{if(Test-Path -LiteralPath $dir){Remove-Item -LiteralPath $dir -Recurse -Force}}
+ }catch{
+ $message=$_.Exception.Message.Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+ Write-Host ('::error title=Own CDB fixture failure::'+$message)
+ if($log -and (Test-Path -LiteralPath $log)){
+  # Only the kit's own DUMMY fixture; never runs on or prints user data.
+  $lines=@(Get-Content -LiteralPath $log | Where-Object {$_ -match 'Syntax|error|Error|resolve|RM_|FIXTURE|Unable|Invalid|breakpoint'} | Select-Object -Last 18)
+  $detail=($lines -join ' ').Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+  if($detail.Length -gt 3500){$detail=$detail.Substring($detail.Length-3500)}
+  Write-Host ('::error title=Own synthetic CDB diagnostics::'+$detail)
+ }
+ throw
+}finally{
+ if($exe){
+  Get-Process -Name 'OwnSyntheticFixture' -ErrorAction SilentlyContinue | ForEach-Object {
+   try{if($_.MainModule.FileName -eq $exe){Stop-Process -Id $_.Id -Force}}catch{}
+  }
+ }
+ if(Test-Path -LiteralPath $dir){Remove-Item -LiteralPath $dir -Recurse -Force}
+}

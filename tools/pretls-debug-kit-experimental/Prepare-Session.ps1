@@ -35,12 +35,14 @@ $gate=Join-Path $root 'Attach-Gate.ps1'
 $gateText=@'
 $ErrorActionPreference='Stop'
 $d=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'PRIVATE-session.json') -Raw|ConvertFrom-Json
+if((Read-Host 'Final isolated-environment and private-capture confirmation: type ATTACH') -cne 'ATTACH'){return}
 $p=Get-Process -Id $d.TargetPID
 if($p.StartTime.ToUniversalTime().ToString('o') -ne $d.CreatedUTC){throw 'Stale process generation; stop'}
 if((Get-FileHash -LiteralPath $p.MainModule.FileName -Algorithm SHA256).Hash -ne $d.TargetSHA256){throw 'Target EXE changed; stop'}
-if((Read-Host 'Final isolated-environment and private-capture confirmation: type ATTACH') -cne 'ATTACH'){return}
 $ErrorActionPreference='Continue'
-& '__CDB__' -pd -p $d.TargetPID -cf (Join-Path $PSScriptRoot 'observer-commands.txt') -logo (Join-Path $PSScriptRoot 'PRIVATE-cdb.txt')
+$arguments='-pd -p '+$d.TargetPID+' -cf "'+(Join-Path $PSScriptRoot 'observer-commands.txt')+'" -logo "'+(Join-Path $PSScriptRoot 'PRIVATE-cdb.txt')+'"'
+$debugger=Start-Process -FilePath '__CDB__' -ArgumentList $arguments -PassThru
+$debugger.WaitForExit()
 '@
 $gateText=$gateText.Replace('__CDB__',$cdb.Replace("'","''"));[IO.File]::WriteAllText($gate,$gateText,[Text.Encoding]::ASCII)
 [IO.File]::WriteAllText($launch,"@echo off`r`ncd /d `"%~dp0`"`r`npowershell.exe -NoProfile -ExecutionPolicy Bypass -File `"%~dp0Attach-Gate.ps1`"`r`npause`r`n",[Text.Encoding]::ASCII)
