@@ -34,6 +34,7 @@ jobs:
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Diagnostic-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Startup-Metadata-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Core.ps1
+          ./tools/pretls-debug-kit-callback-slot/tests/Test-Code-Window-Core.ps1
       - name: Core and GUI layout in PowerShell 7
         if: matrix.shell == 'pwsh'
         shell: pwsh
@@ -44,6 +45,7 @@ jobs:
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Diagnostic-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Startup-Metadata-Core.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Core.ps1
+          ./tools/pretls-debug-kit-callback-slot/tests/Test-Code-Window-Core.ps1
       - name: Owned fixture CDB dump and stop integration
         if: matrix.shell == 'powershell'
         shell: powershell
@@ -55,3 +57,4 @@ jobs:
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Startup-Metadata-Smoke.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Initial-AV-Metadata-Smoke.ps1
           ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Smoke.ps1
+          ./tools/pretls-debug-kit-callback-slot/tests/Test-Callback-Slot-Smoke.ps1 -MutatedCode

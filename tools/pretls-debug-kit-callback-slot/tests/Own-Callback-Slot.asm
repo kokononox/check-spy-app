@@ -10,6 +10,7 @@ OwnCCBreak LABEL BYTE
  add rsp,28h
  ret
 OwnCC ENDP
+DB 32 DUP(90h)
 OwnCaller PROC FRAME
  sub rsp,58h
  .allocstack 58h

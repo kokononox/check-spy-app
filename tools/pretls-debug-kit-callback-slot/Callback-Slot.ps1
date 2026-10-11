@@ -1,7 +1,7 @@
 # Own-console bounded candidate-slot read. Never interrupts, resumes, patches or terminates target.
 param([Parameter(Mandatory=$true)][string]$SessionPath)
 $ErrorActionPreference='Stop'
-. (Join-Path $PSScriptRoot 'Session-UI-Core.ps1');. (Join-Path $PSScriptRoot 'Diagnostic-Core.ps1');. (Join-Path $PSScriptRoot 'Callback-Slot-Core.ps1')
+. (Join-Path $PSScriptRoot 'Session-UI-Core.ps1');. (Join-Path $PSScriptRoot 'Diagnostic-Core.ps1');. (Join-Path $PSScriptRoot 'Callback-Slot-Core.ps1');. (Join-Path $PSScriptRoot 'Code-Window-Core.ps1')
 $folder=Split-Path -Parent $SessionPath;$stage='ValidateState';$queued=$false;$attached=$false;$lock=$null
 function Get-EligibleSlotState($Session){
  if(![string]::Equals([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($Session.LogPath)),[IO.Path]::GetFullPath($folder),[StringComparison]::OrdinalIgnoreCase)){throw 'LogOutsideSession'}
@@ -34,7 +34,15 @@ try{
  $sp=[uint64]$state.Frame.CallerStackPointer
  if($sp -gt 0x00007ffffffff000 -or $sp%8 -ne 0){throw 'UnsupportedCallerStackPointer'}
  [pscustomobject]@{SlotAddress=('0x'+($sp+$config.SlotOffset).ToString('x'));Ranges=$ranges}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $folder 'PRIVATE-callback-slot.json') -Encoding UTF8
- $cmd=New-RMCallbackSlotCommands ([uint32]$state.Event.ThreadId) $exception $return $sp $config.SlotOffset
+ $entryAddress=[uint64]0
+ if($config.EntryRVA){
+  if($config.EntryRVA+32 -gt $loader.ModuleMemorySize -or $config.ExceptionRVA+16 -gt $loader.ModuleMemorySize){throw 'CodeWindowOutsideLoader'}
+  $entryBytes=Read-RMStaticCodeWindow $loader.FileName $config.EntryRVA 32;$exceptionBytes=Read-RMStaticCodeWindow $loader.FileName $config.ExceptionRVA 16
+  if((Get-FileHash -LiteralPath $loader.FileName -Algorithm SHA256).Hash -ine $config.LoaderSHA256){throw 'DiskChangedDuringCodeRead'}
+  $entryAddress=[uint64]$loader.BaseAddress.ToInt64()+$config.EntryRVA
+  @{Entry=@{Address=('0x'+$entryAddress.ToString('x'));DiskHex=([BitConverter]::ToString($entryBytes)).Replace('-','')};Exception=@{Address=('0x'+$exception.ToString('x'));DiskHex=([BitConverter]::ToString($exceptionBytes)).Replace('-','')}}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $folder 'PRIVATE-code-windows.json') -Encoding UTF8
+ }
+ $cmd=New-RMCallbackSlotCommands ([uint32]$state.Event.ThreadId) $exception $return $sp $config.SlotOffset $entryAddress
  Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;

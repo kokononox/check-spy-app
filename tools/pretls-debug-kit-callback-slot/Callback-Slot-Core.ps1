@@ -7,7 +7,9 @@ function Get-RMCallbackConfig([string]$Path){
  if($r.LoaderSHA256 -isnot [string] -or $r.LoaderSHA256 -cnotmatch '^[0-9a-fA-F]{64}$'){throw 'InvalidConfigHash'}
  foreach($k in @('ExceptionRVA','CallerReturnRVA','SlotOffset')){if($r.$k -isnot [int] -and $r.$k -isnot [long]){throw 'InvalidConfigNumber'};if($r.$k -lt 0 -or $r.$k -gt 2147483647){throw 'InvalidConfigRange'}}
  if(!$r.ExceptionRVA -or !$r.CallerReturnRVA -or $r.SlotOffset -gt 256 -or $r.SlotOffset%8 -ne 0){throw 'UnsupportedConfig'}
- return [pscustomobject]@{LoaderSHA256=$r.LoaderSHA256.ToLowerInvariant();ExceptionRVA=[uint64]$r.ExceptionRVA;CallerReturnRVA=[uint64]$r.CallerReturnRVA;SlotOffset=[uint64]$r.SlotOffset}
+ $entry=[uint64]0
+ if($null -ne $r.EntryRVA){if(($r.EntryRVA -isnot [int] -and $r.EntryRVA -isnot [long]) -or $r.EntryRVA -le 0 -or $r.EntryRVA -gt 2147483647){throw 'InvalidEntryRVA'};$entry=[uint64]$r.EntryRVA}
+ return [pscustomobject]@{EntryRVA=$entry;LoaderSHA256=$r.LoaderSHA256.ToLowerInvariant();ExceptionRVA=[uint64]$r.ExceptionRVA;CallerReturnRVA=[uint64]$r.CallerReturnRVA;SlotOffset=[uint64]$r.SlotOffset}
 }
 function Get-RMRecordedCallbackFrame([string]$Text){
  if($Text.Length -gt 8388608){throw 'LogTooLarge'}
@@ -23,10 +25,12 @@ function Get-RMRecordedCallbackFrame([string]$Text){
  if(!$complete -or !$ctx.CurrentContextMatchesLastEventThread -or $rows.Count -lt 2){return $null}
  return [pscustomobject]@{TopReturnAddress=$rows[0].ReturnAddress;CallerStackPointer=$rows[1].StackPointer}
 }
-function New-RMCallbackSlotCommands([uint32]$ThreadId,[uint64]$ExceptionAddress,[uint64]$ReturnAddress,[uint64]$CallerSP,[uint64]$Offset){
+function New-RMCallbackSlotCommands([uint32]$ThreadId,[uint64]$ExceptionAddress,[uint64]$ReturnAddress,[uint64]$CallerSP,[uint64]$Offset,[uint64]$EntryAddress=0){
  if(!$ThreadId -or !$ExceptionAddress -or !$ReturnAddress -or !$CallerSP -or $Offset -gt 256 -or $Offset%8 -ne 0){throw 'InvalidNumericCommandInput'}
  # .frame /c changes debugger LOCAL override context, not target registers. Restore frame 0 even on inner rejection.
- return ('.echo RM_SLOT_ATTEMPT; .lastevent; ~.; .frame /c 0x0; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .frame /c /r 0x1; .if ((@rip == 0x{2}) and (@rsp == 0x{3})) {{ .echo RM_SLOT_BEGIN; dq @rsp+0x{4} L0x1; .echo RM_SLOT_END }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .frame /c 0x0; .echo RM_SLOT_CONTEXT_RESTORED }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .echo RM_SLOT_DONE' -f $ThreadId.ToString('x'),$ExceptionAddress.ToString('x'),$ReturnAddress.ToString('x'),$CallerSP.ToString('x'),$Offset.ToString('x'))+"`r"
+ $code=''
+ if($EntryAddress){$code=('.if (poi(@rsp+0x{0}) == 0x{1}) {{ .echo RM_CODE_ENTRY_BEGIN; db /c 0x10 0x{1} L0x20; .echo RM_CODE_ENTRY_END; .echo RM_CODE_EXCEPTION_BEGIN; db /c 0x10 0x{2} L0x10; .echo RM_CODE_EXCEPTION_END }} .else {{ .echo RM_CODE_GUARD_REJECTED }}; ' -f $Offset.ToString('x'),$EntryAddress.ToString('x'),$ExceptionAddress.ToString('x'))}
+ return ('.echo RM_SLOT_ATTEMPT; .lastevent; ~.; .frame /c 0x0; .if ((@$tid == 0x{0}) and (@rip == 0x{1})) {{ .frame /c /r 0x1; .if ((@rip == 0x{2}) and (@rsp == 0x{3})) {{ .echo RM_SLOT_BEGIN; dq @rsp+0x{4} L0x1; .echo RM_SLOT_END; {5}}} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .frame /c 0x0; .echo RM_SLOT_CONTEXT_RESTORED }} .else {{ .echo RM_SLOT_GUARD_REJECTED }}; .echo RM_SLOT_DONE' -f $ThreadId.ToString('x'),$ExceptionAddress.ToString('x'),$ReturnAddress.ToString('x'),$CallerSP.ToString('x'),$Offset.ToString('x'),$code)+"`r"
 }
 function Get-RMCallbackSlotResult([string]$Text,[uint64]$ExpectedSlot,$Ranges){
  if($Text.Length -gt 8388608){throw 'LogTooLarge'}
