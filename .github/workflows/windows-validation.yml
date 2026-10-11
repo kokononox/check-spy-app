@@ -34,8 +34,13 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - name: Parse and run synthetic tests
-        shell: ${{ matrix.shell }}
+      - name: Parse and run synthetic tests in Windows PowerShell 5.1
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: ./scripts/ci/Test-Windows.ps1
+      - name: Parse and run synthetic tests in PowerShell 7
+        if: matrix.shell == 'pwsh'
+        shell: pwsh
         run: ./scripts/ci/Test-Windows.ps1
 
   package-inspector:
