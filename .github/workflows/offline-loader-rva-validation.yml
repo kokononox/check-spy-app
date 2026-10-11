@@ -1,0 +1,38 @@
+name: Offline relative address extraction validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/offline-loader-rva/**'
+      - '.github/workflows/offline-loader-rva-validation.yml'
+  pull_request:
+    paths:
+      - 'tools/offline-loader-rva/**'
+      - '.github/workflows/offline-loader-rva-validation.yml'
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Owned offline tests in Windows PowerShell
+        if: matrix.shell == 'powershell'
+        shell: powershell
+        run: |
+          ./tools/offline-loader-rva/tests/Test-RVA-Core.ps1
+          ./tools/offline-loader-rva/tests/Test-RVA-Windows.ps1
+      - name: Owned offline tests in PowerShell 7
+        if: matrix.shell == 'pwsh'
+        shell: pwsh
+        run: |
+          ./tools/offline-loader-rva/tests/Test-RVA-Core.ps1
+          ./tools/offline-loader-rva/tests/Test-RVA-Windows.ps1
