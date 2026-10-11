@@ -1,0 +1,12 @@
+{
+  "tested_commit": "02b3cf9e532a25c8cd3817c30e8f6d1bdddadcb8",
+  "run_url": "https://github.com/kokononox/check-spy-app/actions/runs/38139626840",
+  "synthetic_assertions": 24,
+  "windows_powershell51_core": "PASS",
+  "windows_powershell7_core": "PASS",
+  "cdb_invalid_context_own_fixture": "PASS",
+  "real_game": "NOT TESTED",
+  "schannel_context_verification": "NOT IMPLEMENTED",
+  "successful_network_send": "NOT ESTABLISHED",
+  "private_game_data_uploaded": false
+}

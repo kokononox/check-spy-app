@@ -79,7 +79,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Read-Private-Log.ps1 -
 
 ## آزمون‌ها و وضعیت
 
-۲۲ آزمون مصنوعی parser/command/privacy در PowerShell 7.4.7 روی Linux موفق شدند. این آزمون‌ها اجرای CDB یا بازی نیستند.
+۲۴ آزمون مصنوعی parser/command/privacy در PowerShell 7.4.7 روی Linux موفق شدند. این آزمون‌ها اجرای CDB یا بازی نیستند.
 
 Test-CDB-Smoke.ps1 فقط fixture ساخته‌شده از سورس داخل کیت را آزمایش می‌کند: یک فراخوانی با context عمداً نامعتبر، بدون TLS handshake، شبکه یا اعتبارنامه. در نبود CDB صریحاً NOT RUN اعلام می‌شود. حتی موفقیت این fixture تأیید Schannel واقعی یا بازی نیست.
 
@@ -87,3 +87,9 @@ Test-CDB-Smoke.ps1 فقط fixture ساخته‌شده از سورس داخل ک�
 - https://learn.microsoft.com/en-us/windows/win32/secauthn/encryptmessage--schannel
 - https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/cdb-command-line-options
 - https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/q--qq--quit-
+
+### نتیجهٔ آزمون واقعی CDB در ویندوز
+
+اجرای https://github.com/kokononox/check-spy-app/actions/runs/38139626840 موفق شد: آزمون‌های هسته در PowerShell 5.1 و 7 و آزمون CDB روی fixture متعلق به کیت. در این اجرا CDB حاضر بود؛ پیام NOT RUN وجود نداشت. fixture یک فراخوانی با context نامعتبر و دادهٔ ساختگی دارد؛ هیچ TLS handshake یا ارسال شبکه‌ای انجام نمی‌دهد. این نتیجه صحت مسیر فرمان/ABI/dump/parser را در همان محیط نشان می‌دهد، نه قابلیت استفاده روی بازی.
+
+اصلاحات آزمون واقعی شامل شرط‌های MASM، عرض ثابت ۱۶ بایتی dump و جداسازی صریح نشانگر از dump با echo بود. بستهٔ آماده‌سازی همچنان فقط با تأیید جداگانه attach می‌کند و روی محیط واقعیِ کاربر آزموده نشده است.
