@@ -1,0 +1,40 @@
+name: Owned query-only page-state validation
+on:
+  push:
+    paths:
+      - 'tools/page-state-validation/**'
+      - '.github/workflows/page-state-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-powershell51:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic page classification and bounds
+        shell: powershell
+        run: |
+          & .\tools\page-state-validation\tests\Test-Core.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Query-only native owned-page fixture
+        shell: powershell
+        run: |
+          & .\tools\page-state-validation\tests\Test-Native-Windows.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  powershell7:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic page classification and bounds
+        shell: pwsh
+        run: |
+          & .\tools\page-state-validation\tests\Test-Core.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Query-only native owned-page fixture
+        shell: pwsh
+        run: |
+          & .\tools\page-state-validation\tests\Test-Native-Windows.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
