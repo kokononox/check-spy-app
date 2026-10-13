@@ -21,7 +21,7 @@ class Recorder:
         out.mkdir(parents=True,exist_ok=True);self.raw=(out/'PRIVATE-events.jsonl').open('w',encoding='utf-8');self.output=out
     def on_message(self,message,data):
         if message.get('type')=='send':e=dict(message['payload'])
-        else:e={'type':'script_error','errorClass':'InstrumentationScriptError'}
+        else:e={'type':'script_error','errorClass':'InstrumentationScriptError','privateDetail':message.get('description','')}
         with self.lock:
             e['stage']=self.stage;e['elapsedSeconds']=round(time.monotonic()-self.start,3);e['timeUtc']=datetime.datetime.now(datetime.timezone.utc).isoformat()
             if data:e['dataBase64']=base64.b64encode(data).decode('ascii')

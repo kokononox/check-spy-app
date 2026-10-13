@@ -22,6 +22,11 @@ with tempfile.TemporaryDirectory() as td:
   private=json.loads((out/'PRIVATE-requests.json').read_text());assert any('token=SYNTHETIC_SECRET' in (r.get('url') or '') for r in private)
   assert all(r['serverReceiptProven'] is False for r in rows)
   print('PASS: real Frida interception of owned Windows WinHTTP client; optional body and split WriteData body matched owned loopback server; sharing redaction passed. This is not a game/TLS compatibility test.')
+ except Exception as exc:
+  # Only owned fixture data appear in this public CI annotation. Never run this on user captures.
+  detail=type(exc).__name__+": "+str(exc)+" | events: "+str(rec.events[:20])
+  print("::error::"+detail.replace("%","%25").replace("\r","%0D").replace("\n","%0A")[:10000],flush=True)
+  raise
  finally:
   if script:
    try:script.unload()
