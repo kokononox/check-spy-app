@@ -8,22 +8,33 @@ on:
 permissions:
   contents: read
 jobs:
-  owned-fixture:
+  windows-powershell51:
     runs-on: windows-latest
     timeout-minutes: 8
-    strategy:
-      fail-fast: false
-      matrix:
-        shell: [powershell, pwsh]
     steps:
       - uses: actions/checkout@v4
       - name: Synthetic snapshot scope and budgets
-        shell: ${{ matrix.shell }}
+        shell: powershell
         run: |
           & .\tools\readonly-code-validation\tests\Test-Core.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Native read of owned fixture and guard refusal
-        shell: ${{ matrix.shell }}
+        shell: powershell
+        run: |
+          & .\tools\readonly-code-validation\tests\Test-Native-Windows.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  powershell7:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Synthetic snapshot scope and budgets
+        shell: pwsh
+        run: |
+          & .\tools\readonly-code-validation\tests\Test-Core.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Native read of owned fixture and guard refusal
+        shell: pwsh
         run: |
           & .\tools\readonly-code-validation\tests\Test-Native-Windows.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
