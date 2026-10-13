@@ -1,0 +1,25 @@
+name: Targeted request capture owned-fixture validation
+on:
+  push:
+    paths:
+      - 'tools/targeted-request-capture/**'
+      - '.github/workflows/targeted-request-capture.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-owned-fixture:
+    runs-on: windows-2022
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Build exact portable runtime
+        run: python tools/targeted-request-capture/tests/build_runtime.py
+      - name: Parser and redaction tests in portable runtime
+        run: tools/targeted-request-capture/runtime/python.exe tools/targeted-request-capture/tests/test_analyze.py
+      - name: Real hooks on owned synthetic Windows WinHTTP process
+        run: tools/targeted-request-capture/runtime/python.exe tools/targeted-request-capture/tests/test_windows_native.py
