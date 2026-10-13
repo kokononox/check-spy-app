@@ -8,6 +8,8 @@ function Get-ReadFailure {
  param($ErrorRecord)
  $x=$ErrorRecord.Exception.GetBaseException()
  if($x -is [HardwareSnapshot.ReadFailure]) {return @{Reason=$x.Reason;ErrorCode=$x.ErrorCode}}
+ $safe=@('LiveDOSMismatch','LiveHeaderRange','LivePEMismatch','DefaultVTableMismatch','PartialRead','FileRange','RVAWithoutFileBytes')
+ if($safe -contains $x.Message) {return @{Reason=$x.Message;ErrorCode=$null}}
  return @{Reason='ReadOrValidationFailed';ErrorCode=$null}
 }
 function Resolve-ScopedCode {
