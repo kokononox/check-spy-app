@@ -28,6 +28,7 @@ function Invoke-ScopedSnapshot {
  $out=[ordered]@{
   Version=$Manifest.Version;Status='Starting';SnapshotUTC=[DateTime]::UtcNow.ToString('o')
   TargetFileMatched=$true;LoadedMainImageMatched=$false;DefaultInstanceVTableMatched=$false
+  WholeMappedImageIdentity='NotEstablished';DiskHashesDoNotProveMemoryIdentity=$true
   MetadataStableAfterRead=$false;CodeWindows=@();CodeBytesCollected=0
   HardwarePayloadObserved=$false;ExactOutgoingURLObserved=$false
   Privacy=[ordered]@{
