@@ -13,18 +13,19 @@ public static class OwnFixtureMemory {
 }
 '@
 $address=[IntPtr]::Zero;$handle=[IntPtr]::Zero
+$page=New-Object UIntPtr -ArgumentList ([UInt32]4096)
 try {
- $address=[OwnFixtureMemory]::VirtualAlloc([IntPtr]::Zero,[UIntPtr]4096,0x3000,0x04)
+ $address=[OwnFixtureMemory]::VirtualAlloc([IntPtr]::Zero,$page,0x3000,0x04)
  if($address -eq [IntPtr]::Zero){throw 'Own fixture allocation failed'}
  [byte[]]$bytes=0x90,0x90,0xc3,0x41,0x42,0x43,0x44,0x45
  [Runtime.InteropServices.Marshal]::Copy($bytes,0,$address,$bytes.Length)
  $old=[UInt32]0
- if(-not [OwnFixtureMemory]::VirtualProtect($address,[UIntPtr]4096,0x20,[ref]$old)){throw 'Own fixture protect failed'}
+ if(-not [OwnFixtureMemory]::VirtualProtect($address,$page,0x20,[ref]$old)){throw 'Own fixture protect failed'}
  $handle=[HardwareSnapshot.Native]::OpenProcess(0x1010,$false,$PID)
  if($handle -eq [IntPtr]::Zero){throw 'Own fixture read handle failed'}
  $read=[HardwareSnapshot.Native]::Read($handle,[UInt64]$address.ToInt64(),8,$true)
  if([Convert]::ToBase64String($read) -ne [Convert]::ToBase64String($bytes)){throw 'Native read mismatch'}
- if(-not [OwnFixtureMemory]::VirtualProtect($address,[UIntPtr]4096,0x120,[ref]$old)){throw 'Own guard protect failed'}
+ if(-not [OwnFixtureMemory]::VirtualProtect($address,$page,0x120,[ref]$old)){throw 'Own guard protect failed'}
  $refused=$false
  try {[void][HardwareSnapshot.Native]::Read($handle,[UInt64]$address.ToInt64(),8,$true)}
  catch {$refused=($_.Exception.GetBaseException().Reason -eq 'GuardOrUnreadablePage')}
