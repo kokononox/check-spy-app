@@ -1,0 +1,56 @@
+name: TLS proxy - real Windows loopback integration
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/tls-proxy-validation/**'
+      - '.github/workflows/tls-proxy-windows-integration.yml'
+  pull_request:
+    paths:
+      - 'tools/tls-proxy-validation/**'
+      - '.github/workflows/tls-proxy-windows-integration.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  loopback-tls:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source without persisted credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Set up Python for owned fixtures
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install certificate generation library
+        shell: pwsh
+        run: python -m pip install --disable-pip-version-check cryptography==46.0.3
+      - name: Synthetic privacy and diagnostics regression tests
+        shell: pwsh
+        run: |
+          python -m unittest discover -s tools/tls-proxy-validation/tests -v
+          if ($LASTEXITCODE -ne 0) { throw 'Synthetic regression failed.' }
+      - name: Real loopback TLS with official vendor proxy and live Windows PID attribution
+        shell: pwsh
+        run: ./tools/tls-proxy-validation/Run-Windows-Integration.ps1
+      - name: Record safe result in job summary
+        shell: pwsh
+        run: |
+          $r=Get-Content -LiteralPath tools/tls-proxy-validation/out/windows-tls-integration-safe.json -Raw|ConvertFrom-Json
+          '## Owned Windows TLS proxy integration' >> $env:GITHUB_STEP_SUMMARY
+          ('Passed cases: '+@($r.Cases).Count) >> $env:GITHUB_STEP_SUMMARY
+          ('CurrentUser Root unchanged: '+$r.CurrentUserRootStoreUnchanged) >> $env:GITHUB_STEP_SUMMARY
+          'No user game, user files, CA-store installation, or protection bypass. Game compatibility is NOT established.' >> $env:GITHUB_STEP_SUMMARY
+      - name: Upload only sanitized owned-fixture result (no raw logs, certificates or private files)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: owned-windows-tls-safe-result-${{ github.run_id }}
+          path: tools/tls-proxy-validation/out/windows-tls-integration-safe.json
+          if-no-files-found: error
+          retention-days: 7
