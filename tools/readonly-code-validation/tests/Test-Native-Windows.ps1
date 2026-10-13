@@ -1,5 +1,6 @@
 param([string]$Root=(Split-Path $PSScriptRoot -Parent))
 $ErrorActionPreference='Stop'
+trap { Write-Output ('::error::Owned fixture failure: '+$_.Exception.Message+'; line='+$_.InvocationInfo.ScriptLineNumber); exit 1 }
 if([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT){throw 'Windows only; test never targets a game.'}
 Add-Type -Path (Join-Path $Root 'Native.cs')
 Add-Type @'

@@ -1,5 +1,6 @@
 param([string]$Root=(Split-Path $PSScriptRoot -Parent),[string]$GameFile)
 $ErrorActionPreference='Stop'
+trap { Write-Output ('::error::Owned fixture failure: '+$_.Exception.Message+'; line='+$_.InvocationInfo.ScriptLineNumber); exit 1 }
 Add-Type -Path (Join-Path $Root 'Native.cs')
 . (Join-Path $Root 'Core.ps1')
 Add-Type @'
