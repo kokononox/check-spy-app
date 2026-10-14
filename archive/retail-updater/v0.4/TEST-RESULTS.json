@@ -1,0 +1,20 @@
+{
+  "real_encoding_metadata_test": {
+    "official_encoding_full_hash_verified": true,
+    "all_ckey_pages_validated": true,
+    "all_ekey_pages_validated": true,
+    "wow_sample_mapping_verified": true,
+    "ckey_records_scanned": 2882688,
+    "windows_tested": false
+  },
+  "controlled_fixture_tests": {
+    "unit_tests_passed": 11,
+    "all_six_content_classes_tested": true,
+    "offline_archive_metadata_fixture_passed": true,
+    "windows_local_game_tested": false
+  },
+  "actual_windows_local_encoding_extraction_tested": false,
+  "game_asset_payload_verification_implemented": false,
+  "network_downloads_in_application": false,
+  "full_update_engine_implemented": false
+}

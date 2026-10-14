@@ -1,0 +1,19 @@
+{
+  "synthetic_tests": {
+    "unit_tests_passed": 15,
+    "full_fixture_passed": true,
+    "decoded_asset_output_not_created": true,
+    "synthetic_game_files_unchanged": true,
+    "deduplicated_local_payload_checks_tested": true,
+    "encrypted_and_unsupported_modes_not_claimed_decoded": true,
+    "actual_windows_user_archives_tested": false
+  },
+  "official_sample_test": {
+    "official_sample_ckey_and_ekey_verified": true,
+    "decoded_asset_saved": false,
+    "sample_executed": false,
+    "actual_windows_user_archives_tested": false
+  },
+  "full_update_engine_implemented": false,
+  "windows_runtime_tested": false
+}

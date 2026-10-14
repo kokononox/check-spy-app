@@ -1,0 +1,45 @@
+{
+  "synthetic_tests_total": 58,
+  "base_tests": {
+    "synthetic_tests_passed": 19,
+    "synthetic_end_to_end_passed": true,
+    "original_game_and_cache_unchanged_in_fixture": true,
+    "actual_windows_runtime_tested": false,
+    "real_user_private_databases_tested": false
+  },
+  "range_tests": {
+    "range_and_index_tests_passed": 26,
+    "synthetic_cached_group_end_to_end_passed": true,
+    "whole_archive_200_rejected_before_body_read": true,
+    "original_game_and_cache_unchanged_in_fixture": true,
+    "actual_windows_runtime_tested": false
+  },
+  "batch_tests": {
+    "batch_tests_passed": 13,
+    "eight_object_end_to_end_passed": true,
+    "stop_after_first_failure_and_preserve_success_tested": true,
+    "shared_metadata_budget_tested": true,
+    "original_game_and_cache_unchanged_in_fixture": true,
+    "actual_windows_runtime_tested": false
+  },
+  "live_official_batch": {
+    "status": "batch_completed",
+    "selected_target_objects": 8,
+    "range_requests_attempted": 8,
+    "range_response_bytes_read": 1217,
+    "encoded_verified_objects": 8,
+    "decoded_ckey_verified_objects": 8,
+    "failure_reason": null,
+    "counts_by_download_status": {
+      "target_range_sample_downloaded_and_encoded_verified": 8
+    },
+    "actual_official_archive_batch_attempted": true,
+    "actual_windows_runtime_tested": false,
+    "real_user_private_database_tested": false,
+    "decoded_game_assets_saved": false,
+    "assets_executed": false
+  },
+  "full_update_engine_implemented": false,
+  "actual_windows_runtime_tested": false,
+  "real_user_private_database_tested": false
+}

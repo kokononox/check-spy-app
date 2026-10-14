@@ -1,0 +1,37 @@
+{
+  "synthetic_tests_total": 45,
+  "base_tests": {
+    "synthetic_tests_passed": 19,
+    "synthetic_end_to_end_passed": true,
+    "original_game_and_cache_unchanged_in_fixture": true,
+    "actual_windows_runtime_tested": false,
+    "real_user_private_databases_tested": false
+  },
+  "range_index_tests": {
+    "range_and_index_tests_passed": 26,
+    "synthetic_cached_group_end_to_end_passed": true,
+    "whole_archive_200_rejected_before_body_read": true,
+    "original_game_and_cache_unchanged_in_fixture": true,
+    "actual_windows_runtime_tested": false
+  },
+  "live_official_archive_test": {
+    "actual_official_archive_range_attempted": true,
+    "status": "target_range_sample_downloaded_and_encoded_verified",
+    "range_http_status": 206,
+    "expected_encoded_bytes": 138,
+    "range_response_bytes_read": 138,
+    "server_range_accepted": true,
+    "encoded_integrity_verified": true,
+    "decoded_ckey_verified": true,
+    "failure_reason": null,
+    "all_index_checksums_verified": true,
+    "full_archive_body_read": false,
+    "decoded_game_assets_saved": false,
+    "sample_executed": false,
+    "actual_windows_runtime_tested": false,
+    "real_user_candidate_tested": false
+  },
+  "full_update_engine_implemented": false,
+  "actual_windows_runtime_tested": false,
+  "real_user_private_database_tested": false
+}

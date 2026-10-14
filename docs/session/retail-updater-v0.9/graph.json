@@ -1,0 +1,137 @@
+{
+  "kind": "non_quantitative_session_dependency_graph",
+  "complete_verbatim_transcript": false,
+  "nodes": [
+    {
+      "id": "T0",
+      "track": "telemetry",
+      "title": "هدف: محتوای تلمتری",
+      "detail": "CPU / GPU / RAM، پیش و پس از ورود",
+      "status": "question"
+    },
+    {
+      "id": "T1",
+      "track": "telemetry",
+      "title": "کنترل helper و نقشهٔ ارتباط",
+      "detail": "آزمون ابزار از رفتار بازی جدا شد",
+      "status": "done"
+    },
+    {
+      "id": "T2",
+      "track": "telemetry",
+      "title": "ضبط رمز‌شده و رد بارگذاری agent",
+      "detail": "مقصد و زمان، نه بدنهٔ خوانای درخواست",
+      "status": "limited"
+    },
+    {
+      "id": "T3",
+      "track": "telemetry",
+      "title": "ارسال فیلدهای مشخص اثبات نشده",
+      "detail": "نه رمزگشایی TLS، نه حکم رفتار مخرب",
+      "status": "unknown"
+    },
+    {
+      "id": "U0",
+      "track": "updater",
+      "title": "بررسی نسخه و staging — ۰٫۱ / ۰٫۲",
+      "detail": "هدف پین‌شده؛ نصب اصلی دست‌نخورده",
+      "status": "done"
+    },
+    {
+      "id": "U1",
+      "track": "updater",
+      "title": "موجودی و CKey — ۰٫۳ / ۰٫۴",
+      "detail": "کاندیداهای دریافت و استفادهٔ مجدد، نه حجم پچ",
+      "status": "limited"
+    },
+    {
+      "id": "U2",
+      "track": "updater",
+      "title": "بررسی payload و قالب — ۰٫۵ / ۰٫۶",
+      "detail": "رمزگذاری خارجی از قالب نامعلوم جدا شد",
+      "status": "done"
+    },
+    {
+      "id": "U3",
+      "track": "updater",
+      "title": "آدرس مستقیم — ۰٫۷",
+      "detail": "HTTP 403؛ نمونه دریافت و تأیید نشد",
+      "status": "failed"
+    },
+    {
+      "id": "U4",
+      "track": "updater",
+      "title": "آرشیو + Range — ۰٫۸ / ۰٫۹",
+      "detail": "دستهٔ کوچک کاربر کامل تأیید شد؛ فقط staging",
+      "status": "done"
+    },
+    {
+      "id": "U5",
+      "track": "updater",
+      "title": "طرح سراسری — ۰٫۱۰",
+      "detail": "درخواست و بررسی اولیه؛ هنوز ساخته نشده",
+      "status": "pending"
+    },
+    {
+      "id": "U6",
+      "track": "updater",
+      "title": "دریافت قابل‌ادامه و نصب CASC",
+      "detail": "پیاده‌سازی، rollback و آزمون نصب باقی است",
+      "status": "pending"
+    }
+  ],
+  "edges": [
+    {
+      "from": "T0",
+      "to": "T1",
+      "label": "بررسی ابزار"
+    },
+    {
+      "from": "T1",
+      "to": "T2",
+      "label": "شواهد واقعی"
+    },
+    {
+      "from": "T2",
+      "to": "T3",
+      "label": "مرز نتیجه"
+    },
+    {
+      "from": "T3",
+      "to": "U0",
+      "label": "مسیر جدید درخواست کاربر"
+    },
+    {
+      "from": "U0",
+      "to": "U1",
+      "label": "فهرست هدف"
+    },
+    {
+      "from": "U1",
+      "to": "U2",
+      "label": "بررسی محتوا"
+    },
+    {
+      "from": "U2",
+      "to": "U3",
+      "label": "تست دریافت"
+    },
+    {
+      "from": "U3",
+      "to": "U4",
+      "label": "مسیر آرشیوی"
+    },
+    {
+      "from": "U4",
+      "to": "U5",
+      "label": "گام بعدی"
+    },
+    {
+      "from": "U5",
+      "to": "U6",
+      "label": "پس از طرح و تأیید مستقل"
+    }
+  ],
+  "evidence": "EVIDENCE-SUMMARY.json",
+  "scope": "Technical checkpoint through v0.9; v0.10 is not implemented"
+}

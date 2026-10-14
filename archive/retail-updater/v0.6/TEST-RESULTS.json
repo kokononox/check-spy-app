@@ -1,0 +1,13 @@
+{
+  "unit_tests_passed": 19,
+  "full_fixture_passed": true,
+  "decoded_asset_output_not_created": true,
+  "synthetic_game_files_unchanged": true,
+  "deduplicated_local_payload_checks_tested": true,
+  "encrypted_and_unsupported_modes_not_claimed_decoded": true,
+  "actual_windows_user_archives_tested": false,
+  "official_sample_content_verified": true,
+  "actual_windows_v06_runtime_tested": false,
+  "new_decoder_added": false,
+  "full_update_engine_implemented": false
+}

@@ -1,0 +1,13 @@
+{
+  "public_transfer_scope_reviewed": true,
+  "basic_sensitive_pattern_scan_alerts": 0,
+  "basic_pattern_scan_is_not_a_full_secret_scan": true,
+  "python_files_syntax_checked": 64,
+  "graph_light_desktop_visual_review": "passed_after_layout_repair",
+  "graph_narrow_visual_review": "passed",
+  "graph_dark_visual_review": "passed",
+  "current_verbatim_transcript_archived": false,
+  "private_originals_uploaded": false,
+  "game_or_vendor_binaries_uploaded": false,
+  "v010_implemented": false
+}

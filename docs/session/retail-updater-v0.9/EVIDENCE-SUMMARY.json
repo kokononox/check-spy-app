@@ -1,0 +1,227 @@
+{
+  "0.2": {
+    "status": "sample_downloaded_and_content_verified",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Staging-to-share.json",
+    "source_report_sha256": "981e9630e2c7f4882b1eea831e3b0e580c53ee1a960ca2d1eef9f13d8cd439e5",
+    "is_sanitized_derived_summary_not_original_report": true
+  },
+  "0.3": {
+    "status": "candidate_inventory_completed",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "summary": {
+      "unique_target_ekeys": 1578013,
+      "target_encoded_bytes": 132637194719,
+      "prefix_and_size_candidates": 1531167,
+      "candidate_encoded_bytes": 126727259654,
+      "no_observed_prefix_match": 46846,
+      "no_prefix_match_encoded_bytes": 5909935065,
+      "prefix_with_size_mismatch": 0,
+      "size_mismatch_encoded_bytes": 0,
+      "independent_join_check_passed": true
+    },
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Inventory-to-share.json",
+    "source_report_sha256": "e4ea25ceccf4b16ae9e45930f2effe22e450aa34ed854a16decb2978cb83cf82",
+    "is_sanitized_derived_summary_not_original_report": true
+  },
+  "0.4": {
+    "status": "candidate_content_comparison_completed",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "summary": {
+      "exact_index_candidate_now": {
+        "target_objects": 0,
+        "target_whole_encoded_bytes": 0
+      },
+      "alternate_encoding_same_content_candidate": {
+        "target_objects": 964,
+        "target_whole_encoded_bytes": 110818218
+      },
+      "same_content_metadata_no_local_index_candidate": {
+        "target_objects": 10042,
+        "target_whole_encoded_bytes": 797239280
+      },
+      "content_key_not_in_installed_build_metadata": {
+        "target_objects": 35840,
+        "target_whole_encoded_bytes": 5001877567
+      },
+      "target_ekey_unmapped": {
+        "target_objects": 0,
+        "target_whole_encoded_bytes": 0
+      },
+      "metadata_decoded_size_conflict": {
+        "target_objects": 0,
+        "target_whole_encoded_bytes": 0
+      }
+    },
+    "original_unmatched_target_objects": 46846,
+    "original_unmatched_whole_encoded_bytes": 5909935065,
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Content-to-share.json",
+    "source_report_sha256": "4b005199b66116214d1ad4008840afd31d7c10fa9ee8dedceadaee28a069c398",
+    "is_sanitized_derived_summary_not_original_report": true
+  },
+  "0.5": {
+    "status": "payload_verification_completed",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "summary": {
+      "content_verified": {
+        "target_objects": 12,
+        "associated_target_encoded_bytes": 1663935
+      },
+      "encoded_integrity_only": {
+        "target_objects": 952,
+        "associated_target_encoded_bytes": 109154283
+      },
+      "validation_failed": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "location_not_found": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "read_failed": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "metadata_unresolved": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "not_checked_size_limit": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      }
+    },
+    "input_target_candidates": 964,
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Payload-Verify-to-share.json",
+    "source_report_sha256": "cfd1e92b7b58ccfec20a7f3b6a5adc66c21eeda485a917794a1ecfe3a26bf5bf",
+    "is_sanitized_derived_summary_not_original_report": true
+  },
+  "0.6": {
+    "status": "payload_verification_completed",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "summary": {
+      "content_verified": {
+        "target_objects": 12,
+        "associated_target_encoded_bytes": 1663935
+      },
+      "encoded_integrity_only": {
+        "target_objects": 952,
+        "associated_target_encoded_bytes": 109154283
+      },
+      "validation_failed": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "location_not_found": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "read_failed": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "metadata_unresolved": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      },
+      "not_checked_size_limit": {
+        "target_objects": 0,
+        "associated_target_encoded_bytes": 0
+      }
+    },
+    "input_target_candidates": 964,
+    "reason_summary": {
+      "encoded_integrity_only:encrypted_mode": {
+        "target_objects": 952,
+        "associated_target_encoded_bytes": 109154283
+      },
+      "content_verified:full_ckey_and_encoding_verified": {
+        "target_objects": 12,
+        "associated_target_encoded_bytes": 1663935
+      }
+    },
+    "encoded_only_mode_combinations": [
+      {
+        "modes_hex": [
+          "45"
+        ],
+        "mode_labels": [
+          "encrypted_E"
+        ],
+        "target_objects": 952,
+        "associated_target_encoded_bytes": 109154283
+      }
+    ],
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Payload-Diagnostic-to-share.json",
+    "source_report_sha256": "6d27b3d2e24f04752b65b7c6d4bacfa38fc912ff00227f04b24f6561e65f869e",
+    "is_sanitized_derived_summary_not_original_report": true
+  },
+  "0.7": {
+    "status": "download_or_verification_failed",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "current_online_version": "12.1.5.70391",
+    "expected_encoded_bytes": 286,
+    "sample_response_bytes_read": 0,
+    "http_status": 403,
+    "failure_reason": "direct_object_access_denied",
+    "encoded_integrity_verified": false,
+    "decoded_ckey_verified": false,
+    "installed_files_changed": false,
+    "source_report_name": "Retail-CDN-Pilot-to-share.json",
+    "source_report_sha256": "73d1c22cc0ea474a51d94294ca52d79c854cca793a94d427b43e99d0f982863b",
+    "is_sanitized_derived_summary_not_original_report": true
+  },
+  "0.8": {
+    "status": "target_range_sample_downloaded_and_encoded_verified",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "current_online_version": "12.1.5.70391",
+    "expected_encoded_bytes": 286,
+    "failure_reason": null,
+    "range_http_status": 206,
+    "range_response_bytes_read": 286,
+    "encoded_integrity_verified": true,
+    "decoded_ckey_verified": true,
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Archive-Range-to-share.json",
+    "source_report_sha256": "2cf62ff426c4815426d80bf5f80ccd7932ada3c3a678be08314830a825a3e0a6",
+    "is_sanitized_derived_summary_not_original_report": true,
+    "index_validation_warning_operations": 1,
+    "remote_index_requests": 0
+  },
+  "0.9": {
+    "status": "batch_completed",
+    "local_version": "12.1.0.69933",
+    "target_version": "12.1.5.70391",
+    "current_online_version": "12.1.5.70391",
+    "failure_reason": null,
+    "range_response_bytes_read": 5111,
+    "selected_target_objects": 8,
+    "located_target_objects": 8,
+    "planned_range_bytes": 5111,
+    "range_requests_attempted": 8,
+    "encoded_verified_objects": 8,
+    "decoded_ckey_verified_objects": 8,
+    "counts_by_download_status": {
+      "target_range_sample_downloaded_and_encoded_verified": 8
+    },
+    "installed_files_changed": false,
+    "source_report_name": "Retail-Archive-Batch-to-share.json",
+    "source_report_sha256": "2f715f1150234ca6bf0397a060c9beef8b385f874621160862702f4959e5b4e6",
+    "is_sanitized_derived_summary_not_original_report": true,
+    "index_validation_warning_operations": 8,
+    "remote_index_requests": 0
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "synthetic_tests": {
+    "synthetic_tests_passed": 19,
+    "synthetic_end_to_end_passed": true,
+    "original_game_and_cache_unchanged_in_fixture": true,
+    "actual_windows_runtime_tested": false,
+    "real_user_private_databases_tested": false
+  },
+  "live_official_metadata": {
+    "current_online_version": "12.1.5.70391",
+    "approved_https_cdn_in_current_eu_list": true
+  },
+  "live_tiny_asset_trial": {
+    "actual_official_cdn_sample_attempted": true,
+    "sample_response_bytes_read": 0,
+    "status": "download_or_verification_failed",
+    "encoded_integrity_verified": false,
+    "decoded_ckey_verified": false,
+    "failure_reason": "http_error",
+    "decoded_game_assets_saved": false,
+    "sample_executed": false,
+    "actual_windows_runtime_tested": false,
+    "real_user_candidates_tested": false,
+    "http_status": 403
+  },
+  "known_object_head_check": {
+    "known_object_head_status": 200,
+    "content_length": "67030278",
+    "asset_body_bytes_read": 0
+  },
+  "full_update_engine_implemented": false,
+  "windows_tested": false
+}

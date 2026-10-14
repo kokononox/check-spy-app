@@ -1,0 +1,16 @@
+{
+  "platform": "Linux x64",
+  "target_version": "12.1.5.70391",
+  "extraction_mode": "ckey",
+  "result": {
+    "name": "verified-Wow.exe.bin",
+    "size": 80213712,
+    "content_md5_verified": true,
+    "sha256": "a395fbc6cd63bd7fd65f9ade152f5ea4ba0b73c1524f923fd8225b3af20c4913",
+    "executed": false
+  },
+  "windows_tested": false,
+  "independent_raw_manifest_check": true,
+  "sample_pe_machine": "AMD64",
+  "unit_tests_passed": 13
+}

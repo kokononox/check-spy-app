@@ -1,0 +1,19 @@
+{
+  "unit_tests_passed": 10,
+  "independent_tag_mask_samples_passed": 1000,
+  "actual_windows_local_storage_tested": false,
+  "end_to_end_synthetic_installation": {
+    "passed": true,
+    "manifest": "real official download manifest",
+    "local_indexes": "synthetic only",
+    "existing_cache_reused": true,
+    "partial_coverage_labeled": true,
+    "input_build_metadata_unchanged": true
+  },
+  "real_download_manifest_sql_check": true,
+  "full_update_engine_implemented": false,
+  "source_references": [
+    "https://wowdev.wiki/CASC",
+    "https://wowdev.wiki/TACT"
+  ]
+}
