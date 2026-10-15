@@ -1,0 +1,34 @@
+{
+  "tool_version": "0.10",
+  "synthetic_tests": {
+    "tests_passed": 18,
+    "global_fixture_end_to_end_passed": true,
+    "original_game_and_cache_files_unchanged": true,
+    "offline_no_network_imports_checked": true,
+    "full_counts_and_bytes_reconciled": true,
+    "opaque_staging_not_claimed_decoded": true,
+    "decoded_only_not_subtracted": true,
+    "actual_windows_runtime_tested": false,
+    "real_user_installation_tested": false
+  },
+  "offline_real_metadata_regression": {
+    "real_official_download_manifest_full_hash_verified": true,
+    "real_official_encoding_full_hash_verified": true,
+    "global_real_manifest_filtered_records": 1578013,
+    "global_real_manifest_unique_objects": 1578013,
+    "global_real_manifest_encoded_bytes": 132637194719,
+    "global_real_manifest_regression_matches_previous_inventory": true,
+    "target_encoding_binding_spot_objects": 100,
+    "one_real_cached_archive_index_all_checksums_and_record_order_verified": true,
+    "network_access_attempted": false,
+    "actual_windows_runtime_tested": false,
+    "real_user_installation_tested": false,
+    "full_user_cdn_catalog_tested": false
+  },
+  "limitations": [
+    "Windows runtime not tested",
+    "Real user installation and complete user cached catalog not tested",
+    "No downloader or CASC installer included",
+    "Full encoded-object sums are not actual patch/download size"
+  ]
+}

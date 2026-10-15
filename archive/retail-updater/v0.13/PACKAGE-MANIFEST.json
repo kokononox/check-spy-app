@@ -1,0 +1,79 @@
+{
+  "files": [
+    {
+      "name": "LICENSE-REFERENCE-TACTSharp.txt",
+      "bytes": 1073,
+      "sha256": "e5c39ff5f97413056e94c761f0b35f69ac4371025707d455fc68d18cf5740bc0"
+    },
+    {
+      "name": "README.txt",
+      "bytes": 1972,
+      "sha256": "aed4da32fd93e3487398b801edadf254bd01c6c3d7be9cbc0ffefe784779ed61"
+    },
+    {
+      "name": "START.cmd",
+      "bytes": 263,
+      "sha256": "ed68c73bbae8cea3a4b8f37a64f169add1b25e7cc2f1bc26397fb7335f4bf102"
+    },
+    {
+      "name": "TEST-RESULTS.json",
+      "bytes": 837,
+      "sha256": "7c63ab0a7feacc204ca8f95b25f73eb0e7082690e0c6e06c378b0d1b8ef7e46d"
+    },
+    {
+      "name": "app.py",
+      "bytes": 3726,
+      "sha256": "d59dab164d3deeb3e300ef57dcfee64953b82ba7542851f74a7aaaf0eb3f70d4"
+    },
+    {
+      "name": "cdn_catalog.py",
+      "bytes": 2772,
+      "sha256": "c2b2e95aebdbe952fdc0536b7aca19532c04132a8d657c06a524e8733877aeba"
+    },
+    {
+      "name": "common.py",
+      "bytes": 1294,
+      "sha256": "de4ddcbff921e9fa89f35de38c042f91aed06a2dfb5ee31703d037d501e7b0a8"
+    },
+    {
+      "name": "direct_audit.py",
+      "bytes": 5141,
+      "sha256": "fade4415a03fa03d7d80a0ba3c2d462e68822ccad83ae5106b8dd06acb3d611f"
+    },
+    {
+      "name": "encoding.py",
+      "bytes": 6905,
+      "sha256": "2f37a54dfdfa4541c6518ad904ea4c9f9445d069f0cf1456092908422a0c91f6"
+    },
+    {
+      "name": "full_plan.py",
+      "bytes": 19744,
+      "sha256": "756072afb68fdfb0d6cad23568686b11ced657fcf76800585f486f16a6c79af1"
+    },
+    {
+      "name": "indexes.py",
+      "bytes": 4271,
+      "sha256": "4c7a3c35f8fd72f23ea04f2085a916d3bc802c3afee45ec1481f2edb42e03c61"
+    },
+    {
+      "name": "manifest.py",
+      "bytes": 4918,
+      "sha256": "39590694bfaa9fe09e119374f12e967d28b8940b9126bdd4935d1800782764c5"
+    },
+    {
+      "name": "metadata.py",
+      "bytes": 4000,
+      "sha256": "b7aca7aeb95d615845082ff164d063d03edc21fa4e700cb965b90b5563b04919"
+    },
+    {
+      "name": "payload.py",
+      "bytes": 4233,
+      "sha256": "5f4366c750dfd4f7f2706ca0222e825996191ce1ec0f77405a7e19f6f99e5823"
+    },
+    {
+      "name": "staging.py",
+      "bytes": 3972,
+      "sha256": "a2174021a7971b8ce959ee3775b7585a2403501615977bb260dfdeaaa10a34a5"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "tool_version": "0.15",
+  "synthetic_tests_passed": 20,
+  "both_route_queue_with_large_direct_objects_tested": true,
+  "first_failure_global_stop_and_complete_file_resume_tested": true,
+  "previous_pilot_file_import_and_original_preservation_tested": true,
+  "no_network_for_fully_cached_queue_tested": true,
+  "bounded_round_robin_selection_and_probe_budget_tested": true,
+  "range_200_and_bad_range_rejected_before_body_tested": true,
+  "progress_counts_and_verified_byte_categories_reconciled": true,
+  "private_manifest_and_public_report_split_tested": true,
+  "existing_invalid_and_concurrent_files_preserved_tested": true,
+  "opaque_encoded_only_not_claimed_decoded_tested": true,
+  "inherited_modules_byte_identical_to_v012": [
+    "cdn_catalog.py",
+    "common.py",
+    "complete_catalog.py",
+    "encoding.py",
+    "full_plan.py",
+    "indexes.py",
+    "manifest.py",
+    "metadata.py",
+    "payload.py",
+    "staging.py"
+  ],
+  "actual_windows_runtime_tested": false,
+  "live_queue_transfer_tested": false,
+  "real_user_full_installation_tested": false,
+  "whole_update_engine_or_installer_implemented": false
+}

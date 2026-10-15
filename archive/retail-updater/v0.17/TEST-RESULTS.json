@@ -1,0 +1,33 @@
+{
+  "tool_version": "0.17",
+  "synthetic_tests_passed": 16,
+  "first_run_two_object_pause_tested": true,
+  "second_run_remaining_same_batch_tested": true,
+  "third_run_no_next_batch_tested": true,
+  "large_direct_objects_on_resume_tested": true,
+  "network_failure_before_and_after_pause_preserves_progress_tested": true,
+  "cancel_before_pause_cumulative_target_tested": true,
+  "missing_pause_marker_recovery_from_verified_files_tested": true,
+  "old_cache_and_old_state_files_unchanged_tested": true,
+  "stale_lock_and_bad_phase_preserved_tested": true,
+  "private_state_and_share_report_separated_tested": true,
+  "range_direct_status_checks_and_overrun_budgets_tested": true,
+  "inherited_metadata_modules_byte_identical_to_v016": [
+    "cdn_catalog.py",
+    "common.py",
+    "complete_catalog.py",
+    "encoding.py",
+    "full_plan.py",
+    "indexes.py",
+    "manifest.py",
+    "metadata.py",
+    "payload.py",
+    "staging.py"
+  ],
+  "controlled_stop_between_complete_objects": true,
+  "actual_network_disconnect_mid_response_tested": false,
+  "actual_windows_runtime_tested": false,
+  "live_v017_transfer_tested": false,
+  "real_user_installation_tested": false,
+  "installer_implemented": false
+}

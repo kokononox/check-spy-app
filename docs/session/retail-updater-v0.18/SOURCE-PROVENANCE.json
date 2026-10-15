@@ -1,0 +1,66 @@
+{
+  "delivered_text_source_packages": [
+    {
+      "version": "0.10",
+      "source_zip_sha256": "9178af930bc0592e9a6343bc8228732bb2b248ca72ef67b390b5dcc3bfb7e6d5",
+      "archive_path": "archive/retail-updater/v0.10",
+      "builder_test_result_file": "archive/retail-updater/v0.10/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.11",
+      "source_zip_sha256": "e87343cb60e3751c220efe856c3a4e7181a9a55b7a62495f3dc3986e251e95e7",
+      "archive_path": "archive/retail-updater/v0.11",
+      "builder_test_result_file": "archive/retail-updater/v0.11/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.12",
+      "source_zip_sha256": "03099f3667b6066ce9e37312d4625c2b9bca854dc68719037642d3c5eb7691b2",
+      "archive_path": "archive/retail-updater/v0.12",
+      "builder_test_result_file": "archive/retail-updater/v0.12/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.13",
+      "source_zip_sha256": "a2868794e54311857ab00dd91382b35e872d3265b020c087e1f846a0c5ffba2b",
+      "archive_path": "archive/retail-updater/v0.13",
+      "builder_test_result_file": "archive/retail-updater/v0.13/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.14",
+      "source_zip_sha256": "e66d7ee130bb78888585df84b6a3ef8b7b005178755bdefc5f2659fc55c52ee3",
+      "archive_path": "archive/retail-updater/v0.14",
+      "builder_test_result_file": "archive/retail-updater/v0.14/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.15",
+      "source_zip_sha256": "42a462fbae9ae707c71e52404070596dde26d2a0643228cd28e81fca2f39f716",
+      "archive_path": "archive/retail-updater/v0.15",
+      "builder_test_result_file": "archive/retail-updater/v0.15/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.16",
+      "source_zip_sha256": "a365fbf0990f7abba62301982dba36ee19f8b2dc4574d245d6c0d7a50a612515",
+      "archive_path": "archive/retail-updater/v0.16",
+      "builder_test_result_file": "archive/retail-updater/v0.16/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.17",
+      "source_zip_sha256": "ae164617e9df2d21afa35334d3f4dfb622037943dfe7c78009400ae06dd4af3e",
+      "archive_path": "archive/retail-updater/v0.17",
+      "builder_test_result_file": "archive/retail-updater/v0.17/TEST-RESULTS.json"
+    },
+    {
+      "version": "0.18",
+      "source_zip_sha256": "86fbd0c27157c16b90fbc2122a6061290a1c0d72774ee6e54691d67e20336317",
+      "archive_path": "archive/retail-updater/v0.18",
+      "builder_test_result_file": "archive/retail-updater/v0.18/TEST-RESULTS.json"
+    }
+  ],
+  "historical_test_scripts_available": [
+    "archive/retail-updater/historical-tests/v0.14/test_pilot.py",
+    "archive/retail-updater/historical-tests/v0.15/test_queue.py",
+    "archive/retail-updater/historical-tests/v0.17/test_control.py",
+    "archive/retail-updater/historical-tests/v0.18/test_large_range.py"
+  ],
+  "not_all_harnesses_recovered": true,
+  "private_runtime_data_included": false
+}

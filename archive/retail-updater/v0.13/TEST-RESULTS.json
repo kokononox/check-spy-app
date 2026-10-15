@@ -1,0 +1,25 @@
+{
+  "tool_version": "0.13",
+  "synthetic_tests_passed": 12,
+  "four_disjoint_groups_and_threshold_boundaries_tested": true,
+  "encoded_and_decoded_minimum_pairs_not_conflated_tested": true,
+  "readonly_generated_database_unchanged_tested": true,
+  "count_and_byte_crosschecks_tested": true,
+  "partial_scope_and_cancel_tested": true,
+  "share_report_private_paths_and_keys_absent_tested": true,
+  "no_network_or_subprocess_imports_in_delivered_python_modules": true,
+  "inherited_offline_modules_byte_identical_to_v012": [
+    "common.py",
+    "indexes.py",
+    "metadata.py",
+    "encoding.py",
+    "payload.py",
+    "manifest.py",
+    "staging.py",
+    "cdn_catalog.py",
+    "full_plan.py"
+  ],
+  "actual_windows_runtime_tested": false,
+  "full_real_user_installation_tested": false,
+  "game_downloader_or_installer_included": false
+}

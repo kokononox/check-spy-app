@@ -1,0 +1,30 @@
+{
+  "tool_version": "0.18",
+  "synthetic_tests_passed": 16,
+  "synthetic_multi_chunk_large_range_encoded_bytes": 2400062,
+  "multi_chunk_hash_verification_passed": true,
+  "full_archive_200_rejected_before_body_read_tested": true,
+  "exact_content_range_and_length_checks_tested": true,
+  "overrun_probe_and_one_request_cap_tested": true,
+  "corrupt_second_chunk_not_saved_tested": true,
+  "cache_reuse_and_old_sample_import_do_not_claim_http_range_tested": true,
+  "metadata_http_failure_not_misattributed_to_archive_tested": true,
+  "opaque_large_encoded_only_not_claimed_decoded_tested": true,
+  "private_keys_paths_absent_from_share_report_tested": true,
+  "inherited_metadata_modules_byte_identical_to_v017": [
+    "common.py",
+    "indexes.py",
+    "metadata.py",
+    "encoding.py",
+    "payload.py",
+    "manifest.py",
+    "staging.py",
+    "cdn_catalog.py",
+    "full_plan.py",
+    "complete_catalog.py"
+  ],
+  "actual_windows_runtime_tested": false,
+  "live_large_archive_range_tested": false,
+  "real_user_installation_tested": false,
+  "installer_or_full_update_engine_implemented": false
+}

@@ -1,0 +1,115 @@
+{
+  "scope": "Sanitized technical checkpoint, user-submitted aggregate results; not raw files or verbatim chat.",
+  "product": "wow",
+  "region": "eu",
+  "pinned_target_version": "12.1.5.70391",
+  "installed_version_at_tests": "12.1.0.69933",
+  "versions": {
+    "0.10": {
+      "initial_status": "global_candidate_plan_partial_coverage",
+      "unique_manifest_objects": 1578013,
+      "fresh_unmatched_candidates": 46846,
+      "whole_encoded_candidate_bytes_not_patch": 5909935065,
+      "missing_cached_indexes": 122,
+      "unlocated_objects": 3928
+    },
+    "0.11": {
+      "status": "indexes_completed_and_replanned",
+      "new_verified_indexes": 122,
+      "response_bytes_read_including_metadata": 10017574,
+      "all_normal_indexes_verified": 1406,
+      "transport_locations_unresolved": 0,
+      "group_index_still_unused_validation_warning": "index_name_footer_hash_mismatch",
+      "direct_only_advertised_objects": 243
+    },
+    "0.12": {
+      "status": "samples_completed",
+      "archive_samples": 3,
+      "direct_samples": 0,
+      "asset_response_bytes": 188,
+      "decoded_ckey_verified_samples": 3
+    },
+    "0.13": {
+      "status": "direct_eligibility_audit_completed",
+      "direct_candidate_objects": 243,
+      "eligibility_groups": {
+        "eligible_under_v012_limits": {
+          "objects": 0,
+          "whole_encoded_bytes": 0
+        },
+        "encoded_limit_only": {
+          "objects": 196,
+          "whole_encoded_bytes": 800015432
+        },
+        "decoded_limit_only": {
+          "objects": 0,
+          "whole_encoded_bytes": 0
+        },
+        "both_limits": {
+          "objects": 47,
+          "whole_encoded_bytes": 601081199
+        }
+      },
+      "smallest_encoded_object_size_pair": {
+        "encoded_bytes": 2108300,
+        "decoded_bytes": 2862812
+      },
+      "network_attempted": false
+    },
+    "0.14": {
+      "status": "direct_sample_completed",
+      "asset_response_bytes": 2108300,
+      "http_status": 200,
+      "decoded_ckey_verified_samples": 1
+    },
+    "0.15": {
+      "status": "bounded_queue_completed",
+      "verified_objects": 8,
+      "new_download_objects": 4,
+      "old_objects_imported": 4,
+      "new_asset_response_bytes": 6423830,
+      "rerun_verified_cache_objects": 8,
+      "rerun_network_attempted": false
+    },
+    "0.16": {
+      "status": "bounded_queue_completed",
+      "selection_mode": "next_bounded_batch",
+      "prior_unique_files_reverified": 8,
+      "new_verified_objects": 8,
+      "asset_response_bytes": 8692199
+    },
+    "0.17": {
+      "first_status": "controlled_pause_with_progress_preserved",
+      "first_new_verified_objects": 2,
+      "first_planned_pause_triggered": true,
+      "second_status": "bounded_queue_completed",
+      "second_mode": "resume_previous_incomplete_batch",
+      "old_active_files_verified": 2,
+      "second_new_verified_objects": 6,
+      "same_batch_test_complete": true,
+      "second_asset_response_bytes": 8960396,
+      "not_network_disconnect_mid_response": true
+    },
+    "0.18": {
+      "status": "large_archive_sample_completed",
+      "asset_response_bytes": 1049821,
+      "range_http_status": 206,
+      "strict_range_headers_verified": true,
+      "exact_response_length_received": true,
+      "encoded_verified_objects": 1,
+      "decoded_ckey_verified_objects": 1,
+      "installed_files_changed": false,
+      "sample_is_just_above_1MiB_not_4MiB_or_whole_archive": true
+    }
+  },
+  "limitations": [
+    "No CASC installation/writer, binary patch chain, rollback or playable updated game.",
+    "Whole encoded object sums are NOT patch/download requirements or minimal playable scope.",
+    "Local prefix/size candidates remain payload-unverified; active journals unresolved.",
+    "User reports prove tested executions, not exhaustive Windows QA or every CDN object.",
+    "Opaque payload decoded CKey may remain unknown; no decryption or key extraction.",
+    "v0.17 tested controlled pause BETWEEN complete objects, not live network disconnect mid-response.",
+    "Latest version only checked at each recorded run; target remains pinned, not a current-version promise.",
+    "PCAP, private logs/manifests/SQLite, raw user JSON, account identifiers, tokens and game assets are excluded."
+  ]
+}

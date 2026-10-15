@@ -1,0 +1,66 @@
+{
+  "kind": "nonquantitative_workflow",
+  "nodes": [
+    {
+      "version": "0.10",
+      "title": "طرح کامل آفلاین",
+      "evidence": "پوشش اولیهٔ فهرست‌ها ناقص بود",
+      "state": "warn"
+    },
+    {
+      "version": "0.11",
+      "title": "تکمیل فهرست‌های کش",
+      "evidence": "پوشش مسیرها در دامنهٔ بررسی کامل شد",
+      "state": "ok"
+    },
+    {
+      "version": "0.12",
+      "title": "نمونه‌های آرشیوی کوچک",
+      "evidence": "مسیر مستقیم هنوز انتخاب نشده بود",
+      "state": "warn"
+    },
+    {
+      "version": "0.13",
+      "title": "تشخیص علت حذف direct",
+      "evidence": "سقف اندازه، مانع انتخاب بود؛ نه خطای اتصال",
+      "state": "ok"
+    },
+    {
+      "version": "0.14",
+      "title": "آزمون دریافت مستقیم",
+      "evidence": "پاسخ و هر دو لایهٔ هش تأیید شد",
+      "state": "ok"
+    },
+    {
+      "version": "0.15",
+      "title": "صف محدود و استفادهٔ مجدد",
+      "evidence": "تکرار همان صف بدون درخواست شبکه موفق بود",
+      "state": "ok"
+    },
+    {
+      "version": "0.16",
+      "title": "پیشروی به دستهٔ تازه",
+      "evidence": "فایل‌های قبلی کنار گذاشته شدند",
+      "state": "ok"
+    },
+    {
+      "version": "0.17",
+      "title": "مکث و ادامهٔ همان دسته",
+      "evidence": "توقف بین فایل‌های کامل؛ نه قطع وسط پاسخ",
+      "state": "ok"
+    },
+    {
+      "version": "0.18",
+      "title": "نمونهٔ Range بزرگ‌تر",
+      "evidence": "بیش از ۱ MiB؛ محدوده و هر دو هش تأیید شد",
+      "state": "ok"
+    }
+  ],
+  "remaining": [
+    "CASC writer",
+    "copy-only installation plan",
+    "atomic commit/readback",
+    "rollback"
+  ],
+  "telemetry_payload_fields_proven": false
+}

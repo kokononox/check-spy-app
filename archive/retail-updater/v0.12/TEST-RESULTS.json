@@ -1,0 +1,35 @@
+{
+  "tool_version": "0.12",
+  "synthetic_tests_passed": 18,
+  "real_cached_official_regression": {
+    "cached_real_official_payloads_verified": 6,
+    "real_encoding_full_content_hash_verified": true,
+    "real_archive_index_full_checksums_verified": true,
+    "complete_verified_file_reuse_passed": true,
+    "original_cached_samples_unchanged": true,
+    "network_responses_simulated_from_cached_bytes": true,
+    "live_network_attempted": false,
+    "actual_windows_runtime_tested": false
+  },
+  "inherited_modules_byte_identical_to_v011": [
+    "cdn_catalog.py",
+    "common.py",
+    "complete_catalog.py",
+    "encoding.py",
+    "full_plan.py",
+    "indexes.py",
+    "manifest.py",
+    "metadata.py",
+    "payload.py",
+    "staging.py"
+  ],
+  "complete_file_reuse_tested": true,
+  "route_failure_isolation_tested": true,
+  "range_200_rejected_before_body_read_tested": true,
+  "encoded_only_not_claimed_decoded_tested": true,
+  "existing_invalid_and_concurrent_sample_preserved_tested": true,
+  "actual_windows_runtime_tested": false,
+  "live_direct_and_archive_access_tested": false,
+  "full_user_installation_tested": false,
+  "installer_implemented": false
+}

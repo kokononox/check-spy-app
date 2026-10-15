@@ -1,0 +1,31 @@
+{
+  "tool_version": "0.16",
+  "progression_tests_passed": 12,
+  "download_core_tests_passed": 19,
+  "synthetic_total_tests_passed": 31,
+  "next_batch_skips_reverified_old_files_tested": true,
+  "incomplete_batch_prioritized_before_next_tested": true,
+  "stored_completed_flags_not_trusted_tested": true,
+  "old_cache_sources_preserved_tested": true,
+  "cancel_and_failure_progress_preserved_tested": true,
+  "malformed_state_and_other_owner_lock_preserved_tested": true,
+  "cache_scan_cap_no_network_tested": true,
+  "duplicate_keys_not_double_counted_tested": true,
+  "private_state_public_report_separation_tested": true,
+  "inherited_metadata_modules_unchanged": [
+    "cdn_catalog.py",
+    "common.py",
+    "complete_catalog.py",
+    "encoding.py",
+    "full_plan.py",
+    "indexes.py",
+    "manifest.py",
+    "metadata.py",
+    "payload.py",
+    "staging.py"
+  ],
+  "actual_windows_runtime_tested": false,
+  "live_progressive_queue_transfer_tested": false,
+  "real_user_installation_tested": false,
+  "whole_update_engine_or_installer_implemented": false
+}

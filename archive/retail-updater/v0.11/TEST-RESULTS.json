@@ -1,0 +1,26 @@
+{
+  "tool_version": "0.11",
+  "completion_tests_passed": 17,
+  "inherited_offline_planner_tests_passed": 18,
+  "inherited_modules_identical_to_tested_v010": [
+    "cdn_catalog.py",
+    "common.py",
+    "encoding.py",
+    "full_plan.py",
+    "indexes.py",
+    "manifest.py",
+    "metadata.py",
+    "payload.py",
+    "staging.py"
+  ],
+  "real_cached_official_normal_index_all_checksums_verified": true,
+  "synthetic_network_responses_only": true,
+  "complete_file_resume_tested": true,
+  "failure_after_first_download_preserves_progress_tested": true,
+  "existing_invalid_and_concurrent_files_preserved_tested": true,
+  "response_and_request_budgets_tested": true,
+  "actual_windows_runtime_tested": false,
+  "live_network_download_tested": false,
+  "real_user_cache_tested": false,
+  "game_installer_implemented": false
+}

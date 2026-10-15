@@ -1,0 +1,101 @@
+{
+  "scope": "Local archive QA, not complete security audit or Windows CI",
+  "delivered_package_versions": [
+    "0.10",
+    "0.11",
+    "0.12",
+    "0.13",
+    "0.14",
+    "0.15",
+    "0.16",
+    "0.17",
+    "0.18"
+  ],
+  "package_manifest_entries_reverified": 143,
+  "python_ast_checks_passed": 111,
+  "raw_report_arithmetic_crosschecks_passed": true,
+  "basic_private_content_scan_rules_passed": [
+    "internal_session_urls",
+    "known_private_email",
+    "common_secret_tokens",
+    "windows_profile_paths",
+    "known_workspace_session_ids"
+  ],
+  "new_checkpoint_relative_links_checked": 15,
+  "previous_checkpoint_link_previously_read": true,
+  "existing_files_targeted": [
+    "README.md",
+    "archive/retail-updater/README-fa.md"
+  ],
+  "deletions_requested": false,
+  "graph_visual_review": {
+    "desktop_1120": "pass: all columns and text within gutters, no clipping/overlap",
+    "mobile_390": "pass: single-column reading order, wrapping, intentional vertical scroll",
+    "dark_1120": "pass: visible text and boundaries, no clipping/overlap",
+    "dark_review_method": "same CSS variables forced active in a private review copy"
+  },
+  "text_contrast_checks": [
+    {
+      "foreground": "#2c2c2b",
+      "background": "#ffffff",
+      "ratio": 13.98
+    },
+    {
+      "foreground": "#595753",
+      "background": "#ffffff",
+      "ratio": 7.21
+    },
+    {
+      "foreground": "#595753",
+      "background": "#f9f8f7",
+      "ratio": 6.8
+    },
+    {
+      "foreground": "#286844",
+      "background": "#e8f1ec",
+      "ratio": 5.78
+    },
+    {
+      "foreground": "#874410",
+      "background": "#fbebde",
+      "ratio": 6.3
+    },
+    {
+      "foreground": "#1d63a1",
+      "background": "#ffffff",
+      "ratio": 6.27
+    },
+    {
+      "foreground": "#ffffff",
+      "background": "#191919",
+      "ratio": 17.58
+    },
+    {
+      "foreground": "#c3c1bd",
+      "background": "#202020",
+      "ratio": 9.06
+    },
+    {
+      "foreground": "#9bd8ad",
+      "background": "#23372b",
+      "ratio": 7.76
+    },
+    {
+      "foreground": "#f0b078",
+      "background": "#35291f",
+      "ratio": 7.52
+    },
+    {
+      "foreground": "#8cc4ff",
+      "background": "#191919",
+      "ratio": 9.59
+    }
+  ],
+  "tests_not_rerun_in_this_sync": [
+    "historical runtime harnesses",
+    "Windows GUI/end-to-end suite",
+    "actual network interruption mid-response",
+    "CASC install/rollback"
+  ],
+  "not_a_full_installer": true
+}
